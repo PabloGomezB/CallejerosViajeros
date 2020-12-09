@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    <h1>Vacances</h1>
+    <button id="login">Login</button>
+    <button id="singup">Sing Up</button>
+    <div id="formLogin" style="display: none;">
+        <label for="">Username: </label>
+        <input type="text" name="usernameLogin" id="usernameLogin">
+        <br>
+        <label for="">Password: </label>
+        <input type="text" name="PasswordLogin" id="PasswordLogin">
+    </div>
+    
+    
+    <div id="formSingUp" style="display: none;">
+        <label for="">Email: </label>
+        <input type="text" name="emailSingUp" id="emailSingUp">
+        <br>
+        <label for="">Username: </label>
+        <input type="text" name="usernameSingUp" id="usernameSingUp">
+        <br>
+        <label for="">Subname: </label>
+        <input type="text" name="SubnameSingUp" id="SubnameSingUp">
+        <br>
+        <label for="">Password: </label>
+        <input type="text" name="PasswordSingUp" id="PasswordSingUp">
+    </div>
+
+    <script>
+        document.getElementById("login").addEventListener("click", function(){
+            if (document.getElementById("formLogin").style.display == "none") {
+                document.getElementById("formLogin").style.display = "block";
+                document.getElementById("formSingUp").style.display = "none";
+            } else {
+                document.getElementById("formLogin").style.display = "none";
+            }
+        })
+
+        document.getElementById("singup").addEventListener("click", function(){
+            if (document.getElementById("formSingUp").style.display == "none") {
+                document.getElementById("formLogin").style.display = "none";
+                document.getElementById("formSingUp").style.display = "block";
+            } else {
+                document.getElementById("formSingUp").style.display = "none";
+
+            }
+        })
+    </script>    
+</body>
+</html>
