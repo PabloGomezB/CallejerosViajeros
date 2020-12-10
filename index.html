@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,11 +31,29 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Bootstrap Sidebar</h3>
+                <h3>Login</h3>
             </div>
-    
-            <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
+
+            <form method="POST" action="login.php" class="form">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" class="form-control" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Contraseña:</label>
+                    <input type="password" name="pass" class="form-control" id="pass">
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox"> Recordar</label>
+                </div>
+                <div class="login">
+                    <button type="submit" name="submit" class="btn btn-default" id="login">Log in</button>
+                </div>
+            </form>
+
+
+
+            <!-- <ul class="list-unstyled components">
                 <li class="active">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -73,20 +91,22 @@
                 <li>
                     <a href="#">Contact</a>
                 </li>
-            </ul>
+            </ul> -->
         </nav>
 
         <div id="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-        
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                        <span>Toggle Sidebar</span>
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Log in !</span>
                     </button>
-        
                 </div>
             </nav>
+
+            <div>
+                HEY
+            </div>
         </div>
     
     </div> 

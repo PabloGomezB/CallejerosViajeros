@@ -10,3 +10,13 @@
     width: 100px;
     border: 1px solid red;
 }
+
+.form{
+    margin: auto auto;
+    width: 90%;
+}
+
+.login{
+    margin: 0 auto;
+    text-align: center;
+}
