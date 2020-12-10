@@ -7,6 +7,9 @@
 
     <title>Index</title>
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./js/index.js"></script>
+    
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
@@ -24,7 +27,7 @@
         <div>
             <img src="./img/logo.png" alt="logo" class="logo">
         </div>
-        <h1>CALLEJEREOS VIAJEROS</h1>
+        <h1>Viajes Kolvin</h1>
     </header>
 
     <div class="wrapper">
@@ -34,22 +37,22 @@
                 <h3>Login</h3>
             </div>
 
-            <form method="POST" action="login.php" class="form">
+            <div class="form">
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="text" name="email" class="form-control" id="email">
+                    <input type="text" class="form-control" id="email">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Contraseña:</label>
-                    <input type="password" name="pass" class="form-control" id="pass">
+                    <input type="password" class="form-control" id="pass">
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox"> Recordar</label>
                 </div>
                 <div class="login">
-                    <button type="submit" name="submit" class="btn btn-default" id="login">Log in</button>
+                    <button class="btn btn-default" id="login">Log in</button>
                 </div>
-            </form>
+            </div>
 
 
 
@@ -104,7 +107,7 @@
                 </div>
             </nav>
 
-            <div>
+            <div id="div">
                 HEY
             </div>
         </div>
@@ -116,15 +119,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-    </script>
-
 </body>
 
 </html>

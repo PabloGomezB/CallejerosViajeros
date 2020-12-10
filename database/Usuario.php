@@ -23,6 +23,23 @@ class Usuario extends DBAbstractModel {
 		// unset ($this);
 	}
 
+	public function buscarUser($userEmail = "") {
+		if ($userEmail != "") {
+			// print_r($userEmail);
+			$this->query = "SELECT *
+                    FROM Usuario
+                    WHERE username='$userEmail'";
+			$this->get_results_from_query();
+		}
+		// Any register selected
+		if (count($this->rows) == 1) {
+			$response = array('status' => 'ok', 'id' => $this->rows[0]["idUser"], 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"]);
+			return json_encode($response);
+		} else {
+			return json_encode(array('status' => 'fail'));
+		}
+	}
+
 	public function mostrarTot() {
 		$this->query = "SELECT * FROM  contactes;";
 		$this->get_results_from_query();
@@ -36,30 +53,6 @@ class Usuario extends DBAbstractModel {
 			// foreach ($this->rows[$i] as $key => $value) {
 			//   echo $value;
 			// }
-		}
-	}
-
-	public function mostrarUsuari($userEmail = "") {
-		if ($userEmail != "") {
-			// print_r($userEmail);
-			$this->query = "SELECT *
-                    FROM Usuario
-                    WHERE username='$userEmail'";
-			$this->get_results_from_query();
-		}
-		// Any register selected
-		if (count($this->rows) == 1) {
-			for ($i = 0; $i < count($this->rows); $i++) {
-				echo "Correo: " . $this->rows[$i]["username"] . "<br>";
-				echo "Nom: " . $this->rows[$i]["nombre"] . "<br>";
-				echo "Apellidos: " . $this->rows[$i]["apellidos"] . "<br>";
-				echo "Contraseña: " . $this->rows[$i]["password"] . "<br>";
-				// foreach ($this->rows[$i] as $key => $value) {
-				//   echo $value;
-				// }
-			}
-		} else {
-			echo "Usuari no trobat.";
 		}
 	}
 
@@ -94,7 +87,6 @@ class Usuario extends DBAbstractModel {
     cognom2 = '$cognom2', telefon = '$telefon' WHERE email='$email'";
 		$this->execute_single_query($this->query);
 	}
-
 
 	public function delete($userEmail = "") {
 		$this->query = "DELETE FROM contactes WHERE email ='$userEmail'";
