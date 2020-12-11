@@ -5,6 +5,9 @@ abstract class DBAbstractModel {
 	private static $db_host = "labs.iam.cat";
 	private static $db_user = "a16miqboipos_pr";
 	private static $db_pass = "123456";
+	// private static $db_host = "localhost";
+	// private static $db_user = "root";
+	// private static $db_pass = "";
 	//const DBPASS = "r44t";
 
 	protected $db_name;

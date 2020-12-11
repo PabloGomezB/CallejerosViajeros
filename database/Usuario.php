@@ -15,7 +15,7 @@ class Usuario extends DBAbstractModel {
 
 	function __toString() {
 		// echo "entro string <br>";
-		return "idUser: " . $this->idUser . ", Nombre: " . $this->nombre . ", Apellidos: " . $this->apellidos . ", Email " .
+		return "idUsu: " . $this->idUser . ", Nombre: " . $this->nombre . ", Apellidos: " . $this->apellidos . ", Email " .
 			$this->email . ", Pass:" . $this->pass . ")";
 	}
 
@@ -23,21 +23,29 @@ class Usuario extends DBAbstractModel {
 		// unset ($this);
 	}
 
-	public function buscarUser($userEmail = "") {
+	public function doLogin($userEmail = "", $pass) {
 		if ($userEmail != "") {
-			// print_r($userEmail);
 			$this->query = "SELECT *
-                    FROM Usuario
-                    WHERE username='$userEmail'";
+                    FROM Usuari
+                    WHERE username='$userEmail' AND password='$pass'";
 			$this->get_results_from_query();
 		}
 		// Any register selected
 		if (count($this->rows) == 1) {
-			$response = array('status' => 'ok', 'id' => $this->rows[0]["idUser"], 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"]);
+			session_start();
+			$_SESSION['email']=$this->rows[0]['username'];
+			$response = array('status' => 'OK', 'id' => $this->rows[0]["idUsu"], 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'SESSION' => $_SESSION['email']);
 			return json_encode($response);
 		} else {
-			return json_encode(array('status' => 'fail'));
+			return json_encode(array('status' => 'FAIL'));
 		}
+	}
+
+	public function doRegister($nom, $cognom, $username, $pass){
+		$this->query = "INSERT INTO Usuari (nom, cognom, username, password)
+						VALUES ('$nom','$cognom','$username','$pass')";
+		$this->execute_single_query();
+		return $this->doLogin($username, $pass);
 	}
 
 	public function mostrarTot() {
