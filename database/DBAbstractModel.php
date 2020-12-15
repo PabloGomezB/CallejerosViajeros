@@ -18,10 +18,10 @@ abstract class DBAbstractModel {
 
 	private $conn;
 
-	abstract protected function select();
-	abstract protected function insert();
-	abstract protected function update();
-	abstract protected function delete();
+	// abstract protected function select();
+	// abstract protected function insert();
+	// abstract protected function update();
+	// abstract protected function delete();
 
 	private function open_connection() {
 		$this->conn = new mysqli(self::$db_host, self::$db_user, self::$db_pass, $this->db_name);
