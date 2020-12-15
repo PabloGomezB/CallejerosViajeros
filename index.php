@@ -17,6 +17,11 @@
             <img src="./img/logo.png" alt="logo" class="logo">
         </div>
         <h1>Viajes Kolvin</h1>
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Log in !</span>
+        </button>
+
     </header>
 
     <div class="wrapper">
@@ -24,7 +29,7 @@
         <nav id="sidebar">
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="#desplegableLogin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-header">Login</a>
+                    <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle sidebar-header">Login</a>
                     <ul class="collapse list-unstyled" id="desplegableLogin">
                         <li>
                             <?php include("includes/sidebarLogin.php") ?>
@@ -46,17 +51,12 @@
         </nav>
         <!-- End sidebar -->
         <div id="content">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Log in !</span>
-                    </button>
-                </div>
-            </nav>
+            
 
             <div id="div">
-                HEY
+                Aquí metes todo lo que tengas que mostrar cuando no se ha hecho login.
+                <br>
+                Cuando haga login metes in innerHTML con la nueva info.
             </div>
         </div>
     

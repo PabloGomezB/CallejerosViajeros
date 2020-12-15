@@ -32,8 +32,8 @@ class Usuario extends DBAbstractModel {
 		}
 		// Any register selected
 		if (count($this->rows) == 1) {
-			session_start();
-			$_SESSION['email']=$this->rows[0]['username'];
+			// session_start();
+			// $_SESSION['email']=$this->rows[0]['username'];
 			$response = array('status' => 'OK', 'id' => $this->rows[0]["idUsu"], 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'SESSION' => $_SESSION['email']);
 			return json_encode($response);
 		} else {

@@ -2,10 +2,12 @@
 window.onload = function () {
 
     $(document).ready(function () {
-        // $('#sidebar').toggleClass('active');
+        $('#sidebar').toggleClass('active');
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');
         });
+        $("#dropDownLogin").click();
+        $('#desplegableLogin').removeClass('collapse');
     });
 
     document.getElementById("checkEye").addEventListener("click", function () {
@@ -55,26 +57,9 @@ window.onload = function () {
                             // PRINT VISTA DE LOGEADO
                             let username=respuesta.data.email;
                             document.getElementById("div").innerHTML = `id: ${respuesta.data.id}<br>Email: ${respuesta.data.email}<br>Password: ${respuesta.data.password}<br>SESSION: ${respuesta.data.SESSION}`;
-                            // axios.get('http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/login/doLogin.php', {
-                            //         params: {
-                            //             login: true,
-                            //             email: username
-                            //         }
-                            //     })
-                            //     .then(function (respuesta2) {
-                            //         console.log(respuesta2);
-                            //     })
-                            //     .catch(function (error) {
-                            //         Swal.fire({
-                            //             title: "¡VAYA!",
-                            //             html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>"+error,
-                            //             icon: "error",
-                            //         });
-                            //         console.log(error);
-                            //     })
-                            //     .then(function () {
-                            //         //
-                            // });
+                            
+                            
+
                         }
         
                     }
