@@ -1,4 +1,3 @@
-// este js sirve para buscar al usuario introducido en el form del login
 window.onload = function () {
     $(document).ready(function () {
         $('#sidebar').toggleClass('active');
@@ -18,10 +17,39 @@ window.onload = function () {
         }
     });
 
+    // ANTES DE HACER LOGIN
+    // AXIOS para mostrar los titulos de las ultimas experiencias
+    axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
+    })
+    .then(function (respuesta){
+        // console.log(respuesta);
+        let baseDades = JSON.parse(respuesta.data);
+        // console.log(baseDades);
+        // printLastExperiences(baseDades);
+        let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
+        for (let i = 0; i < baseDades.length; i++) {
+            let element = baseDades[i]["titol"];
+            // console.info(element);
+            htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
+            htmlLastExperiences += `<p>${element}</p>`;
+            htmlLastExperiences += '</div>';
+        }
+        htmlLastExperiences += '</div>';
+        // injectar despres del primer div
+        document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlLastExperiences);
+    
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+    .then(function () {
+        // always executed
+    });
+
     // para llamar a esta funcion desde: el registro, updateLikes, updateDislikes....
     function extraerExperiencias(){
 
-        axios.get("../ViajesKolvin/database/experiencias/extraer.php",{
+        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
         })
         .then(function (respuesta){
 
@@ -41,8 +69,8 @@ window.onload = function () {
     }
 
 
+    // LOGIN
     document.getElementById("login").addEventListener("click", function () {
-
         if (document.getElementById("email").value === "" || document.getElementById("passLogin").value === "" ){
             Swal.fire({
                 title: "¡ERROR!",
@@ -77,11 +105,8 @@ window.onload = function () {
                         }
                         else{
                             console.log("LOGEADO");
-
                             extraerExperiencias();
-
                         }
-        
                     }
                 })
                 .catch(function (error) {
@@ -99,7 +124,7 @@ window.onload = function () {
     })
 
 
-
+    // REGISTER
     document.getElementById("register").addEventListener("click", function () {
         axios.get('http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/usuari/register.php', {
                 params: {
@@ -156,7 +181,6 @@ window.onload = function () {
                 htmlExperiences += `<a href="#" id="reportar${index}" class="btn btn-primary b">Reportar</a>`;
                 htmlExperiences += '</div>';
                 htmlExperiences += '</div>';
-    
                 index++;
             }
         });
@@ -222,7 +246,7 @@ window.onload = function () {
     }
 
     function updateLikes (idUsu, likes, dislikes) {
-        axios.get("../ViajesKolvin/database/experiencias/updateLikes.php",{
+        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateLikes.php",{
             params: {
                 idUsu: idUsu,
                 likes: likes,

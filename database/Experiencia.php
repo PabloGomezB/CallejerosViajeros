@@ -1,5 +1,4 @@
 <?php
-
 require_once('DBAbstractModel.php');
 
 class Experiencia extends DBAbstractModel {

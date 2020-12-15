@@ -7,7 +7,6 @@
     <?php include("includes/includes.inc") ?>
     <title>Index</title>
     <script src="./js/index.js"></script>
-    <!-- <script src="./js/experiencias.js"></script> -->
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
