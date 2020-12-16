@@ -84,8 +84,8 @@ class Experiencia extends DBAbstractModel {
 
 
 
-	public function delete($userEmail = "") {
-		$this->query = "DELETE FROM users WHERE email ='$userEmail'";
+	public function deleteExp($idExp = "") {
+		$this->query = "DELETE FROM Experiencia WHERE idExp ='$idExp'";
 		$this->execute_single_query($this->query);
 	}
 
