@@ -1,4 +1,5 @@
 window.onload = function () {
+//////////////////////////////////////////////////////////////////////////////////
     $(document).ready(function () {
         $('#sidebar').toggleClass('active');
         $('#sidebarCollapse').on('click', function () {
@@ -7,7 +8,8 @@ window.onload = function () {
         $("#dropDownLogin").click();
         $('#desplegableLogin').removeClass('collapse');
     });
-
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     document.getElementById("checkEye").addEventListener("click", function () {
         let pass = document.getElementById("passLogin");
         if (pass.type === "password") {
@@ -16,7 +18,8 @@ window.onload = function () {
             pass.type = "password";
         }
     });
-
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     // ANTES DE HACER LOGIN
     // AXIOS para mostrar los titulos de las ultimas experiencias
     axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
@@ -27,13 +30,28 @@ window.onload = function () {
         // console.log(baseDades);
         // printLastExperiences(baseDades);
         let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
-        for (let i = 0; i < baseDades.length; i++) {
+        
+        let maxBaseDades = parseInt(baseDades.length);
+        console.info("1o "+maxBaseDades);
+        if (maxBaseDades < 5){
+            console.info("ENTRO");
+            console.info("2o "+maxBaseDades);
+            maxBaseDades = maxBaseDades-5;
+            console.info("3o "+maxBaseDades);
+        }
+        console.info("4o "+maxBaseDades);
+
+        let top = 0;
+        for (let i = parseInt(baseDades.length)-1; top < 5; i--) {
+            console.info(i);  
             let element = baseDades[i]["titol"];
             // console.info(element);
             htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
             htmlLastExperiences += `<p>${element}</p>`;
-            htmlLastExperiences += '</div>';
+            htmlLastExperiences += '</div>';          
+            top++;
         }
+
         htmlLastExperiences += '</div>';
         // injectar despres del primer div
         document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlLastExperiences);
@@ -45,18 +63,17 @@ window.onload = function () {
     .then(function () {
         // always executed
     });
-
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     // para llamar a esta funcion desde: el registro, updateLikes, updateDislikes....
     function extraerExperiencias(){
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
         })
         .then(function (respuesta){
-
-            console.log(respuesta);
+            // console.log(respuesta);
             let baseDades = JSON.parse(respuesta.data);
-            
-            // console.log(baseDades);
+            // console.log("baseDades: "+baseDades);
             printExperiencies(baseDades);
         
         })
@@ -67,8 +84,8 @@ window.onload = function () {
             // always executed
         });
     }
-
-
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     // LOGIN
     document.getElementById("login").addEventListener("click", function () {
         if (document.getElementById("email").value === "" || document.getElementById("passLogin").value === "" ){
@@ -122,8 +139,8 @@ window.onload = function () {
             });
         }
     })
-
-
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     // REGISTER
     document.getElementById("register").addEventListener("click", function () {
         axios.get('http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/usuari/register.php', {
@@ -137,7 +154,7 @@ window.onload = function () {
             .then(function (respuesta2) {
                 // PRINT VISTA DE LOGEADO
                 document.getElementById("div").innerHTML = `id: ${respuesta2.data.id}<br>Email: ${respuesta2.data.email}<br>Password: ${respuesta2.data.password}<br>SESSION: ${respuesta2.data.SESSION}`;
-                console.log(respuesta2);
+                // console.log(respuesta2);
             })
             .catch(function (error) {
                 Swal.fire({
@@ -151,18 +168,19 @@ window.onload = function () {
                 //
         });
     })
-
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     //////// Start Print Experiencies Jordi
     function printExperiencies(baseDades) {
         document.getElementById("content").innerHTML="";
         let htmlExperiences = '<h2 id="titolExperiencies">Experiencies</h2>';
         htmlExperiences += '<div class="grid">';
     
-        console.info(baseDades);
+        // console.info(baseDades);
         let index = 0;
         baseDades.forEach(element => {
             if (element.estat == 'publicada') {
-                console.info(element.imatge);
+                // console.info(element.imatge);
                 htmlExperiences += '<div class="card">';
                 htmlExperiences += `<img src="./img/${element.imatge}" class="card-img-top" alt="...">`;
                 htmlExperiences += '<div class="card-body">';
@@ -210,7 +228,9 @@ window.onload = function () {
                 }
             })
         }
-
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE         //
+        /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".like").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
                     // console.info(e.target);
@@ -225,7 +245,9 @@ window.onload = function () {
                     updateLikes(idExp, likes, dislikes);       
             })
         });
-
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE DISLIKE         //
+        /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".dislike").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
                 // console.info(e.target);
@@ -240,16 +262,20 @@ window.onload = function () {
                 updateLikes(idExp, likes, dislikes);       
             })
         });
-
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE EDITAR         //
+        /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".editar").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
-                    console.info(e.target);
-                    console.info(e.target.id);
+                    // console.info(e.target);
+                    // console.info(e.target.id);
                     let posArray = e.target.getAttribute("posicion");
-                    console.info(posArray);
+                    // console.info(posArray);
             })
         });
-
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE ELIMINAR         //
+        /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".eliminar").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
                     // console.info(e.target);
@@ -261,19 +287,30 @@ window.onload = function () {
                     deleteExp(idExp);
             })
         });
-
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE REPORTAR         //
+        /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".reportar").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
-                    console.info(e.target);
-                    console.info(e.target.id);
+                    // console.info(e.target);
+                    // console.info(e.target.id);
                     let posArray = e.target.getAttribute("posicion");
-                    console.info(posArray);
+                    // console.info(posArray);
+                    let idExp = baseDades[posArray]["idExp"];
+                    
+                    reportarExp(idExp);
             })
         });
     }
     //////// Finish Print Experiencies Jordi
     //////////////////// Start Nova Experiencia Jordi
     // Printar formulari
+//////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////   CODIGO !!!PRUEBA!!! PARA CREAR UNA EXPERIENCIA   ////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     function creatFormExp() {
         let crearFormNovaExperiencia =
         `
@@ -308,6 +345,8 @@ window.onload = function () {
 
         document.getElementById('newExp').insertAdjacentHTML('afterEnd', crearFormNovaExperiencia);
     }
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     // Remove caracters specials
     function escapeHtml(text) {
         let map = {
@@ -321,6 +360,8 @@ window.onload = function () {
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
     // Validacio per php
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     function testInput(data) {
         data = data.replace(/\\/g," ");
         data = data.trim();
@@ -328,6 +369,8 @@ window.onload = function () {
         return data;
     }
     // Validacio per js
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     function validateForm() {
         let titol = document.getElementById('titolExp').value;
         let data = document.getElementById('dataExp').value;
@@ -355,17 +398,19 @@ window.onload = function () {
             alert("Cal omplir el Text");
             return false;
         } else {
-            console.log(testInput(titol));
-            console.log(data);
-            console.log(testInput(text));
-            console.log(categoria());
-            console.log(imatge);
+            // console.log(testInput(titol));
+            // console.log(data);
+            // console.log(testInput(text));
+            // console.log(categoria());
+            // console.log(imatge);
 
             let experiencia = [testInput(titol), data, testInput(text), categoria(), imatge];
             return experiencia;
         }
     }
     // Crear Stringify
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
     function expToJson(titol, data, text, categoria, imatge) {
         let novaExperiencia = new Map();
         novaExperiencia['titol'] = titol;
@@ -402,8 +447,13 @@ window.onload = function () {
             }
         }
     });
-    //////////////////// Finish Nova Experiencia Jordi
+//////////////////////////////////////////////////////////////////////////////////    
+//////////////////////////////////////////////////////////////////////////////////    
 
+
+//////////////////////////////////////////////////////////////////////////////////
+//            AXIOS QUE MODIFICA LOS LIKES Y DISLIKES UNA EXPERIENCIA           //
+//////////////////////////////////////////////////////////////////////////////////
     function updateLikes (idUsu, likes, dislikes) {
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateLikes.php",{
             params: {
@@ -413,7 +463,7 @@ window.onload = function () {
             }
         })
         .then(function (respuesta){
-            console.log(respuesta);
+            // console.log(respuesta);
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
@@ -421,15 +471,20 @@ window.onload = function () {
             }
         })
     }
-
+//////////////////////////////////////////////////////////////////////////////////
+//                   AXIOS QUE ELIMINA UNA EXPERIENCIA                          //
+//////////////////////////////////////////////////////////////////////////////////
     function deleteExp (idUsu) {
-        axios.get("deleteExp.php",{
+        //////////////////////////////////////////
+       /// SUBIR FICHERO deleteExp.php al labs ///
+        /////////////////////////////////////////
+        axios.get("./database/experiencias/deleteExp.php",{
             params: {
                 idUsu: idUsu
             }
         })
         .then(function (respuesta){
-            console.log(respuesta);
+            // console.log("RESPUESTA DELETEEXP: "+respuesta.data);
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
@@ -437,6 +492,27 @@ window.onload = function () {
             }
         })
     }
-
-
+//////////////////////////////////////////////////////////////////////////////////
+//                   AXIOS QUE REPORTARA UNA EXPERIENCIA                        //
+//////////////////////////////////////////////////////////////////////////////////
+    function reportarExp (idUsu) {
+        //////////////////////////////////////////
+       /// SUBIR FICHERO reportarExp.php al labs ///
+        /////////////////////////////////////////
+        axios.get("./database/experiencias/reportarExp.php",{
+            params: {
+                idUsu: idUsu
+            }
+        })
+        .then(function (respuesta){
+            // console.log("RESPUESTA REPORTAREXP: "+respuesta.data);
+            if (respuesta.data.status=="FAIL") {
+                alert("ERROR, TE HAS EQUIVODADO");
+            } else {
+                extraerExperiencias();
+            }
+        })
+    }
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 }
