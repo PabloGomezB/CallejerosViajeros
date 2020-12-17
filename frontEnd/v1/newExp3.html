@@ -100,12 +100,12 @@
                 console.log(categoria());
                 console.log(imatge);
 
-                let experiencia = [testInput(titol), data, testInput(text), categoria()];
+                let experiencia = [testInput(titol), data, testInput(text), categoria(), imatge];
                 return experiencia;
             }
         }
         // Crear Stringify
-        function convertToJson(titol, data, text, categoria, imatge) {
+        function expToJson(titol, data, text, categoria, imatge) {
             let novaExperiencia = new Map();
             novaExperiencia['titol'] = titol;
             novaExperiencia['data'] = data;
@@ -116,7 +116,7 @@
             novaExperiencia['likes'] = 0;
             novaExperiencia['dislikes'] = 0;
             novaExperiencia['estat'] = 'esborrany';
-            return JSON.stringify(novaExperiencia);
+            return novaExperiencia;
         }
 
 
@@ -125,12 +125,20 @@
         document.getElementById("newExp").addEventListener("click", function(){
             creatFormExp();
         })
+
+        // si s'ha de crear
+        // document.addEventListener('click',function(e){
+        //     if(e.target && e.target.id == 'newExp'){
+        //         creatFormExp();
+        //     }
+        // });
+
         // Crear Nova Experiencia
         document.addEventListener('click',function(e){
             if(e.target && e.target.id == 'btnCrearExp'){
                 if (validateForm()) {
                     let experiencia = validateForm();
-                    console.log(convertToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4]));
+                    console.log(expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4]));
                     document.getElementById("formNewExp").style.display = "none";
                 }
             }

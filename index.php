@@ -24,9 +24,8 @@
                     </span>
                 </div>
             </div>
-            
         </div>
-        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary subirButton">
             <i class="fas fa-sign-in-alt"></i>
             <span>Log in !</span>
         </button>
