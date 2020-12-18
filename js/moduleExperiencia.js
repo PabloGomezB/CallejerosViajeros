@@ -35,7 +35,7 @@ var moduleExperiencia = (function () {
                 // console.info(element.imatge);
                 htmlExperiences +=
                     `<div class="card">
-                        <img src="./img/${element.imatge}" class="card-img-top" alt="...">
+                        <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
                         <div class="card-body">
                             <h5 class="card-title">${element.titol}</h5>
                                 <p class="card-text">${element.text}</p>

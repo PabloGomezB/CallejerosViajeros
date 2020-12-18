@@ -228,12 +228,13 @@ window.onload = function () {
     })
 
 
+    // JORDI
     // Nova Experiencia
     document.addEventListener('click',function(e){
         if(e.target && e.target.id == 'newExp'){
             // creatFormExp();
             document.getElementById("newExp").disabled = true;
-            moduleCategoria.extraerCategorias();
+            moduleCategoria.extraerCategorias(username);
         }
     });
 

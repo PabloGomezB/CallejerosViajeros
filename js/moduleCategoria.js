@@ -1,13 +1,13 @@
 var moduleCategoria = (function () {
 
-    function extraerCategorias(){
+    function extraerCategorias(username){
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
         })
         .then(function (respuesta){
 
             let categorias = JSON.parse(respuesta.data);
-            creatFormExp(categorias);
+            creatFormExp(categorias, username);
         })
         .catch(function (error) {
             console.log(error);
@@ -21,10 +21,12 @@ var moduleCategoria = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //////////   CODIGO !!!PRUEBA!!! PARA CREAR UNA EXPERIENCIA   ////////////////////
     //////////////////////////////////////////////////////////////////////////////////
-    function creatFormExp(categorias) {
+    function creatFormExp(categorias, username) {
 
         // el parametro categorias tiene TODAS las categorias
         // faltaría hacer aqui un forEach exactament igual que el de moduleExperencias linea 33
+
+        // faltan coordenadas y username
         let crearFormNovaExperiencia =
         `
         <div id="formNewExp">
@@ -61,6 +63,10 @@ var moduleCategoria = (function () {
             if(e.target && e.target.id == 'btnCrearExp'){
                 if (validateForm()) {
                     let experiencia = validateForm();
+
+                    // AQUI SE DEBERÍA INTERAR TODO CON UN FOREACH SOBRE categorias (mismo sistema que en la linea 45)
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////
                     console.log(expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4]));
                     document.getElementById("formNewExp").style.display = "none";
                     document.getElementById("newExp").disabled = false;
@@ -101,6 +107,16 @@ var moduleCategoria = (function () {
         let titol = document.getElementById('titolExp').value;
         let data = document.getElementById('dataExp').value;
         let text = document.getElementById('textExp').value;
+
+
+        // AQUI SE DEBERÍA INTERAR TODO CON UN FOREACH SOBRE categorias (mismo sistema que en la linea 45)
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        // document.getElementById('r1').value es hardcoded y no sirve!
+        // debería ser algo como 
+        //  categorias.forEach(categoria => {    
+        //      document.getElementById('r${categoria.id}').value
+        //  }
         let categoria = function(){
             if (document.getElementById('r1').checked) {
                 return document.getElementById('r1').value;
