@@ -45,7 +45,13 @@ class Usuario extends DBAbstractModel {
 		$this->query = "INSERT INTO Usuari (nom, cognom, username, password)
 						VALUES ('$nom','$cognom','$username','$pass')";
 		$this->execute_single_query();
-		return $this->doLogin($username, $pass);
+		if($this->queryExitosa == true){
+			return $this->doLogin($username, $pass);
+		}
+		else{
+			return json_encode(array('status' => 'FAIL', 'email' => $username));
+		}
+		
 	}
 
 	public function mostrarTot() {

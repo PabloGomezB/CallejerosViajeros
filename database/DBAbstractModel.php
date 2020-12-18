@@ -18,6 +18,8 @@ abstract class DBAbstractModel {
 
 	private $conn;
 
+	protected $queryExitosa;
+
 	// abstract protected function select();
 	// abstract protected function insert();
 	// abstract protected function update();
@@ -33,7 +35,7 @@ abstract class DBAbstractModel {
 
 	protected function execute_single_query() {
 		$this->open_connection();
-		$this->conn->query($this->query);
+		$this->queryExitosa = $this->conn->query($this->query);
 		$this->close_connection();
 	}
 

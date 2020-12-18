@@ -13,7 +13,10 @@
 <body>
 
     <header class="header">
-
+        <button type="button" id="sidebarCollapse" class="btn btn-primary subirButton">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Log in !</span>
+        </button>
         <div class="containerImage">
             <img src="./img/trip.png" class="banner">
             <!-- <div class="banner2"><span></span></div> -->
@@ -24,12 +27,8 @@
                     </span>
                 </div>
             </div>
-            
         </div>
-        <button type="button" id="sidebarCollapse" class="btn btn-primary">
-            <i class="fas fa-sign-in-alt"></i>
-            <span>Log in !</span>
-        </button>
+        
 
     </header>
 
@@ -49,7 +48,7 @@
 
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="#desplegableRegistro" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-header">Registro</a>
+                    <a id="dropDownRegistro" href="#desplegableRegistro" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-header">Registro</a>
                     <ul class="collapse list-unstyled" id="desplegableRegistro">
                         <li>
                             <?php include("includes/sidebarRegister.php") ?>
@@ -73,6 +72,7 @@
     
     </div>
     
+    <script src="./js/moduleExperiencia.js"></script>
 </body>
 
 </html>
