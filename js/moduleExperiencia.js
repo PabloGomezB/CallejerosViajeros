@@ -33,31 +33,34 @@ var moduleExperiencia = (function () {
         baseDades.forEach(element => {
             if (element.estat == 'publicada') {
                 // console.info(element.imatge);
-                htmlExperiences += '<div class="card">';
-                htmlExperiences += `<img src="./img/${element.imatge}" class="card-img-top" alt="...">`;
-                htmlExperiences += '<div class="card-body">';
-                htmlExperiences += `<h5 class="card-title">${element.titol}</h5>`;
-                htmlExperiences += `<p class="card-text">${element.text}</p>`;
-                htmlExperiences += `<p class="number">${element.likes}</p>`;
-                htmlExperiences += `<buttom posicion="${index}" id="like${index}" class="btn btn-primary like">Like</buttom>`;
+                htmlExperiences +=
+                    `<div class="card">
+                        <img src="./img/${element.imatge}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">${element.titol}</h5>
+                                <p class="card-text">${element.text}</p>
+                                <p class="number">${element.likes}</p>
+                                <buttom posicion="${index}" id="like${index}" class="btn btn-primary like">Like</buttom>
             
-                htmlExperiences += '<div class="divDis">';
-                htmlExperiences += `<buttom posicion="${index}" id="dislike${index}" class="btn btn-primary dislike">Dislike</buttom>`;
-                htmlExperiences += `<p class="number">${element.dislikes}</p>`;
-                htmlExperiences += '</div>';
+                                    <div class="divDis">
+                                        <buttom posicion="${index}" id="dislike${index}" class="btn btn-primary dislike">Dislike</buttom>
+                                        <p class="number">${element.dislikes}</p>
+                                    </div>`;
                 
                 // if (USUARIO == PROPIETARIO EXP) {
                         htmlExperiences += `<buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
                 // }
                 
-                htmlExperiences += `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>`;
-                htmlExperiences += `<buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>`;
-                htmlExperiences += '</div>';
-                htmlExperiences += '</div>';
+                htmlExperiences +=
+                                `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>
+                                <buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>
+                            </div>
+                        </div>`;
                 index++;
             }
         });
-        htmlExperiences += '</div>';
+        htmlExperiences +=
+                    '</div>';
         htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
         // document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlExperiences);
         document.getElementById("content").innerHTML=htmlExperiences;
