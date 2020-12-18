@@ -104,12 +104,16 @@
 .grid {
     display: grid;
     grid-template-columns: 350px 350px 350px;
-    grid-gap: 5%;;
+    grid-gap: 8%;;
+    align-content: space-between;
+    justify-content: space-around;
+    margin-left: -2% auto;
 }
 
 .card {
-    width: 18rem;
-    margin: 50px;
+    width: 21rem;
+    margin-top: 10%;
+    margin-bottom: 5%;
 }
 
 .card-body {
@@ -147,6 +151,7 @@
 }
 
 #enunciat{
+    font-size: 64px;
     text-align: center;
 }
 
@@ -155,15 +160,16 @@
 }
 
 #titolExperiencies{
+    font-size: 64px;
     text-align: center;
 }
 
 .pExperiences{
     text-align: justify;
     margin: 5% auto;
+    font-size: 18px;
 }
 
 #newExp{
-    display: flex;
     margin-top: 5%;
 }
