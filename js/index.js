@@ -131,10 +131,10 @@ window.onload = function () {
                         });
                     } else {
                         // puede ser null si axios funciona bien pero algo falla en login.php
-                        if(respuesta.data.id == null){
+                        if(respuesta.data.email == null){
                             Swal.fire({
                                 title: "¡VAYA!",
-                                html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>id undefined",
+                                html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>email undefined",
                                 icon: "error",
                             });
                         }

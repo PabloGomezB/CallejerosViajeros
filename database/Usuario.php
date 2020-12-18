@@ -34,7 +34,7 @@ class Usuario extends DBAbstractModel {
 		if (count($this->rows) == 1) {
 			// session_start();
 			// $_SESSION['email']=$this->rows[0]['username'];
-			$response = array('status' => 'OK', 'id' => $this->rows[0]["idUsu"], 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'SESSION' => $_SESSION['email']);
+			$response = array('status' => 'OK', 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'SESSION' => $_SESSION['email']);
 			return json_encode($response);
 		} else {
 			return json_encode(array('status' => 'FAIL'));
