@@ -377,15 +377,16 @@ window.onload = function () {
         let sidebar = document.getElementById("sidebar");
         // sidebar.innerHTML=``;
         document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
+        sidebar.innerHTML = `<button onClick="window.location.reload();">LOGOUT!</button>`;
         if(isAdmin){
             let sidebarAdmin =
             `<button>Bienvenido admin!</button>`;
-            sidebar.innerHTML = sidebarAdmin;
+            sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
         }
         else{
             let sidebarNormalUser =
             `<button>tu no eres admin pendejo</button>`;
-            sidebar.innerHTML = sidebarNormalUser;
+            sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
         }
     }
 

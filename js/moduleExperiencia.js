@@ -49,7 +49,7 @@ var moduleExperiencia = (function () {
 
                 if (isAdmin || (username == element.username)){
                     htmlExperiences +=
-                                `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>;
+                                `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>
                                 <buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
                 }
 
