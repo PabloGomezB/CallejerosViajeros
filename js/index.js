@@ -67,6 +67,13 @@ window.onload = function () {
         })
     })
 
+    document.getElementById("login").addEventListener("keyup", function(event) {
+        if (event.key === 13) {
+            // event.preventDefault();
+            document.getElementById("myBtn").click();
+        }
+    });
+
     // ANTES DE HACER LOGIN
     // AXIOS para mostrar los titulos de las ultimas experiencias
     axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
@@ -348,6 +355,12 @@ window.onload = function () {
     //////////////////// Finish Nova Experiencia Jordi
 
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
+    function transformarSidebar(){
+        $('#sidebar').toggleClass('active');
+        document.getElementById("sidebar").innerHTML=``;
+        document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
+    }
+
     function transformarSidebar(){
         $('#sidebar').toggleClass('active');
         document.getElementById("sidebar").innerHTML=``;
