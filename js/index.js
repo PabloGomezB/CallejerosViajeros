@@ -1,7 +1,8 @@
 window.onload = function () {
 
     var logeado = false;
-    var emailUserLogeado = "";
+    var username = "";
+    var isAdmin = false;
 
     // Esta funcion gestiona el comportamiento del sidebar
     $(document).ready(function () {
@@ -113,7 +114,8 @@ window.onload = function () {
         // always executed
     });
 
-    
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     // LOGIN
     document.getElementById("login").addEventListener("click", function () {
         if (document.getElementById("email").value === "" || document.getElementById("passLogin").value === "" ){
@@ -148,9 +150,12 @@ window.onload = function () {
                         }
                         else{
                             logeado = true;
-                            emailUserLogeado = respuesta.data.email;
+                            username = respuesta.data.email;
+                            if (respuesta.data.isAdmin == 1){
+                                isAdmin = true;
+                            }
                             transformarSidebar();
-                            moduleExperiencia.extraerExperiencias();
+                            moduleExperiencia.extraerExperiencias(isAdmin, username);
                         }
                     }
                 })
@@ -369,8 +374,19 @@ window.onload = function () {
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar(){
         $('#sidebar').toggleClass('active');
-        document.getElementById("sidebar").innerHTML=``;
+        let sidebar = document.getElementById("sidebar");
+        // sidebar.innerHTML=``;
         document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
+        if(isAdmin){
+            let sidebarAdmin =
+            `<button>Bienvenido admin!</button>`;
+            sidebar.innerHTML = sidebarAdmin;
+        }
+        else{
+            let sidebarNormalUser =
+            `<button>tu no eres admin pendejo</button>`;
+            sidebar.innerHTML = sidebarNormalUser;
+        }
     }
 
 }

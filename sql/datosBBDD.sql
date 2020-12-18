@@ -91,15 +91,16 @@ CREATE TABLE `Usuari` (
   `nom` varchar(50) NOT NULL,
   `cognom` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(100) NOT NULL,
+  `isAdmin` boolean NOT NULL DEFAULT FALSE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `Usuari`
 --
 
-INSERT INTO `Usuari` (`nom`, `cognom`, `username`, `password`) VALUES
-('admin', 'admin', 'admin', 'admin');
+INSERT INTO `Usuari` (`nom`, `cognom`, `username`, `password`, `isAdmin`) VALUES
+('admin', 'admin', 'admin', 'admin', TRUE);
 
 --
 -- Índices para tablas volcadas

@@ -1,7 +1,7 @@
 var moduleExperiencia = (function () {
 
     // para llamar a esta funcion desde: el registro, updateLikes, updateDislikes....
-    function extraerExperiencias(){
+    function extraerExperiencias(isAdmin, username){
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
         })
@@ -11,7 +11,7 @@ var moduleExperiencia = (function () {
             let baseDades = JSON.parse(respuesta.data);
             
             // console.log(baseDades);
-            printExperiencies(baseDades);
+            printExperiencies(baseDades, isAdmin, username);
         
         })
         .catch(function (error) {
@@ -23,7 +23,7 @@ var moduleExperiencia = (function () {
     }
 
     //////// Start Print Experiencies Jordi
-    function printExperiencies(baseDades) {
+    function printExperiencies(baseDades,isAdmin, username) {
         document.getElementById("content").innerHTML="";
         let htmlExperiences = '<h2 id="titolExperiencies">Experiencies</h2>';
         htmlExperiences += '<div class="grid">';
@@ -46,14 +46,15 @@ var moduleExperiencia = (function () {
                                         <buttom posicion="${index}" id="dislike${index}" class="btn btn-primary dislike">Dislike</buttom>
                                         <p class="number">${element.dislikes}</p>
                                     </div>`;
-                
-                // if (USUARIO == PROPIETARIO EXP) {
-                        htmlExperiences += `<buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
-                // }
-                
+
+                if (isAdmin || (username == element.username)){
+                    htmlExperiences +=
+                                `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>;
+                                <buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
+                }
+
                 htmlExperiences +=
-                                `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>
-                                <buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>
+                                `<buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>
                             </div>
                         </div>`;
                 index++;

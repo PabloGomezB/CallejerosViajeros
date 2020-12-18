@@ -3,11 +3,12 @@
 require_once('DBAbstractModel.php');
 
 class Usuario extends DBAbstractModel {
-	private $idUser;
+	
 	private $nombre;
 	private $apellidos;
 	private $email;
 	private $pass;
+	private $isAdmin;
 
 	function __construct() {
 		$this->db_name = "a16miqboipos_pr";
@@ -15,8 +16,8 @@ class Usuario extends DBAbstractModel {
 
 	function __toString() {
 		// echo "entro string <br>";
-		return "idUsu: " . $this->idUser . ", Nombre: " . $this->nombre . ", Apellidos: " . $this->apellidos . ", Email " .
-			$this->email . ", Pass:" . $this->pass . ")";
+		return "Nombre: " . $this->nombre . ", Apellidos: " . $this->apellidos . ", Email " .
+			$this->email . ", Pass:" . $this->pass . "isAdmin: " . $this->isAdmin . ")";
 	}
 
 	function __destruct() {
@@ -34,7 +35,7 @@ class Usuario extends DBAbstractModel {
 		if (count($this->rows) == 1) {
 			// session_start();
 			// $_SESSION['email']=$this->rows[0]['username'];
-			$response = array('status' => 'OK', 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'SESSION' => $_SESSION['email']);
+			$response = array('status' => 'OK', 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'isAdmin' => $this->rows[0]["isAdmin"]);
 			return json_encode($response);
 		} else {
 			return json_encode(array('status' => 'FAIL'));
