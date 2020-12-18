@@ -189,11 +189,6 @@ window.onload = function () {
                 }
             })
                 .then(function (respuesta2) {
-                    console.log(document.getElementById("nom").value);
-                    console.log(document.getElementById("cognom").value);
-                    console.log(document.getElementById("username").value);
-                    console.log(document.getElementById("passRegister").value);
-                    console.log(respuesta2);
                     if (respuesta2.data.status == "FAIL") {
                         Swal.fire({
                             title: "Ups..",
@@ -205,7 +200,6 @@ window.onload = function () {
                     }
                     else{
                         // PRINT VISTA DE LOGEADO
-                        // document.getElementById("div").innerHTML = `id: ${respuesta2.data.id}<br>Email: ${respuesta2.data.email}<br>Password: ${respuesta2.data.password}<br>SESSION: ${respuesta2.data.SESSION}`;
                         logeado = true;
                         emailUserLogeado = respuesta2.data.email;
                         transformarSidebar();
@@ -279,6 +273,7 @@ window.onload = function () {
         
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
+
     // Validacio per php
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
@@ -288,6 +283,7 @@ window.onload = function () {
         data = escapeHtml(data);
         return data;
     }
+
     // Validacio per js
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
@@ -367,9 +363,9 @@ window.onload = function () {
             }
         }
     });
-//////////////////////////////////////////////////////////////////////////////////    
-//////////////////////////////////////////////////////////////////////////////////    
 
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar(){
         $('#sidebar').toggleClass('active');

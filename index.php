@@ -58,13 +58,11 @@
         <!-- End sidebar -->
         <div id="content">
             
-    <!-- START CODE RAFA -->
             <h1 id="enunciat">Vacances</h1>
             
             <div id="panell" style="display: none;">
                 <h5 id="benvinguda"></h5>
             </div>
-    <!-- END CODE RAFA -->
 
         </div>
     
