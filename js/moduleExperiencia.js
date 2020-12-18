@@ -1,7 +1,7 @@
 var moduleExperiencia = (function () {
 
     // para llamar a esta funcion desde: el registro, updateLikes, updateDislikes....
-    function extraerExperiencias(){
+    function extraerExperiencias(isAdmin, username){
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
         })
@@ -11,7 +11,7 @@ var moduleExperiencia = (function () {
             let baseDades = JSON.parse(respuesta.data);
             
             // console.log(baseDades);
-            printExperiencies(baseDades);
+            printExperiencies(baseDades, isAdmin, username);
         
         })
         .catch(function (error) {
@@ -23,7 +23,7 @@ var moduleExperiencia = (function () {
     }
 
     //////// Start Print Experiencies Jordi
-    function printExperiencies(baseDades) {
+    function printExperiencies(baseDades,isAdmin, username) {
         document.getElementById("content").innerHTML="";
         let htmlExperiences = '<h2 id="titolExperiencies">Experiencies</h2>';
         htmlExperiences += '<div class="grid">';
@@ -33,33 +33,35 @@ var moduleExperiencia = (function () {
         baseDades.forEach(element => {
             if (element.estat == 'publicada') {
                 // console.info(element.imatge);
-                htmlExperiences += '<div class="card">';
-                htmlExperiences += `<img src="./img/${element.imatge}" class="card-img-top" alt="...">`;
-                htmlExperiences += '<div class="card-body">';
-                htmlExperiences += `<h5 class="card-title">${element.titol}</h5>`;
-                htmlExperiences += `<p class="card-text">${element.text}</p>`;
-                htmlExperiences += `<p class="number">${element.likes}</p>`;
-                htmlExperiences += `<buttom posicion="${index}" id="like${index}" class="btn btn-primary like">Like</buttom>`;
+                htmlExperiences +=
+                    `<div class="card">
+                        <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
+                        <div class="card-body">
+                            <h5 class="card-title">${element.titol}</h5>
+                                <p class="card-text">${element.text}</p>
+                                <p class="number">${element.likes}</p>
+                                <buttom posicion="${index}" id="like${index}" class="btn btn-primary like">Like</buttom>
             
-                htmlExperiences += '<div class="divDis">';
-                htmlExperiences += `<buttom posicion="${index}" id="dislike${index}" class="btn btn-primary dislike">Dislike</buttom>`;
-                htmlExperiences += `<p class="number">${element.dislikes}</p>`;
-                htmlExperiences += '</div>';
-                
-                // if (USUARIO == PROPIETARIO EXP || USUARIO == ADMIN ) {
-                        htmlExperiences += `<buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
-                        htmlExperiences += `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>`;
-                // }
-                htmlExperiences += `<buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>`;
-                htmlExperiences += '</div>';
-                htmlExperiences += '</div>';
+                                    <div class="divDis">
+                                        <buttom posicion="${index}" id="dislike${index}" class="btn btn-primary dislike">Dislike</buttom>
+                                        <p class="number">${element.dislikes}</p>
+                                    </div>`;
+
+                if (isAdmin || (username == element.username)){
+                    htmlExperiences +=
+                                `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>
+                                <buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
+                }
+
+                htmlExperiences +=
+                                `<buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>
+                            </div>
+                        </div>`;
                 index++;
             }
         });
-        htmlExperiences += '</div>';
-
-
-        //BOTON NOVA EXPERIENCIA
+        htmlExperiences +=
+                    '</div>';
         htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
         // document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlExperiences);
         document.getElementById("content").innerHTML=htmlExperiences;

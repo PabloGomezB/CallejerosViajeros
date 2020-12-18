@@ -69,6 +69,7 @@
     </div>
     
     <script src="./js/moduleExperiencia.js"></script>
+    <script src="./js/moduleCategoria.js"></script>
 </body>
 
 </html>
