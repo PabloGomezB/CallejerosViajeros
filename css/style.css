@@ -103,7 +103,8 @@
 /* EXPERIENCIAS */
 .grid {
     display: grid;
-    grid-template-columns: 350px 350px;
+    grid-template-columns: 350px 350px 350px;
+    grid-gap: 5%;;
 }
 
 .card {
@@ -113,6 +114,7 @@
 
 .card-body {
     display: none;
+    align-self: center;
 }
 
 .card-title {
@@ -136,4 +138,32 @@
 .b {
     margin-top: 10px;
     width: 100%;
+}
+
+#content{
+    width: 100%;
+    margin: 0 auto;
+    padding: 1em 3em;
+}
+
+#enunciat{
+    text-align: center;
+}
+
+.titolExperiencia>h2{
+    text-align: center;
+}
+
+#titolExperiencies{
+    text-align: center;
+}
+
+.pExperiences{
+    text-align: justify;
+    margin: 5% auto;
+}
+
+#newExp{
+    display: flex;
+    margin-top: 5%;
 }
