@@ -1,7 +1,7 @@
 window.onload = function () {
 
     var logeado = false;
-    var idUserLogeado = "";
+    var emailUserLogeado = "";
 
     // Esta funcion gestiona el comportamiento del sidebar
     $(document).ready(function () {
@@ -67,13 +67,8 @@ window.onload = function () {
         })
     })
 
-    document.getElementById("login").addEventListener("keyup", function(event) {
-        if (event.key === 13) {
-            // event.preventDefault();
-            document.getElementById("myBtn").click();
-        }
-    });
-
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     // ANTES DE HACER LOGIN
     // AXIOS para mostrar los titulos de las ultimas experiencias
     axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
@@ -84,13 +79,28 @@ window.onload = function () {
         // console.log(baseDades);
         // printLastExperiences(baseDades);
         let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
-        for (let i = 0; i < baseDades.length; i++) {
+        
+        let maxBaseDades = parseInt(baseDades.length);
+        console.info("1o "+maxBaseDades);
+        if (maxBaseDades < 5){
+            console.info("ENTRO");
+            console.info("2o "+maxBaseDades);
+            maxBaseDades = maxBaseDades-5;
+            console.info("3o "+maxBaseDades);
+        }
+        console.info("4o "+maxBaseDades);
+
+        let top = 0;
+        for (let i = parseInt(baseDades.length)-1; top < 5; i--) {
+            console.info(i);  
             let element = baseDades[i]["titol"];
             // console.info(element);
             htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
             htmlLastExperiences += `<p>${element}</p>`;
-            htmlLastExperiences += '</div>';
+            htmlLastExperiences += '</div>';          
+            top++;
         }
+
         htmlLastExperiences += '</div>';
         // injectar despres del primer div
         document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlLastExperiences);
@@ -104,8 +114,6 @@ window.onload = function () {
     });
 
     
-
-
     // LOGIN
     document.getElementById("login").addEventListener("click", function () {
         if (document.getElementById("email").value === "" || document.getElementById("passLogin").value === "" ){
@@ -140,7 +148,7 @@ window.onload = function () {
                         }
                         else{
                             logeado = true;
-                            idUserLogeado = respuesta.data.id;
+                            emailUserLogeado = respuesta.data.email;
                             console.log(idUserLogeado);
                             transformarSidebar();
                             moduleExperiencia.extraerExperiencias();
@@ -160,8 +168,8 @@ window.onload = function () {
             });
         }
     })
-
-
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     // REGISTER
     document.getElementById("register").addEventListener("click", function () {
         if (document.getElementById("nom").value === "" || document.getElementById("cognom").value === "" || 
@@ -200,7 +208,7 @@ window.onload = function () {
                         // PRINT VISTA DE LOGEADO
                         // document.getElementById("div").innerHTML = `id: ${respuesta2.data.id}<br>Email: ${respuesta2.data.email}<br>Password: ${respuesta2.data.password}<br>SESSION: ${respuesta2.data.SESSION}`;
                         logeado = true;
-                        idUserLogeado = respuesta2.data.id;
+                        emailUserLogeado = respuesta2.data.email;
                         console.log(idUserLogeado);
                         transformarSidebar();
                         moduleExperiencia.extraerExperiencias();
@@ -221,9 +229,10 @@ window.onload = function () {
         
     })
 
-    
-    //////////////////// Start Nova Experiencia Jordi
-    // Printar formulari
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////   CODIGO !!!PRUEBA!!! PARA CREAR UNA EXPERIENCIA   ////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     function creatFormExp() {
         let crearFormNovaExperiencia =
         `
@@ -258,6 +267,8 @@ window.onload = function () {
 
         document.getElementById('newExp').insertAdjacentHTML('afterEnd', crearFormNovaExperiencia);
     }
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     // Remove caracters specials
     function escapeHtml(text) {
         let map = {
@@ -271,6 +282,8 @@ window.onload = function () {
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
     // Validacio per php
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     function testInput(data) {
         data = data.replace(/\\/g," ");
         data = data.trim();
@@ -278,6 +291,8 @@ window.onload = function () {
         return data;
     }
     // Validacio per js
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     function validateForm() {
         let titol = document.getElementById('titolExp').value;
         let data = document.getElementById('dataExp').value;
@@ -305,17 +320,19 @@ window.onload = function () {
             alert("Cal omplir el Text");
             return false;
         } else {
-            console.log(testInput(titol));
-            console.log(data);
-            console.log(testInput(text));
-            console.log(categoria());
-            console.log(imatge);
+            // console.log(testInput(titol));
+            // console.log(data);
+            // console.log(testInput(text));
+            // console.log(categoria());
+            // console.log(imatge);
 
             let experiencia = [testInput(titol), data, testInput(text), categoria(), imatge];
             return experiencia;
         }
     }
     // Crear Stringify
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     function expToJson(titol, data, text, categoria, imatge) {
         let novaExperiencia = new Map();
         novaExperiencia['titol'] = titol;
@@ -352,7 +369,8 @@ window.onload = function () {
             }
         }
     });
-    //////////////////// Finish Nova Experiencia Jordi
+//////////////////////////////////////////////////////////////////////////////////    
+//////////////////////////////////////////////////////////////////////////////////    
 
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar(){
@@ -361,9 +379,4 @@ window.onload = function () {
         document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
     }
 
-    function transformarSidebar(){
-        $('#sidebar').toggleClass('active');
-        document.getElementById("sidebar").innerHTML=``;
-        document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
-    }
 }

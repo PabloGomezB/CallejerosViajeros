@@ -44,6 +44,7 @@ class Experiencia extends DBAbstractModel {
 			$estat = $this->rows[$i]["estat"];
 			$idCat = $this->rows[$i]["idCat"];
 			$idUsu = $this->rows[$i]["idUsu"];
+			$reportat = $this->rows[$i]["reportat"];
 
 			$exp = array(
 				"idExp" => $idExp, 'titol' => $titol, 'data' =>  $data, 'text' => $text,
@@ -53,7 +54,8 @@ class Experiencia extends DBAbstractModel {
 				'dislikes' => $dislikes,
 				'estat' => $estat,
 				'idCat' => $idCat,
-				'idUsu' => $idUsu
+				'idUsu' => $idUsu,
+				'reportat' => $reportat
 			);
 
 			array_push($experiencias, $exp);
@@ -81,44 +83,20 @@ class Experiencia extends DBAbstractModel {
 		// $this->execute_single_query($this->query);
 	}
 
-
-
-
-	public function delete($userEmail = "") {
-		$this->query = "DELETE FROM users WHERE email ='$userEmail'";
+	public function deleteExp($idExp = "") {
+		$this->query = "DELETE FROM Experiencia WHERE idExp ='$idExp'";
 		$this->execute_single_query($this->query);
 	}
 
-	// public function mostrarTot (&$img, &$titulo, &$descripcion, &$likes, &$dislikes) {
-	//     $this->query = "SELECT * FROM  experiencia;";
-	//     $this->get_results_from_query();
-	//     for ($i=0; $i < count($this->rows); $i++) { 
-	//       // echo "idExp: ".$this->rows[$i]["idExp"]."<br>";
-	//       $img = $this->rows[$i]["imagen"];
-	//       $titulo = $this->rows[$i]["titulo"];
-	//       $descripcion = $this->rows[$i]["descripcion"];
-	//       $likes = $this->rows[$i]["likes"];
-	//       $dislikes = $this->rows[$i]["dislikes"];
-	//       // foreach ($this->rows[$i] as $key => $value) {
-	//       //   echo $value;
-	//       // }
-	//     }
-	// }
+	public function	reportarExp($idExp = "") {
+		$this->query = "UPDATE Experiencia SET reportat='1'
+        WHERE idExp='$idExp'";
+		$exito = $this->execute_single_query($this->query);
+		if(!$exito){
+			return "FAIL";
+		}else{
+			return "OK";
+		}
+	}
 
-
-	// public function mostrarTotPrueba () {
-	//     $this->query = "SELECT * FROM  experiencia;";
-	//     $this->get_results_from_query();
-	//     for ($i=0; $i < count($this->rows); $i++) { 
-	//       echo "<br><br>";
-	//       echo "idExp: ".$this->rows[$i]["idExp"]."<br>";
-	//       echo "Titulo: ".$this->rows[$i]["titulo"]."<br>";
-	//       echo "Descripcion: ".$this->rows[$i]["descripcion"]."<br>";
-	//       echo "Likes: ".$this->rows[$i]["likes"]."<br>";
-	//       echo "Dislikes: ".$this->rows[$i]["dislikes"]."<br>";
-	//       // foreach ($this->rows[$i] as $key => $value) {
-	//       //   echo $value;
-	//       // }
-	//     }
-	// }
 }
