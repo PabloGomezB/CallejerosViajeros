@@ -21,17 +21,6 @@ class Experiencia extends DBAbstractModel {
 		$this->query = "SELECT * FROM  Experiencia;";
 		$this->get_results_from_query();
 		for ($i = 0; $i < count($this->rows); $i++) {
-			// echo "idExp: ".$this->rows[$i]["idExp"]."<br>";
-			// echo "titol: ".$this->rows[$i]["titol"]."<br>";
-			// echo "data: ".$this->rows[$i]["data"]."<br>";
-			// echo "text: ".$this->rows[$i]["text"]."<br>";
-			// echo "imatge: ".$this->rows[$i]["imatge"]."<br>";
-			// echo "coordenades: ".$this->rows[$i]["coordenades"]."<br>";
-			// echo "likes: ".$this->rows[$i]["likes"]."<br>";
-			// echo "dislikes: ".$this->rows[$i]["dislikes"]."<br>";
-			// echo "estat: ".$this->rows[$i]["estat"]."<br>";
-			// echo "idCat: ".$this->rows[$i]["idCat"]."<br>";
-			// echo "idUsu: ".$this->rows[$i]["idUsu"]."<br>";
 
 			$idExp = $this->rows[$i]["idExp"];
 			$titol = $this->rows[$i]["titol"];
@@ -43,7 +32,7 @@ class Experiencia extends DBAbstractModel {
 			$dislikes = $this->rows[$i]["dislikes"];
 			$estat = $this->rows[$i]["estat"];
 			$idCat = $this->rows[$i]["idCat"];
-			$idUsu = $this->rows[$i]["idUsu"];
+			$username = $this->rows[$i]["username"];
 			$reportat = $this->rows[$i]["reportat"];
 
 			$exp = array(
@@ -54,15 +43,11 @@ class Experiencia extends DBAbstractModel {
 				'dislikes' => $dislikes,
 				'estat' => $estat,
 				'idCat' => $idCat,
-				'idUsu' => $idUsu,
+				'username' => $username,
 				'reportat' => $reportat
 			);
 
 			array_push($experiencias, $exp);
-
-			// foreach ($this->rows[$i] as $key => $value) {
-			//   echo "  /  ".$value;
-			// }
 		}
 		return json_encode($experiencias);
 	}

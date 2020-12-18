@@ -28,27 +28,30 @@ var moduleExperiencia = (function () {
         let htmlExperiences = '<h2 id="titolExperiencies">Experiencies</h2>';
         htmlExperiences += '<div class="grid">';
     
-        console.info(baseDades);
+        // console.info(baseDades);
         let index = 0;
         baseDades.forEach(element => {
             if (element.estat == 'publicada') {
-                console.info(element.imatge);
+                // console.info(element.imatge);
                 htmlExperiences += '<div class="card">';
                 htmlExperiences += `<img src="./img/${element.imatge}" class="card-img-top" alt="...">`;
                 htmlExperiences += '<div class="card-body">';
                 htmlExperiences += `<h5 class="card-title">${element.titol}</h5>`;
                 htmlExperiences += `<p class="card-text">${element.text}</p>`;
                 htmlExperiences += `<p class="number">${element.likes}</p>`;
-                htmlExperiences += `<a href="#" id="like${index}" class="btn btn-primary">Like</a>`;
+                htmlExperiences += `<buttom posicion="${index}" id="like${index}" class="btn btn-primary like">Like</buttom>`;
             
                 htmlExperiences += '<div class="divDis">';
-                htmlExperiences += `<a href="#" id="dislike${index}" class="btn btn-primary">Dislike</a>`;
+                htmlExperiences += `<buttom posicion="${index}" id="dislike${index}" class="btn btn-primary dislike">Dislike</buttom>`;
                 htmlExperiences += `<p class="number">${element.dislikes}</p>`;
                 htmlExperiences += '</div>';
-            
-                htmlExperiences += `<a href="#" id="editar${index}" class="btn btn-primary a">Editar</a>`;
-                htmlExperiences += `<a href="#" id="eliminar${index}" class="btn btn-primary a">Eliminar</a>`;
-                htmlExperiences += `<a href="#" id="reportar${index}" class="btn btn-primary b">Reportar</a>`;
+                
+                // if (USUARIO == PROPIETARIO EXP) {
+                        htmlExperiences += `<buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
+                // }
+                
+                htmlExperiences += `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>`;
+                htmlExperiences += `<buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>`;
                 htmlExperiences += '</div>';
                 htmlExperiences += '</div>';
                 index++;
@@ -78,45 +81,90 @@ var moduleExperiencia = (function () {
             })
         }
 
-        for (let index = 0; index < baseDades.length; index++) {
-            document.getElementById(`like${index}`).addEventListener("click", function(e) {
-                console.info(e.target.id);
-                console.info(e.target.id.charAt(e.target.id.length-1));
-                let posArray = parseInt(e.target.id.charAt(e.target.id.length-1));
-                let idExp = baseDades[posArray]["idExp"];
-                let likes = parseInt(baseDades[posArray]["likes"])+1;
-                let dislikes = parseInt(baseDades[posArray]["dislikes"]);
-    
-                updateLikes(idExp, likes, dislikes);       
-                
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE         //
+        /////////////////////////////////////////////////////////////////
+        document.querySelectorAll(".like").forEach(experencia => {
+            experencia.addEventListener("click", function(e) {
+                    // console.info(e.target);
+                    // console.info(e.target.id);
+                    // console.info(e.target.getAttribute("posicion"));
+                    
+                    let posArray = e.target.getAttribute("posicion");
+                    let idExp = baseDades[posArray]["idExp"];
+                    let likes = parseInt(baseDades[posArray]["likes"])+1;
+                    let dislikes = parseInt(baseDades[posArray]["dislikes"]);
+        
+                    updateLikes(idExp, likes, dislikes);       
             })
-    
-            document.getElementById("dislike"+index).addEventListener("click", function(e) {
-                 // console.info(e.target.id);
-                console.info(e.target.id.charAt(e.target.id.length-1));
-                let posArray = parseInt(e.target.id.charAt(e.target.id.length-1));
+        });
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE DISLIKE         //
+        /////////////////////////////////////////////////////////////////
+        document.querySelectorAll(".dislike").forEach(experencia => {
+            experencia.addEventListener("click", function(e) {
+                // console.info(e.target);
+                // console.info(e.target.id);
+                // console.info(e.target.getAttribute("posicion"));
+                
+                let posArray = e.target.getAttribute("posicion");
                 let idExp = baseDades[posArray]["idExp"];
                 let likes = parseInt(baseDades[posArray]["likes"]);
                 let dislikes = parseInt(baseDades[posArray]["dislikes"])+1;
-
-                updateLikes(idExp, likes, dislikes);
-            })
     
-            document.getElementById("editar"+index).addEventListener("click", function(e) {
-                console.info(e.target.id);
+                updateLikes(idExp, likes, dislikes);       
             })
-    
-            document.getElementById("eliminar"+index).addEventListener("click", function(e) {
-                console.info(e.target.id);
+        });
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE EDITAR         //
+        /////////////////////////////////////////////////////////////////
+        document.querySelectorAll(".editar").forEach(experencia => {
+            experencia.addEventListener("click", function(e) {
+                    // console.info(e.target);
+                    // console.info(e.target.id);
+                    let posArray = e.target.getAttribute("posicion");
+                    // console.info(posArray);
             })
-    
-            document.getElementById("reportar"+index).addEventListener("click", function(e) {
-                console.info(e.target.id);
+        });
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE ELIMINAR         //
+        /////////////////////////////////////////////////////////////////
+        document.querySelectorAll(".eliminar").forEach(experencia => {
+            experencia.addEventListener("click", function(e) {
+                    // console.info(e.target);
+                    // console.info(e.target.id);
+                    let posArray = e.target.getAttribute("posicion");
+                    // console.info(posArray);
+                    let idExp = baseDades[posArray]["idExp"];
+                    
+                    deleteExp(idExp);
             })
-        }
+        });
+        /////////////////////////////////////////////////////////////////
+        //         AÑADE ADDLISTENERS A TODA LA CLASE REPORTAR         //
+        /////////////////////////////////////////////////////////////////
+        document.querySelectorAll(".reportar").forEach(experencia => {
+            experencia.addEventListener("click", function(e) {
+                    // console.info(e.target);
+                    // console.info(e.target.id);
+                    let posArray = e.target.getAttribute("posicion");
+                    // console.info(posArray);
+                    let idExp = baseDades[posArray]["idExp"];
+                    
+                    reportarExp(idExp);
+            })
+        });
+        
     }
     //////// Finish Print Experiencies Jordi
 
+    //////////////////// Start Nova Experiencia Jordi
+    // Printar formulari
+    //////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //            AXIOS QUE MODIFICA LOS LIKES Y DISLIKES UNA EXPERIENCIA           //
+    //////////////////////////////////////////////////////////////////////////////////
     function updateLikes (idUsu, likes, dislikes) {
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateLikes.php",{
             params: {
@@ -126,7 +174,49 @@ var moduleExperiencia = (function () {
             }
         })
         .then(function (respuesta){
-            console.log(respuesta);
+            // console.log(respuesta);
+            if (respuesta.data.status=="FAIL") {
+                alert("ERROR, TE HAS EQUIVODADO");
+            } else {
+                extraerExperiencias();
+            }
+        })
+    }
+    //////////////////////////////////////////////////////////////////////////////////
+    //                   AXIOS QUE ELIMINA UNA EXPERIENCIA                          //
+    //////////////////////////////////////////////////////////////////////////////////
+    function deleteExp (idUsu) {
+        //////////////////////////////////////////
+    /// SUBIR FICHERO deleteExp.php al labs ///
+        /////////////////////////////////////////
+        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/deleteExp.php",{
+            params: {
+                idUsu: idUsu
+            }
+        })
+        .then(function (respuesta){
+            // console.log("RESPUESTA DELETEEXP: "+respuesta.data);
+            if (respuesta.data.status=="FAIL") {
+                alert("ERROR, TE HAS EQUIVODADO");
+            } else {
+                extraerExperiencias();
+            }
+        })
+    }
+    //////////////////////////////////////////////////////////////////////////////////
+    //                   AXIOS QUE REPORTARA UNA EXPERIENCIA                        //
+    //////////////////////////////////////////////////////////////////////////////////
+    function reportarExp (idUsu) {
+        //////////////////////////////////////////
+    /// SUBIR FICHERO reportarExp.php al labs ///
+        /////////////////////////////////////////
+        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/reportarExp.php",{
+            params: {
+                idUsu: idUsu
+            }
+        })
+        .then(function (respuesta){
+            // console.log("RESPUESTA REPORTAREXP: "+respuesta.data);
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {

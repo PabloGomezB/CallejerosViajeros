@@ -149,7 +149,6 @@ window.onload = function () {
                         else{
                             logeado = true;
                             emailUserLogeado = respuesta.data.email;
-                            console.log(idUserLogeado);
                             transformarSidebar();
                             moduleExperiencia.extraerExperiencias();
                         }
@@ -209,7 +208,6 @@ window.onload = function () {
                         // document.getElementById("div").innerHTML = `id: ${respuesta2.data.id}<br>Email: ${respuesta2.data.email}<br>Password: ${respuesta2.data.password}<br>SESSION: ${respuesta2.data.SESSION}`;
                         logeado = true;
                         emailUserLogeado = respuesta2.data.email;
-                        console.log(idUserLogeado);
                         transformarSidebar();
                         moduleExperiencia.extraerExperiencias();
                     }
