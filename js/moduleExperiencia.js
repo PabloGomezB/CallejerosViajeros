@@ -46,11 +46,10 @@ var moduleExperiencia = (function () {
                 htmlExperiences += `<p class="number">${element.dislikes}</p>`;
                 htmlExperiences += '</div>';
                 
-                // if (USUARIO == PROPIETARIO EXP) {
+                // if (USUARIO == PROPIETARIO EXP || USUARIO == ADMIN ) {
                         htmlExperiences += `<buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
+                        htmlExperiences += `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>`;
                 // }
-                
-                htmlExperiences += `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>`;
                 htmlExperiences += `<buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>`;
                 htmlExperiences += '</div>';
                 htmlExperiences += '</div>';
@@ -58,6 +57,9 @@ var moduleExperiencia = (function () {
             }
         });
         htmlExperiences += '</div>';
+
+
+        //BOTON NOVA EXPERIENCIA
         htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
         // document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlExperiences);
         document.getElementById("content").innerHTML=htmlExperiences;
@@ -225,8 +227,34 @@ var moduleExperiencia = (function () {
         })
     }
 
+    function ananirExp (novaExp) {
+        axios.get("./database/experiencias/ananirExp.php",{
+            params: {
+                titol: novaExp["titol"],
+                data: novaExp["data"],
+                text: novaExp["text"],
+                imatge: novaExp["imatge"],
+                coordenades: novaExp["coordenades"],
+                categoria: novaExp["categoria"],
+                likes: novaExp["likes"],
+                dislikes: novaExp["dislikes"],
+                estat: novaExp["estat"]
+            }
+        })
+        .then(function (respuesta){
+            // console.log("RESPUESTA REPORTAREXP: "+respuesta.data);
+            if (respuesta.data.status=="FAIL") {
+                alert("ERROR, TE HAS EQUIVODADO");
+            } else {
+                extraerExperiencias();
+            }
+        })
+
+    } 
+
     return {
-        extraerExperiencias: extraerExperiencias
+        extraerExperiencias: extraerExperiencias, 
+        ananirExp : ananirExp
     };
 
 })();

@@ -84,4 +84,16 @@ class Experiencia extends DBAbstractModel {
 		}
 	}
 
+	public function ananirExp($nuevaExp) {
+		$titol = $nuevaExp["titol"];
+		$text = $nuevaExp["text"];
+		$imatge = $nuevaExp["imatge"];
+		$coordenades = $nuevaExp["coordenades"];
+		$idCat = $nuevaExp["idCat"];
+		$username = $nuevaExp["username"];
+
+		$this->query = `INSERT INTO Experiencia VALUES ("")`;
+		$this->execute_single_query($this->query);
+	}
+
 }

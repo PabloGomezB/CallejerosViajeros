@@ -81,14 +81,9 @@ window.onload = function () {
         let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
         
         let maxBaseDades = parseInt(baseDades.length);
-        console.info("1o "+maxBaseDades);
         if (maxBaseDades < 5){
-            console.info("ENTRO");
-            console.info("2o "+maxBaseDades);
             maxBaseDades = maxBaseDades-5;
-            console.info("3o "+maxBaseDades);
         }
-        console.info("4o "+maxBaseDades);
 
         let top = 0;
         for (let i = parseInt(baseDades.length)-1; top < 5; i--) {
@@ -321,6 +316,7 @@ window.onload = function () {
             // console.log(imatge);
 
             let experiencia = [testInput(titol), data, testInput(text), categoria(), imatge];
+            // console.info(experiencia);
             return experiencia;
         }
     }
@@ -333,11 +329,9 @@ window.onload = function () {
         novaExperiencia['data'] = data;
         novaExperiencia['text'] = text;
         novaExperiencia['imatge'] = imatge;
-        novaExperiencia['coordenades'] = '0, 0';
         novaExperiencia['categoria'] = categoria;
-        novaExperiencia['likes'] = 0;
-        novaExperiencia['dislikes'] = 0;
-        novaExperiencia['estat'] = 'esborrany';
+        // novaExperiencia['username'] =
+
         return novaExperiencia;
     }
 
@@ -357,9 +351,13 @@ window.onload = function () {
         if(e.target && e.target.id == 'btnCrearExp'){
             if (validateForm()) {
                 let experiencia = validateForm();
+                
                 console.log(expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4]));
                 document.getElementById("formNewExp").style.display = "none";
                 document.getElementById("newExp").disabled = false;
+
+                /*LLAMAR AXIOS NUEVA EXPERIENCIA*/
+                moduleExperiencia.ananirExp(experiencia);
             }
         }
     });
