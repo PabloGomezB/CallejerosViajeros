@@ -4,14 +4,11 @@
     align-items: stretch;
 }
 
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
-}
-
 #sidebar.active {
-    margin-left: -250px;
+    /*
+    El margen negativo tiene que ser proporcional a los px del borde
+    */
+    margin-left: -150px;
 }
 
 a[data-toggle="collapse"] {
@@ -61,10 +58,15 @@ a, a:hover, a:focus {
 }
 
 #sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
     /* don't forget to add all the previously mentioned styles here too */
-    background: #227fd6;
+    background: #04aef0;
+    /* background: #227fd6; */
     color: #fff;
     transition: all 0.3s;
+    border-right: 100px solid #04aef0;
 }
 
 #sidebar .sidebar-header {

@@ -22,7 +22,8 @@
     text-align: center;
 }
 
-.content{
+#content{
+    padding: 100px;
     min-height: 100vh;
     min-width: 100vh;
 }
@@ -33,6 +34,59 @@
     margin-top: 350px;
     padding: 50px;
 }
+
+.pulpito{
+    width: 100px;
+    margin-left: -60px;
+}
+
+.borderText{
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    position: absolute;
+    margin-left: 150px;
+    font-size: 80px;
+    color: #30323b;
+    height: max-content;
+    overflow: hidden;
+    margin-top: 60px;
+    /* display: none; */
+}
+
+.fade-out {
+    opacity: 0;
+    animation-name: fadeOut;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.3s;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.fade-in {
+    opacity: 1;
+    animation-name: fadeIn;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.3s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 
 /**********************************/
 
@@ -100,7 +154,18 @@
 }
 
 /******************************************/
+
+/* .card-container{
+    margin-left: 50px;
+} */
+
+.tarjeta{
+    margin-left: 50px;
+    margin-right:35px;
+}
+
 /* EXPERIENCIAS */
+/*
 .grid {
     display: grid;
     grid-template-columns: 350px 350px 350px;
@@ -173,3 +238,4 @@
 #newExp{
     margin-top: 5%;
 }
+*/

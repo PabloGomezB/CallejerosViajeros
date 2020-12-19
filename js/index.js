@@ -1,35 +1,61 @@
 window.onload = function () {
-
+    
     var logeado = false;
     var username = "";
     var isAdmin = false;
 
     // Esta funcion gestiona el comportamiento del sidebar
-    $(document).ready(function () {
-        // $('#sidebar').toggleClass('active');
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
-        $("#dropDownLogin").click();
-        // $('#desplegableLogin').removeClass('collapse');
+    // $('.borderText').hide();
+    // $('#sidebar').toggleClass('active');
+    $("#dropDownLogin").click();
+    $('#sidebarCollapse').on('click', function () {
+        if($('#sidebar').hasClass("active")){
+            $('.borderText').removeClass('fade-in');
+            $('.borderText').addClass('fade-out');
+            setTimeout(function(){$('#sidebar').css("border-right","90px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","80px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","70px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","60px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","50px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","40px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","30px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","20px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","10px solid #04aef0");}, 100);
+            setTimeout(function(){$('#sidebar').css("border-right","0px solid #04aef0");}, 100);
+        }
+        else{
+            $('.borderText').removeClass('fade-out');
+            $('.borderText').addClass('fade-in');
+            $('#sidebar').css("border-right","100px solid #04aef0");
+        }
+        $('#sidebar').toggleClass('active');
     });
+
+    // $('#sidebarCollapse').click();
+    // $("#dropDownLogin").click();
+    // $("#email").focus();
+    // $('#desplegableLogin').removeClass('collapse');
+   
+
 
     // Estas dos funciones resetean los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
     document.getElementById("dropDownLogin").addEventListener("click", function(){
-        $("#dropDownRegistro").click();
+        // $("#dropDownRegistro").click();
         let formRegistro = document.querySelector("#formRegistro");
         formRegistro.querySelectorAll("input.form-control").forEach(input => {
             input.value = ``;
         })
         formRegistro.querySelector(".checkboxPass").checked = false;
+        document.getElementById("email").focus();
     })
     document.getElementById("dropDownRegistro").addEventListener("click", function(){
-        $("#dropDownLogin").click();
+        // $("#dropDownLogin").click();
         let formLogin = document.querySelector("#formLogin");
         formLogin.querySelectorAll("input.form-control").forEach(input => {
             input.value = ``;
         })
         formLogin.querySelector(".checkboxPass").checked = false;
+        document.getElementById("nom").focus();
     })
 
     // Aqui se añade la funcionalidad de enviar los formularios presionando ENTER en cada uno de los campos existentes
