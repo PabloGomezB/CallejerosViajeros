@@ -15,6 +15,7 @@
 .form{
     margin: auto auto;
     width: 90%;
+    z-index: 99;
 }
 
 .login{
@@ -51,6 +52,21 @@
     overflow: hidden;
     margin-top: 60px;
     /* display: none; */
+    cursor: default;
+}
+
+.borderTextLogeado{
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    position: absolute;
+    margin-left: 150px;
+    font-size: 80px;
+    color: #30323b;
+    height: max-content;
+    overflow: hidden;
+    margin-top: 60px;
+    /* display: none; */
+    cursor: default;
 }
 
 .fade-out {

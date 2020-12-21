@@ -4,14 +4,22 @@ window.onload = function () {
     var username = "";
     var isAdmin = false;
 
+    // $('#sidebar').css("border-right","100px solid #04aef0");
     // Esta funcion gestiona el comportamiento del sidebar
     // $('.borderText').hide();
     // $('#sidebar').toggleClass('active');
     $("#dropDownLogin").click();
     $('#sidebarCollapse').on('click', function () {
         if($('#sidebar').hasClass("active")){
+            // add fade-out para el texto de border antes del login
             $('.borderText').removeClass('fade-in');
             $('.borderText').addClass('fade-out');
+
+            // add fade-out para el texto del border logeado
+            $('.borderTextLogeado').removeClass('fade-in');
+            $('.borderTextLogeado').addClass('fade-out');
+
+            // "animacion" para quitar el border cada vez que se esconde el sidebar
             setTimeout(function(){$('#sidebar').css("border-right","90px solid #04aef0");}, 100);
             setTimeout(function(){$('#sidebar').css("border-right","80px solid #04aef0");}, 100);
             setTimeout(function(){$('#sidebar').css("border-right","70px solid #04aef0");}, 100);
@@ -22,10 +30,22 @@ window.onload = function () {
             setTimeout(function(){$('#sidebar').css("border-right","20px solid #04aef0");}, 100);
             setTimeout(function(){$('#sidebar').css("border-right","10px solid #04aef0");}, 100);
             setTimeout(function(){$('#sidebar').css("border-right","0px solid #04aef0");}, 100);
+            
+            // setTimeout para ocultar el texto para que el cursor no lo detecte y se pueda hacer click en los inputs
+            // 400 de tiempo porque tarda 0.3s en hacer el efecto de fade-out, sino se iría de golpe antes de que termine la animacion
+            setTimeout(function(){$('.borderText').css("display","none");}, 400);
         }
         else{
+            // add fade-in para el texto de border antes del login
             $('.borderText').removeClass('fade-out');
             $('.borderText').addClass('fade-in');
+            setTimeout(function(){$('.borderText').css("display","initial");}, 100);
+
+            // add fade-in para el texto del border logeado
+            $('.borderTextLogeado').removeClass('fade-out');
+            $('.borderTextLogeado').addClass('fade-in');
+
+            // se restablece el border del sidebar cuando se esconde
             $('#sidebar').css("border-right","100px solid #04aef0");
         }
         $('#sidebar').toggleClass('active');
@@ -194,6 +214,7 @@ window.onload = function () {
             });
         }
     })
+    
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
     // REGISTER
@@ -263,11 +284,20 @@ window.onload = function () {
     //////////////////////////////////////////////////////////////////////////////////
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar(){
+
+        // Esconder el sidebar y añadir el border
         $('#sidebar').toggleClass('active');
-        let sidebar = document.getElementById("sidebar");
-        // sidebar.innerHTML=``;
+        $('#sidebar').css("border-right","100px solid #04aef0");
+
+        // Construir la misma estructura para añadir texto al border
         document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
-        sidebar.innerHTML = `<button onClick="window.location.reload();">LOGOUT!</button>`;
+        sidebar.innerHTML = `
+        <span class="borderTextLogeado">
+            Opciones
+        </span>
+        <button onClick="window.location.reload();">LOGOUT!</button>`;
+
+        // Si es admin saldrá el boton de admin y logout, sino solo logout
         if(isAdmin){
             let sidebarAdmin =
             `<button>Bienvenido admin!</button>`;
@@ -278,6 +308,8 @@ window.onload = function () {
             `<button>tu no eres admin pendejo</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
         }
+
+        
     }
 
 }

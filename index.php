@@ -33,11 +33,19 @@
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar" class="active">
+
             <span class="borderText">
                 <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">    
                 Login / registro
                 <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">
             </span>
+
+            <!-- <span class="borderTextLogeado"> -->
+                <!-- <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">     -->
+                <!-- Opciones -->
+                <!-- <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito"> -->
+            <!-- </span> -->
+
             <ul class="list-unstyled components">
                 <li class="active">
                     <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle sidebar-header">Login</a>
