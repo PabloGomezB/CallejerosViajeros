@@ -154,17 +154,13 @@ var moduleCategoria = (function () {
     // Crear Stringify
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
-    function expToJson(titol, data, text, categoria, imatge) {
+    function expToJson(titol, text, categoria, imatge) {
         let novaExperiencia = new Map();
         novaExperiencia['titol'] = titol;
-        novaExperiencia['data'] = data;
         novaExperiencia['text'] = text;
         novaExperiencia['imatge'] = imatge;
         novaExperiencia['coordenades'] = '0, 0';
         novaExperiencia['categoria'] = categoria;
-        novaExperiencia['likes'] = 0;
-        novaExperiencia['dislikes'] = 0;
-        novaExperiencia['estat'] = 'esborrany';
         return novaExperiencia;
     }
 

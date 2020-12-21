@@ -227,9 +227,9 @@ window.onload = function () {
     // Nova Experiencia
     document.addEventListener('click',function(e){
         if(e.target && e.target.id == 'newExp'){
-            // creatFormExp();
             document.getElementById("newExp").disabled = true;
             moduleCategoria.extraerCategorias(username);
+            // moduleCategoria.anadirExp()
         }
     });
 

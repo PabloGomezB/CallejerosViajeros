@@ -86,7 +86,7 @@ var moduleExperiencia = (function () {
         }
 
         /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE         //
+        //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE             //
         /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".like").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
@@ -103,7 +103,7 @@ var moduleExperiencia = (function () {
             })
         });
         /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE DISLIKE         //
+        //         AÑADE ADDLISTENERS A TODA LA CLASE DISLIKE          //
         /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".dislike").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
@@ -120,7 +120,7 @@ var moduleExperiencia = (function () {
             })
         });
         /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE EDITAR         //
+        //         AÑADE ADDLISTENERS A TODA LA CLASE EDITAR           //
         /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".editar").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
@@ -229,18 +229,15 @@ var moduleExperiencia = (function () {
         })
     }
 
-    function ananirExp (novaExp) {
-        axios.get("./database/experiencias/ananirExp.php",{
+    function anadirExp (novaExp) {
+        axios.get("./database/experiencias/anadirExp.php",{
             params: {
                 titol: novaExp["titol"],
-                data: novaExp["data"],
                 text: novaExp["text"],
                 imatge: novaExp["imatge"],
                 coordenades: novaExp["coordenades"],
-                categoria: novaExp["categoria"],
-                likes: novaExp["likes"],
-                dislikes: novaExp["dislikes"],
-                estat: novaExp["estat"]
+                idCat = $nuevaExp["idCat"],
+                username = $nuevaExp["username"]
             }
         })
         .then(function (respuesta){
@@ -252,11 +249,11 @@ var moduleExperiencia = (function () {
             }
         })
 
-    } 
+    }
 
     return {
         extraerExperiencias: extraerExperiencias, 
-        ananirExp : ananirExp
+        anadirExp : anadirExp
     };
 
 })();
