@@ -39,21 +39,7 @@ var moduleExperiencia = (function () {
                             <img src="./img/experiencias/${element.imatge}" style="height:200px" class="card-img-top" alt="${element.imatge}">
                             <div class="card-body">
                                 <h5 class="card-title">${element.titol}</h5>
-                                <p class="card-text">${element.text}</p>
-                                <p class="number">${element.likes}</p>
-                                <buttom posicion="${index}" id="like${index}" class="btn btn-primary like">Like</buttom>
-                                <div class="divDis">
-                                    <buttom posicion="${index}" id="dislike${index}" class="btn btn-primary dislike">Dislike</buttom>
-                                    <p class="number">${element.dislikes}</p>
-                                </div>`;
-                if (isAdmin || (username == element.username)){
-                    htmlExperiences +=
-                                `<buttom posicion="${index}" id="eliminar${index}" class="btn btn-primary a eliminar">Eliminar</buttom>
-                                <buttom posicion="${index}" id="editar${index}" class="btn btn-primary a editar">Editar</buttom>`;
-                }
-
-                htmlExperiences +=
-                                `<buttom posicion="${index}" id="reportar${index}" class="btn btn-primary b reportar">Reportar</buttom>
+                                <p class="card-data">${element.data}</p>
                             </div>
                         </div>
                     </div>`;
@@ -70,6 +56,8 @@ var moduleExperiencia = (function () {
         // Apagar Lasts experiencies
         // document.getElementById("ultimesExperiencies").style.display = 'none';
         // Activar i desactivar cards
+
+/*
         for (let i = 0; i < document.getElementsByClassName("card").length; i++) {
             document.getElementsByClassName("card-img-top")[i].addEventListener("click", function(e){
                 for (let j = 0; j < document.getElementsByClassName("card-body").length; j++) {
@@ -85,6 +73,7 @@ var moduleExperiencia = (function () {
                 }
             })
         }
+*/
 
         /////////////////////////////////////////////////////////////////
         //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE         //
