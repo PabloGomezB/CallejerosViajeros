@@ -34,9 +34,9 @@ var moduleExperiencia = (function () {
             if (element.estat == 'publicada') {
                 // console.info(element.imatge);
                 htmlExperiences +=
-                    `<div class="col-sm-12 col-md-6 col-lg-3" style="padding: 40px 40px;">
-                        <div class="card">
-                            <img src="./img/experiencias/${element.imatge}" style="height:200px" class="card-img-top" alt="${element.imatge}">
+                    `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
+                        <div id="${element.idExp}" class="card">
+                            <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
                             <div class="card-body">
                                 <h5 class="card-title">${element.titol}</h5>
                                 <p class="card-data">${element.data}</p>
@@ -56,6 +56,49 @@ var moduleExperiencia = (function () {
         // Apagar Lasts experiencies
         // document.getElementById("ultimesExperiencies").style.display = 'none';
         // Activar i desactivar cards
+
+        document.querySelectorAll(".card").forEach(card => {
+            card.addEventListener("click", function(e) {
+                // Crear modal dinamicamente
+                let idCard = card.getAttribute("id");
+                let infoSelectedExp;
+
+                baseDades.forEach(experiencia => {
+                    if(experiencia.idExp == idCard){
+                        infoSelectedExp = experiencia;
+                    }
+                    
+                });
+
+                let modal =
+                `<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">${infoSelectedExp.titol}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Popover in a modal</h5>
+                            <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
+                            <hr>
+                            <h5>Tooltips in a modal</h5>
+                            <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> have tooltips on hover.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>`
+
+                document.getElementById("divModal").innerHTML = modal;
+                $('#modal').modal()
+            })
+        });
 
 /*
         for (let i = 0; i < document.getElementsByClassName("card").length; i++) {

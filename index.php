@@ -78,8 +78,9 @@
             </div>
 
         </div>
-    
-    </div>
+
+        <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 60)-->
+        <div id="divModal"></div>
     
     <script src="./js/moduleExperiencia.js"></script>
     <script src="./js/moduleCategoria.js"></script>
