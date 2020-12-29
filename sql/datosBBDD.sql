@@ -54,7 +54,7 @@ CREATE TABLE `Experiencia` (
   `idExp` int(11) NOT NULL,
   `titol` varchar(200) NOT NULL,
   `data` varchar(30) NOT NULL,
-  `text` varchar(300) NOT NULL,
+  `text` MEDIUMTEXT NOT NULL,
   `imatge` varchar(50) NOT NULL,
   `coordenades` varchar(100) NOT NULL,
   `likes` int(11) NOT NULL,
@@ -70,16 +70,16 @@ CREATE TABLE `Experiencia` (
 --
 
 INSERT INTO `Experiencia` (`idExp`, `titol`, `data`, `text`, `imatge`, `coordenades`, `likes`, `dislikes`, `estat`, `idCat`, `username`, `reportat`) VALUES
-(1, 'Viatge Albania, Kosovo i Macedonia en grup. Nadal', '0000-00-00', 'blabla albania, kosovo i macedonia', 'imgAlbania.jpg', '40.724327, 19.586418', 4, 10, 'publicada', 4, 'admin', 0),
-(2, 'Viatge Tanzania Safari Nord i Natron. Nadal', '0000-00-00', 'blabla tanzania', 'imgTanzania.jpg', '-2.450819, 32.902157', 9, 9, 'publicada', 1, 'admin', 0),
-(3, 'Viatge Costa Rica en grup. Nadal', '0000-00-00', 'blabla costarica', 'imgCostarica.jpg', '9.381387, -84.145301', 10, 4, 'publicada', 5, 'admin', 0),
-(4, 'Viatge Liban Classic 10 Dies. Nadal', '0000-00-00', 'blabla liban', 'imgLiban.jpg', '33.902952, 35.492856', 15, 2, 'publicada', 4, 'admin', 0),
-(5, 'Viatge Emirats Arabs en grup. Nadal', '0000-00-00', 'blabla Emirats Arabs', 'imgEmiratsarabs.jpg', '24.490505, 54.352267', 2, 15, 'publicada', 5, 'admin', 0),
-(6, 'Liban Trekking 8 Dies. Nadal', '0000-00-00', 'blabla liban trekking', 'imgLibantreking.jpg', '34.438768, 36.012988', 15, 2, 'publicada', 2, 'admin', 0),
-(7, 'Viatge Grecia en grup. Nadal', '0000-00-00', 'blabla Grecia', 'imgGrecia.jpg', '37.971790, 23.726150', 13, 6, 'publicada', 4, 'admin', 0),
-(8, 'Viatge Serbia en grup. Ciutats i parcs de l\'antiga Iugoslavia. Nadal', '0000-00-00', 'blabla Serbia', 'imgSerbia.jpg', '44.817852, 20.445447', 2, 18, 'publicada', 4, 'admin', 0),
-(10, 'Viatge Sudan en grup. Nadal', '0000-00-00', 'blabla Sudan', 'imgSudan.jpg', '19.568996, 37.240980', 0, 0, 'esborrany', 1, 'admin', 0),
-(11, 'Viatge al Raval en grup. Nadal', '0000-00-00', 'blabla Raval sucks', 'imgRaval.jpg', '41.378704, 2.170521', 0, 0, 'rebutjada', 1, 'admin', 0);
+(1, 'Viatge Albania en grup', '2020-10-07', 'Es el pais de las sonrisas, de la amabilidad y de la tolerancia religiosa. He vuelto sorprendida y encantada. Solo espero y deseo que el turismo, que no tardara demasiado en acudir en masa, no les cambie. Sin duda, los albaneses son lo mejor del pais. Y eso es mucho decir teniendo en cuenta los paisajazos y rincones espectaculares que se cruzaran en tu camino.', 'Albania.jpg', '40.724327, 19.586418', 4, 10, 'publicada', 4, 'admin', 0),
+(2, 'Viatge Tanzania Safari Nord i Natron', '0000-00-00', 'blabla tanzania', 'Tanzania.jpg', '-2.450819, 32.902157', 9, 9, 'publicada', 1, 'admin', 0),
+(3, 'Viatge Costa Rica en grup', '0000-00-00', 'blabla costarica', 'CostaRica.jpg', '9.381387, -84.145301', 10, 4, 'publicada', 5, 'admin', 0),
+(4, 'Viatge Liban Classic 10 Dies', '0000-00-00', 'blabla liban', 'Libano.jpg', '33.902952, 35.492856', 15, 2, 'publicada', 4, 'admin', 0),
+(5, 'Viatge Emirats Arabs en grup', '0000-00-00', 'blabla Emirats Arabs', 'EmiratosArabes.jpg', '24.490505, 54.352267', 2, 15, 'publicada', 5, 'rafa', 0),
+(6, 'Liban Trekking 8 Dies', '0000-00-00', 'blabla liban trekking', 'Monte.jpg', '34.438768, 36.012988', 15, 2, 'publicada', 2, 'admin', 0),
+(7, 'Viatge Grecia en grup', '0000-00-00', 'blabla Grecia', 'Grecia.jpg', '37.971790, 23.726150', 13, 6, 'publicada', 4, 'admin', 0),
+(8, 'Viatge Serbia en grup', '0000-00-00', 'blabla Serbia', 'Serbia.jpg', '44.817852, 20.445447', 2, 18, 'publicada', 4, 'admin', 0),
+(10, 'Viatge Sudan en grup', '0000-00-00', 'blabla Sudan', 'Sudan.jpg', '19.568996, 37.240980', 0, 0, 'esborrany', 1, 'admin', 0),
+(11, 'Viatge al Raval en grup', '0000-00-00', 'blabla Raval sucks', 'Raval.jpg', '41.378704, 2.170521', 0, 0, 'rebutjada', 1, 'admin', 0);
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,8 @@ CREATE TABLE `Usuari` (
 --
 
 INSERT INTO `Usuari` (`nom`, `cognom`, `username`, `password`, `isAdmin`) VALUES
-('admin', 'admin', 'admin', 'admin', TRUE);
+('admin', 'admin', 'admin', 'admin', TRUE),
+('rafa', 'rafa', 'rafa', 'rafa', FALSE);
 
 --
 -- Índices para tablas volcadas
