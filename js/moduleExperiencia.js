@@ -1,8 +1,5 @@
 var moduleExperiencia = (function () {
 
-    // variable global que se usa para saber cual experiencia tenia abierta antes de dar like/dislike
-    var idExperienciaSeleccionada;
-
     // para llamar a esta funcion desde: el registro, updateLikes, updateDislikes....
     function extraerExperiencias(isAdmin, username){
 
@@ -54,7 +51,6 @@ var moduleExperiencia = (function () {
         htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
         // document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlExperiences);
         document.getElementById("content").innerHTML=htmlExperiences;
-
 
         /////////////////////////////////////////////////////////////////
         //   AÑADE LISTENERS A LAS CARDS Y CREA SU RESPECTIVO MODAL    //
@@ -152,7 +148,7 @@ var moduleExperiencia = (function () {
                         let likes = parseInt(infoSelectedExp.likes)+1;
                         let dislikes = parseInt(infoSelectedExp.dislikes);
                         
-                        updateLikes(idCard, likes, dislikes);
+                        updateLikes(idCard, likes, dislikes, isAdmin, username);
 
                         // todo esto para actualizar la info del modal
                         // Flujo: lo cierras, impides al usuario hacer clicks, y vuelvas a mostrar el model actualizado
@@ -270,7 +266,7 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //            AXIOS QUE MODIFICA LOS LIKES Y DISLIKES UNA EXPERIENCIA           //
     //////////////////////////////////////////////////////////////////////////////////
-    function updateLikes (idUsu, likes, dislikes) {
+    function updateLikes (idUsu, likes, dislikes, isAdmin, username) {
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateLikes.php",{
             params: {
                 idUsu: idUsu,
@@ -283,7 +279,7 @@ var moduleExperiencia = (function () {
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
-                extraerExperiencias();
+                extraerExperiencias(isAdmin, username);
             }
         })
     }
