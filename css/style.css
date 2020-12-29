@@ -174,8 +174,6 @@
 //       CLASES PARA LAS EXPERIENCIAS EN FORMA DE TARJETA      //
 /////////////////////////////////////////////////////////////////
 */
-
-
 .card-experiencia {
     -webkit-transform:scale(0.8); /*Webkit: Scale down image to 0.8x original size*/
     -moz-transform:scale(0.8); /*Mozilla scale version*/
@@ -187,9 +185,10 @@
     height: 100%;
     padding-right:0px;
     padding-left:0px;
+    cursor: pointer;
     /* height: 300px; */
 }
-    
+
 .card-experiencia:hover{
     -webkit-transform:scale(1.1); /*Webkit: Scale up image to 1.2x original size*/
     -moz-transform:scale(1.1); /*Mozilla scale version*/
@@ -204,6 +203,30 @@
     box-shadow: 0 0px #666;
     transform: translateY(10px);
 }
+
+.modal-content{
+    position: relative;
+
+}
+
+.modal-img{
+    max-width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+/*
+Esta clase ha sido creada para eliminar el mx-width que boostrap añade automaticamente a los popover
+De esta manera el popover será del mismo tamaño que se especifique en el mapa
+ver moduleExperiencia:99
+*/
+.btn-popover .popover{
+    max-width:none;
+}
+
+
 
 /* .card-container{
     margin-left: 50px;

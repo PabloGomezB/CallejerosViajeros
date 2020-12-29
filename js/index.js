@@ -177,7 +177,7 @@ window.onload = function () {
                     if (respuesta.data.status == "FAIL") {
                         Swal.fire({
                             title: "¿Tienes cuenta?",
-                            text: "El usuario y/o contraseña no coincide",
+                            text: "El usuario y/o contraseña no coinciden",
                             icon: "error",
                         });
                     } else {

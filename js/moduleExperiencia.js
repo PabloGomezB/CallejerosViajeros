@@ -23,7 +23,7 @@ var moduleExperiencia = (function () {
     }
 
     //////// Start Print Experiencies Jordi
-    function printExperiencies(baseDades,isAdmin, username) {
+    function printExperiencies(baseDades, isAdmin, username) {
         document.getElementById("content").innerHTML="";
         let htmlExperiences = `
             <h2 id="titolExperiencies">Experiencies</h2>
@@ -52,51 +52,106 @@ var moduleExperiencia = (function () {
         htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
         // document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlExperiences);
         document.getElementById("content").innerHTML=htmlExperiences;
-    
-        // Apagar Lasts experiencies
-        // document.getElementById("ultimesExperiencies").style.display = 'none';
-        // Activar i desactivar cards
 
+
+        /////////////////////////////////////////////////////////////////
+        //   AÑADE LISTENERS A LAS CARDS Y CREA SU RESPECTIVO MODAL    //
+        /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".card").forEach(card => {
             card.addEventListener("click", function(e) {
                 // Crear modal dinamicamente
                 let idCard = card.getAttribute("id");
                 let infoSelectedExp;
+                let mapa;
+                let existe = false;
 
                 baseDades.forEach(experiencia => {
                     if(experiencia.idExp == idCard){
+                        existe = true;
                         infoSelectedExp = experiencia;
+                        mapa = `<iframe src="http://maps.google.com/maps?q=${infoSelectedExp.coordenades}&t=k&z=7&output=embed&v=satellite" width="400px" height="400px" frameborder="0" style="border:0"></iframe>`
+                        return;
+                        
                     }
                     
                 });
 
-                let modal =
-                `<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">${infoSelectedExp.titol}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <h5>Popover in a modal</h5>
-                            <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
-                            <hr>
-                            <h5>Tooltips in a modal</h5>
-                            <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> have tooltips on hover.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                        </div>
-                    </div>
-                </div>`
+                if (existe === true){
 
-                document.getElementById("divModal").innerHTML = modal;
-                $('#modal').modal()
+                    // Funcion para que aparezca el popover de google maps (todo boostrap)
+                    // Mediante jQuery se consigue que aparezca el popover haciendo hover sobre el boton y se mantenga abierto en caso de explorar por el mapa
+                    // El comportamiento del hover se añade tanto al boton como al mapa
+                    // El set timeout es necesario para que el mapa se mantenga abierto al quitar el hover del boton
+                    $(function () {
+                        $('[data-toggle="popover"]').popover({
+                            html: true,
+                            trigger: "manual"
+                        })
+                        .on("mouseenter", function () {
+                            let _this = this;
+                            $(this).popover("show");
+                            $(".popover").on("mouseleave", function () {
+                                $(_this).popover('hide');
+                            });
+                        })
+                        .on("mouseleave", function () {
+                            let _this = this;
+                            setTimeout(function () {
+                                if (!$(".popover:hover").length) {
+                                    $(_this).popover("hide");
+                                }
+                            }, 200);
+                        });
+                    })
+
+                    let modal =
+                    `<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="display:block">
+                                    <h4 class="modal-title" id="exampleModalLongTitle">${infoSelectedExp.titol}</h4>
+                                    <img src="./img/experiencias/${infoSelectedExp.imatge}" class="modal-img" alt="${infoSelectedExp.imatge}">
+                                </div>
+                                <div class="modal-body">
+                                    <p>${infoSelectedExp.text}</p>                                   
+                                </div>
+                                <div class="modal-footer">
+
+                                    <div class="box_likes-dislikes">
+                                        <div class="">
+                                            <span>${infoSelectedExp.likes}</span>
+                                            <buttom posicion="${idCard}" id="like${idCard}" class="btn btn-primary like">Like</buttom>
+                                        </div>
+                                        <div class="">
+                                            <buttom posicion="${idCard}" id="dislike${idCard}" class="btn btn-primary dislike">Dislike</buttom>
+                                            <span class="number">${infoSelectedExp.dislikes}</span>
+                                        </div>
+                                    </div>`;
+                    if (isAdmin || (username == infoSelectedExp.username)){
+                            modal += `<button posicion="${idCard}" id="eliminar${idCard}" class="btn btn-primary a eliminar">Eliminar</button>
+                                    <button posicion="${idCard}" id="editar${idCard}" class="btn btn-primary a editar">Editar</button>`;
+                    }
+                        modal += `  <button posicion="${idCard}" id="reportar${idCard}" class="btn btn-primary b reportar">Reportar</button>
+                                    <div class="btn-popover">
+                                        <a tabindex="0" class="btn" role="button" data-toggle="popover" title="Google Maps" data-container=".btn-popover" data-content='${mapa}'>Google Maps
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                    console.log(mapa);
+                    document.getElementById("divModal").innerHTML = modal;
+                    $('#modal').modal();
+                }
+                else{
+                    Swal.fire({
+                        title: "¡VAYA!",
+                        html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Código de error:<br>infoSelectedExp is: "+infoSelectedExp,
+                        icon: "error",
+                    });
+                }
             })
         });
 
@@ -119,13 +174,13 @@ var moduleExperiencia = (function () {
 */
 
         /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE         //
+        //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE             //
         /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".like").forEach(experencia => {
             experencia.addEventListener("click", function(e) {
-                    // console.info(e.target);
-                    // console.info(e.target.id);
-                    // console.info(e.target.getAttribute("posicion"));
+                    console.info(e.target);
+                    console.info(e.target.id);
+                    console.info(e.target.getAttribute("posicion"));
                     
                     let posArray = e.target.getAttribute("posicion");
                     let idExp = baseDades[posArray]["idExp"];
