@@ -134,7 +134,6 @@ window.onload = function () {
 
         let top = 0;
         for (let i = parseInt(baseDades.length)-1; top < 5; i--) {
-            console.info(i);  
             let element = baseDades[i]["titol"];
             // console.info(element);
             htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;

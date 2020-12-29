@@ -1,5 +1,8 @@
 var moduleExperiencia = (function () {
 
+    // variable global que se usa para saber cual experiencia tenia abierta antes de dar like/dislike
+    var idExperienciaSeleccionada;
+
     // para llamar a esta funcion desde: el registro, updateLikes, updateDislikes....
     function extraerExperiencias(isAdmin, username){
 
@@ -7,7 +10,6 @@ var moduleExperiencia = (function () {
         })
         .then(function (respuesta){
 
-            console.log(respuesta);
             let baseDades = JSON.parse(respuesta.data);
             
             // console.log(baseDades);
@@ -64,6 +66,7 @@ var moduleExperiencia = (function () {
                 let infoSelectedExp;
                 let mapa;
                 let existe = false;
+                idExperienciaSeleccionada = idCard;
 
                 baseDades.forEach(experiencia => {
                     if(experiencia.idExp == idCard){
@@ -71,7 +74,6 @@ var moduleExperiencia = (function () {
                         infoSelectedExp = experiencia;
                         mapa = `<iframe src="http://maps.google.com/maps?q=${infoSelectedExp.coordenades}&t=k&z=7&output=embed&v=satellite" width="400px" height="400px" frameborder="0" style="border:0"></iframe>`
                         return;
-                        
                     }
                     
                 });
@@ -107,7 +109,7 @@ var moduleExperiencia = (function () {
                     let modal =
                     `<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
+                            <div id="modal-content" class="modal-content">
                                 <div class="modal-header" style="display:block">
                                     <h4 class="modal-title" id="exampleModalLongTitle">${infoSelectedExp.titol}</h4>
                                     <img src="./img/experiencias/${infoSelectedExp.imatge}" class="modal-img" alt="${infoSelectedExp.imatge}">
@@ -115,7 +117,7 @@ var moduleExperiencia = (function () {
                                 <div class="modal-body">
                                     <p>${infoSelectedExp.text}</p>                                   
                                 </div>
-                                <div class="modal-footer">
+                                <div id="modal-footer" class="modal-footer">
 
                                     <div class="box_likes-dislikes">
                                         <div class="">
@@ -141,9 +143,35 @@ var moduleExperiencia = (function () {
                             </div>
                         </div>
                     </div>`
-                    console.log(mapa);
+                    aux_modal = modal;
                     document.getElementById("divModal").innerHTML = modal;
                     $('#modal').modal();
+
+                    // Aqui llamas a las funciones que añaden los listeners a los botones (like, dislike...)
+                    document.getElementById(`like${idCard}`).addEventListener("click", function(e){
+                        let likes = parseInt(infoSelectedExp.likes)+1;
+                        let dislikes = parseInt(infoSelectedExp.dislikes);
+                        
+                        updateLikes(idCard, likes, dislikes);
+
+                        // todo esto para actualizar la info del modal
+                        // Flujo: lo cierras, impides al usuario hacer clicks, y vuelvas a mostrar el model actualizado
+                        $("*").css("pointer-events","none");
+                        $("*").css("cursor","not-allowed");
+                        document.getElementById("modal-footer").innerHTML=`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+
+                        setTimeout(function(){
+                            $("*").css("pointer-events","auto");
+                            $("*").css("cursor","default");
+                            // con "toggle" lo escondemos
+                            $('#modal').modal("toggle");
+                            // con click() simulamos el click en la experiencia que se estaba visualizando
+                            // Esto mosrtará la info actualizada ya que updateLikes() llama a la funcion extraerExperiencias() para obtener toda la info nueva
+                            // y a su vez esta llama a printExperiencies() que se encarga de printarlas todas de nuevo y crear el listener con su respectivo modal
+                            // entonces solo faltaria simular que el user ha clickado en la experiencia para que automaticamente aparezca con la nueva info
+                            document.getElementById(idCard).click();
+                        }, 2000);
+                    });
                 }
                 else{
                     Swal.fire({
@@ -155,23 +183,8 @@ var moduleExperiencia = (function () {
             })
         });
 
-/*
-        for (let i = 0; i < document.getElementsByClassName("card").length; i++) {
-            document.getElementsByClassName("card-img-top")[i].addEventListener("click", function(e){
-                for (let j = 0; j < document.getElementsByClassName("card-body").length; j++) {
-                    if (j != i) {
-                        document.getElementsByClassName("card-body")[j].style.display = "none";
-                    }
-                }
-        
-                if (document.getElementsByClassName("card-body")[i].style.display == "block") {
-                    document.getElementsByClassName("card-body")[i].style.display = "none";
-                } else {
-                document.getElementsByClassName("card-body")[i].style.display = "block";
-                }
-            })
-        }
-*/
+        // funcion para que aparezca otra vez el modal con la info actualziada despues de haber dado click en like/dislike
+        // document.getElementById(idExperienciaSeleccionada).click();
 
         /////////////////////////////////////////////////////////////////
         //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE             //
