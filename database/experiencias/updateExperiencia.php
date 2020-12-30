@@ -5,7 +5,5 @@ require_once('../Experiencia.php');
 
 $exp = new Experiencia ();
 $response = $exp->updateExperiencia($_REQUEST['idCard'], $_REQUEST['newTitulo'], $_REQUEST['newFecha'], $_REQUEST['newTexto'], $_REQUEST['newImg']);
-// $experiencias = $exp->mostrarTot();
-// echo json_encode($experiencias);
 echo $response;
 ?>

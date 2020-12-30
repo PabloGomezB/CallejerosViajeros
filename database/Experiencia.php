@@ -80,8 +80,8 @@ class Experiencia extends DBAbstractModel {
 	}
 
 
-	public function deleteExp($idExp = "") {
-		$this->query = "DELETE FROM Experiencia WHERE idExp ='$idExp'";
+	public function eliminarExperiencia($idCard) {
+		$this->query = "DELETE FROM Experiencia WHERE idExp ='$idCard'";
 		$this->execute_single_query($this->query);
 	}
 

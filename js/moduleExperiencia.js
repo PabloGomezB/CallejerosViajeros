@@ -211,7 +211,52 @@ var moduleExperiencia = (function () {
                             updateExperiencia(idCard,newTitulo,newFecha,newTexto,newImg,isAdmin, username);
                             updateModalView(idCard);
                         });
+                    });
 
+                    // ELIMINAR
+                    document.getElementById(`eliminar${idCard}`).addEventListener("click", function(e){
+
+                        let modalConfirmDialog =`
+                        <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" style="margin-left:auto;margin-right:auto;" id="myModalLabel">¿Eliminar?</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Esta accion no se puede revertir.<br>¿Seguro que desea eliminar la exepriencia?</p>
+                                    
+                                        <div style="margin-left:25%;">
+                                            <button type="button" class="btn btn-secondary" id="modal-btn-si" style="margin-right:20%;">Si</button>
+                                            <button type="button" class="btn btn-danger" id="modal-btn-no">No</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+
+                        document.getElementById("divModalConfirm").innerHTML = modalConfirmDialog;
+                        $("#modalConfirm").modal();
+
+                        let modalConfirm = function (callback) {
+                            $("#modal-btn-si").on("click", function () {
+                                callback(true);
+                                $("#modalConfirm").modal('hide');
+                            });
+                            $("#modal-btn-no").on("click", function () {
+                                callback(false);
+                                $("#modalConfirm").modal('hide');
+                            });
+                        };
+
+                        modalConfirm(function (confirm) {
+                            if (confirm) {
+                                eliminarExperiencia(idCard,isAdmin, username);
+                                // Escondemos el modal de la experiencia que hemos eliminado
+                                $('#modal').modal('hide');
+                            }
+                        });
                     });
                 }
                 else{
@@ -307,28 +352,25 @@ var moduleExperiencia = (function () {
     }
 
 
-
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE ELIMINA UNA EXPERIENCIA                          //
     //////////////////////////////////////////////////////////////////////////////////
-    function deleteExp (idUsu) {
-        //////////////////////////////////////////
-        /// SUBIR FICHERO deleteExp.php al labs ///
-        /////////////////////////////////////////
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/deleteExp.php",{
+    function eliminarExperiencia(idCard,isAdmin,username) {
+
+        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/eliminarExperiencia.php",{
             params: {
-                idUsu: idUsu
+                idCard: idCard
             }
         })
         .then(function (respuesta){
-            // console.log("RESPUESTA DELETEEXP: "+respuesta.data);
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
-                extraerExperiencias();
+                extraerExperiencias(isAdmin,username);
             }
         })
     }
+
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE REPORTARA UNA EXPERIENCIA                        //
     //////////////////////////////////////////////////////////////////////////////////

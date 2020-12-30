@@ -4,7 +4,6 @@ header('Content-Type: text/html; charset-utf-8');
 require_once('../Experiencia.php');
 
 $exp = new Experiencia ();
-$exp->deleteExp($_REQUEST['idUsu']);
-$experiencias = $exp->mostrarTot();
-echo json_encode($experiencias);
+$response = $exp->eliminarExperiencia($_REQUEST['idCard']);
+echo $response;
 ?>
