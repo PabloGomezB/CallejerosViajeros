@@ -107,11 +107,12 @@ var moduleExperiencia = (function () {
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div id="modal-content" class="modal-content">
                                 <div class="modal-header" style="display:block">
-                                    <h4 class="modal-title" id="exampleModalLongTitle">${infoSelectedExp.titol}</h4>
-                                    <img src="./img/experiencias/${infoSelectedExp.imatge}" class="modal-img" alt="${infoSelectedExp.imatge}">
+                                    <h4 class="modal-title" id="titulo${idCard}">${infoSelectedExp.titol}</h4>
+                                    <img id="img${idCard}" src="./img/experiencias/${infoSelectedExp.imatge}" class="modal-img" alt="${infoSelectedExp.imatge}">
+                                    <p id="fecha${idCard}" style="float:right;color:grey;margin-bottom:-20px;margin-right:45px;">${infoSelectedExp.data}</p>
                                 </div>
-                                <div class="modal-body">
-                                    <p>${infoSelectedExp.text}</p>                                   
+                                <div id="modal-body" class="modal-body">
+                                    <p id="texto${idCard}">${infoSelectedExp.text}</p>                                   
                                 </div>
                                 <div id="modal-footer" class="modal-footer">
 
@@ -143,30 +144,74 @@ var moduleExperiencia = (function () {
                     document.getElementById("divModal").innerHTML = modal;
                     $('#modal').modal();
 
-                    // Aqui llamas a las funciones que añaden los listeners a los botones (like, dislike...)
+
+                    /////////////////////////////////////////////////////////////////
+                    //             LISTENERS (like/dislike/editar...)              //
+                    /////////////////////////////////////////////////////////////////
+
+                    // LIKE
                     document.getElementById(`like${idCard}`).addEventListener("click", function(e){
                         let likes = parseInt(infoSelectedExp.likes)+1;
                         let dislikes = parseInt(infoSelectedExp.dislikes);
                         
                         updateLikes(idCard, likes, dislikes, isAdmin, username);
+                        updateModalView(idCard);
+                    });
 
-                        // todo esto para actualizar la info del modal
-                        // Flujo: lo cierras, impides al usuario hacer clicks, y vuelvas a mostrar el model actualizado
-                        $("*").css("pointer-events","none");
-                        $("*").css("cursor","not-allowed");
-                        document.getElementById("modal-footer").innerHTML=`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+                    // DISLIKE
+                    document.getElementById(`dislike${idCard}`).addEventListener("click", function(e){
+                        let likes = parseInt(infoSelectedExp.likes);
+                        let dislikes = parseInt(infoSelectedExp.dislikes)+1;
+                        
+                        updateLikes(idCard, likes, dislikes, isAdmin, username);
+                        updateModalView(idCard);
+                    });
 
-                        setTimeout(function(){
-                            $("*").css("pointer-events","auto");
-                            $("*").css("cursor","default");
-                            // con "toggle" lo escondemos
-                            $('#modal').modal("toggle");
-                            // con click() simulamos el click en la experiencia que se estaba visualizando
-                            // Esto mosrtará la info actualizada ya que updateLikes() llama a la funcion extraerExperiencias() para obtener toda la info nueva
-                            // y a su vez esta llama a printExperiencies() que se encarga de printarlas todas de nuevo y crear el listener con su respectivo modal
-                            // entonces solo faltaria simular que el user ha clickado en la experiencia para que automaticamente aparezca con la nueva info
-                            document.getElementById(idCard).click();
-                        }, 2000);
+                    // EDITAR
+                    // Marca como editables el titulo, la fecha y el texto
+                    // Habilita la posibilidad de escribir en negrita e italica
+                    // Guarda todos los cambios y muestra la experiencia actualizada
+                    document.getElementById(`editar${idCard}`).addEventListener("click", function(e){
+                        document.getElementById(`editar${idCard}`).disabled = true;
+                        
+                        document.getElementById(`titulo${idCard}`).contentEditable = true;
+                        document.getElementById(`fecha${idCard}`).contentEditable = true;
+                        
+                        let textoExperiencia = document.getElementById(`texto${idCard}`);
+                        textoExperiencia.contentEditable = true;
+                        textoExperiencia.focus();
+                        
+                        let btnsModificarTexto = `<div style="display:flex;margin-left:auto;margin-right:auto;margin-top:5px;">
+                            <button id="bold" class="btn formatTextBtn" style="margin-right:100px;"><i class="fas fa-bold"></i></button>
+                            <button id="italic" class="btn formatTextBtn"><i class="fas fa-italic"></i></button>
+                            <button id="save" class="btn saveTextBtn"><i class="fas fa-save"></i></button>
+                        </div>`
+
+                        document.getElementById("modal-body").insertAdjacentHTML("beforebegin", btnsModificarTexto);
+
+                        document.getElementById("bold").addEventListener("click", function(e){
+                            document.getElementById("bold").classList.toggle("formatTextBtn-focus");
+                            document.execCommand('bold');
+                            textoExperiencia.focus();
+                        });
+                        document.getElementById("italic").addEventListener("click", function(e){
+                            document.getElementById("italic").classList.toggle("formatTextBtn-focus");
+                            document.execCommand('italic');
+                            textoExperiencia.focus();
+                        });
+                        document.getElementById("save").addEventListener("click", function(e){
+                            let newTitulo = document.getElementById(`titulo${idCard}`).textContent;
+                            let newFecha = document.getElementById(`fecha${idCard}`).textContent;
+                            let newTexto = document.getElementById(`texto${idCard}`).innerHTML;
+                            let newSrc = document.getElementById(`img${idCard}`).src;
+                            // Obtener solo el nombre de la imagen, no todo el src (el nombre se encuentra despues del ultimo "/")
+                            let n = newSrc.lastIndexOf('/');
+                            let newImg = newSrc.substring(n + 1);
+
+                            updateExperiencia(idCard,newTitulo,newFecha,newTexto,newImg,isAdmin, username);
+                            updateModalView(idCard);
+                        });
+
                     });
                 }
                 else{
@@ -179,54 +224,7 @@ var moduleExperiencia = (function () {
             })
         });
 
-        // funcion para que aparezca otra vez el modal con la info actualziada despues de haber dado click en like/dislike
-        // document.getElementById(idExperienciaSeleccionada).click();
 
-        /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE LIKE             //
-        /////////////////////////////////////////////////////////////////
-        document.querySelectorAll(".like").forEach(experencia => {
-            experencia.addEventListener("click", function(e) {
-                    console.info(e.target);
-                    console.info(e.target.id);
-                    console.info(e.target.getAttribute("posicion"));
-                    
-                    let posArray = e.target.getAttribute("posicion");
-                    let idExp = baseDades[posArray]["idExp"];
-                    let likes = parseInt(baseDades[posArray]["likes"])+1;
-                    let dislikes = parseInt(baseDades[posArray]["dislikes"]);
-        
-                    updateLikes(idExp, likes, dislikes);       
-            })
-        });
-        /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE DISLIKE         //
-        /////////////////////////////////////////////////////////////////
-        document.querySelectorAll(".dislike").forEach(experencia => {
-            experencia.addEventListener("click", function(e) {
-                // console.info(e.target);
-                // console.info(e.target.id);
-                // console.info(e.target.getAttribute("posicion"));
-                
-                let posArray = e.target.getAttribute("posicion");
-                let idExp = baseDades[posArray]["idExp"];
-                let likes = parseInt(baseDades[posArray]["likes"]);
-                let dislikes = parseInt(baseDades[posArray]["dislikes"])+1;
-    
-                updateLikes(idExp, likes, dislikes);       
-            })
-        });
-        /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE EDITAR         //
-        /////////////////////////////////////////////////////////////////
-        document.querySelectorAll(".editar").forEach(experencia => {
-            experencia.addEventListener("click", function(e) {
-                    // console.info(e.target);
-                    // console.info(e.target.id);
-                    let posArray = e.target.getAttribute("posicion");
-                    // console.info(posArray);
-            })
-        });
         /////////////////////////////////////////////////////////////////
         //         AÑADE ADDLISTENERS A TODA LA CLASE ELIMINAR         //
         /////////////////////////////////////////////////////////////////
@@ -283,12 +281,39 @@ var moduleExperiencia = (function () {
             }
         })
     }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //                   AXIOS QUE ACTUALIZA UNA EXPERIENCIA                        //
+    //////////////////////////////////////////////////////////////////////////////////
+    function updateExperiencia (idCard,newTitulo,newFecha,newTexto,newImg, isAdmin,username) {
+
+        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateExperiencia.php",{
+            params: {
+                idCard: idCard,
+                newTitulo: newTitulo,
+                newFecha: newFecha,
+                newTexto: newTexto,
+                newImg: newImg
+            }
+        })
+        .then(function (respuesta){
+            console.log("RESPUESTA UPDATE: "+respuesta.data);
+            if (respuesta.data=="FAILj") { // DA FAIL Y NO SE PORQUEEE QUE ESTA PASANDOOOOOOOOOO DA FAIL PERO LO GUARDA QUE LOCURA ES ESTAAAAAAAAAA. un pablo desesperado :)
+                alert("ERROR, TE HAS EQUIVODADO");
+            } else {
+                extraerExperiencias(isAdmin, username);
+            }
+        })
+    }
+
+
+
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE ELIMINA UNA EXPERIENCIA                          //
     //////////////////////////////////////////////////////////////////////////////////
     function deleteExp (idUsu) {
         //////////////////////////////////////////
-    /// SUBIR FICHERO deleteExp.php al labs ///
+        /// SUBIR FICHERO deleteExp.php al labs ///
         /////////////////////////////////////////
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/deleteExp.php",{
             params: {
@@ -349,7 +374,25 @@ var moduleExperiencia = (function () {
             }
         })
 
-    } 
+    }
+
+    // Esta funcion se llama justo despues de que un usuario modifique algo de las experiencias (modal)
+    // Funcionamiento: impides al usuario hacer clicks para que cierre el modal, insertas el gif de loading, setTimeout para asegurarnos de que se haya modificado
+    // la info en la DB y el axios haya obtenido la info actualizada, reseteas los clicks, cierras el modal viejo y simulas click sobre
+    // la experiencia previamente abierta para volverla a abrir automaticamente.
+    function updateModalView(idCard){
+        $("*").css("pointer-events","none");
+        $("*").css("cursor","not-allowed");
+        document.getElementById("modal-footer").innerHTML=`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+
+        setTimeout(function(){
+            $("*").css("pointer-events","auto");
+            $("*").css("cursor","default");
+            // con "toggle" cerramos el modal y con click() lo volvemos a abrir
+            $('#modal').modal("toggle");
+            document.getElementById(idCard).click();
+        }, 2000);
+    }
 
     return {
         extraerExperiencias: extraerExperiencias, 
