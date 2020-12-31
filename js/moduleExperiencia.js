@@ -1,17 +1,17 @@
 var moduleExperiencia = (function () {
 
-    // para llamar a esta funcion desde: el registro, updateLikes, updateDislikes....
+    // Esta es la funcion "madre" de todas las demas.
+    // Todas las funciones empiezan y terminan aqui.
+    // Esta funcion se encarga de obtener todas las experiencias de la BD y pasarlas a printExperiencies()
+    // printExperiencies() es la encargada de printarlas y añadir todos los listeners correspondientes
+    // ademas de crear el modal para la experiencia que el user haya seleccionado
     function extraerExperiencias(isAdmin, username){
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
         })
         .then(function (respuesta){
-
             let baseDades = JSON.parse(respuesta.data);
-            
-            // console.log(baseDades);
             printExperiencies(baseDades, isAdmin, username);
-        
         })
         .catch(function (error) {
             console.log(error);
@@ -21,7 +21,6 @@ var moduleExperiencia = (function () {
         });
     }
 
-    //////// Start Print Experiencies Jordi
     function printExperiencies(baseDades, isAdmin, username) {
         document.getElementById("content").innerHTML="";
         let htmlExperiences = `
@@ -108,30 +107,23 @@ var moduleExperiencia = (function () {
                             <div id="modal-content" class="modal-content">
                                 <div class="modal-header" style="display:block">
                                     <h4 class="modal-title" id="titulo${idCard}">${infoSelectedExp.titol}</h4>
+                                    <p id="fecha${idCard}" style="color:grey">${infoSelectedExp.data}</p>
                                     <img id="img${idCard}" src="./img/experiencias/${infoSelectedExp.imatge}" class="modal-img" alt="${infoSelectedExp.imatge}">
-                                    <p id="fecha${idCard}" style="float:right;color:grey;margin-bottom:-20px;margin-right:45px;">${infoSelectedExp.data}</p>
+                                    <div class="box_likes-dislikes">
+                                        <button id="dislike${idCard}" class="btn"><li class="fa fa-thumbs-down" style="color:red"></li><span style="margin-left:5px;">${infoSelectedExp.dislikes}</span></button>
+                                        <button id="like${idCard}" class="btn"><li class="fa fa-thumbs-up" style="color:green"></li><span style="margin-left:5px;">${infoSelectedExp.likes}</span></button>
+                                    </div>
                                 </div>
                                 <div id="modal-body" class="modal-body">
                                     <p id="texto${idCard}">${infoSelectedExp.text}</p>                                   
                                 </div>
                                 <div id="modal-footer" class="modal-footer">
-
-                                    <div class="box_likes-dislikes">
-                                        <div class="">
-                                            <span>${infoSelectedExp.likes}</span>
-                                            <buttom posicion="${idCard}" id="like${idCard}" class="btn btn-primary like">Like</buttom>
-                                        </div>
-                                        <div class="">
-                                            <buttom posicion="${idCard}" id="dislike${idCard}" class="btn btn-primary dislike">Dislike</buttom>
-                                            <span class="number">${infoSelectedExp.dislikes}</span>
-                                        </div>
-                                    </div>`;
+                                    <button id="reportar${idCard}" class="btn btn-warning reportar">Reportar</button>`
                     if (isAdmin || (username == infoSelectedExp.username)){
-                            modal += `<button posicion="${idCard}" id="eliminar${idCard}" class="btn btn-primary a eliminar">Eliminar</button>
-                                    <button posicion="${idCard}" id="editar${idCard}" class="btn btn-primary a editar">Editar</button>`;
+                            modal += `<button id="eliminar${idCard}" class="btn btn-danger eliminar">Eliminar</button>
+                                      <button id="editar${idCard}" class="btn btn-primary editar">Editar</button>`;
                     }
-                        modal += `  <button posicion="${idCard}" id="reportar${idCard}" class="btn btn-primary b reportar">Reportar</button>
-                                    <div class="btn-popover">
+                            modal += `<div class="btn-popover" style="display:block">
                                         <a tabindex="0" class="btn" role="button" data-toggle="popover" title="Google Maps" data-container=".btn-popover" data-content='${mapa}'>Google Maps
                                             <i class="fas fa-map-marker-alt"></i>
                                         </a>
@@ -215,7 +207,6 @@ var moduleExperiencia = (function () {
 
                     // ELIMINAR
                     document.getElementById(`eliminar${idCard}`).addEventListener("click", function(e){
-
                         let modalConfirmDialog =`
                         <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
@@ -258,6 +249,11 @@ var moduleExperiencia = (function () {
                             }
                         });
                     });
+
+                    // REPORTAR
+                    document.getElementById(`reportar${idCard}`).addEventListener("click", function(e){
+                        reportarExperiencia (idCard,isAdmin,username);
+                    })
                 }
                 else{
                     Swal.fire({
@@ -267,44 +263,9 @@ var moduleExperiencia = (function () {
                     });
                 }
             })
-        });
-
-
-        /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE ELIMINAR         //
-        /////////////////////////////////////////////////////////////////
-        document.querySelectorAll(".eliminar").forEach(experencia => {
-            experencia.addEventListener("click", function(e) {
-                    // console.info(e.target);
-                    // console.info(e.target.id);
-                    let posArray = e.target.getAttribute("posicion");
-                    // console.info(posArray);
-                    let idExp = baseDades[posArray]["idExp"];
-                    
-                    deleteExp(idExp);
-            })
-        });
-        /////////////////////////////////////////////////////////////////
-        //         AÑADE ADDLISTENERS A TODA LA CLASE REPORTAR         //
-        /////////////////////////////////////////////////////////////////
-        document.querySelectorAll(".reportar").forEach(experencia => {
-            experencia.addEventListener("click", function(e) {
-                    // console.info(e.target);
-                    // console.info(e.target.id);
-                    let posArray = e.target.getAttribute("posicion");
-                    // console.info(posArray);
-                    let idExp = baseDades[posArray]["idExp"];
-                    
-                    reportarExp(idExp);
-            })
-        });
-        
+        });        
     }
-    //////// Finish Print Experiencies Jordi
 
-    //////////////////// Start Nova Experiencia Jordi
-    // Printar formulari
-    //////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////////////////////////
     //            AXIOS QUE MODIFICA LOS LIKES Y DISLIKES UNA EXPERIENCIA           //
@@ -325,6 +286,12 @@ var moduleExperiencia = (function () {
                 extraerExperiencias(isAdmin, username);
             }
         })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -349,8 +316,13 @@ var moduleExperiencia = (function () {
                 extraerExperiencias(isAdmin, username);
             }
         })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
     }
-
 
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE ELIMINA UNA EXPERIENCIA                          //
@@ -369,30 +341,43 @@ var moduleExperiencia = (function () {
                 extraerExperiencias(isAdmin,username);
             }
         })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
     }
 
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE REPORTARA UNA EXPERIENCIA                        //
     //////////////////////////////////////////////////////////////////////////////////
-    function reportarExp (idUsu) {
-        //////////////////////////////////////////
-    /// SUBIR FICHERO reportarExp.php al labs ///
-        /////////////////////////////////////////
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/reportarExp.php",{
+    function reportarExperiencia (idCard,isAdmin,username) {
+
+        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/reportarExperiencia.php",{
             params: {
-                idUsu: idUsu
+                idCard: idCard
             }
         })
         .then(function (respuesta){
-            // console.log("RESPUESTA REPORTAREXP: "+respuesta.data);
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
-                extraerExperiencias();
+                extraerExperiencias(isAdmin,username);
             }
         })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////
+    // FALTA POR HACER
     function ananirExp (novaExp) {
         axios.get("./database/experiencias/ananirExp.php",{
             params: {
@@ -430,8 +415,9 @@ var moduleExperiencia = (function () {
         setTimeout(function(){
             $("*").css("pointer-events","auto");
             $("*").css("cursor","default");
-            // con "toggle" cerramos el modal y con click() lo volvemos a abrir
-            $('#modal').modal("toggle");
+            // Eliminamos el "fade" que hace el modal al fondo, lo escondemos, lo eliminamos del DOM y llamamos al modal de nuevo
+            $("#modal").removeClass('fade').modal('hide');
+            $('#modal').remove();
             document.getElementById(idCard).click();
         }, 2000);
     }

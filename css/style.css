@@ -179,6 +179,12 @@ p{
 //       CLASES PARA LAS EXPERIENCIAS EN FORMA DE TARJETA      //
 /////////////////////////////////////////////////////////////////
 */
+
+.tarjeta{
+    margin-left: 50px;
+    margin-right:35px;
+}
+
 .card-experiencia {
     -webkit-transform:scale(0.8); /*Webkit: Scale down image to 0.8x original size*/
     -moz-transform:scale(0.8); /*Mozilla scale version*/
@@ -211,15 +217,12 @@ p{
 
 .modal-content{
     position: relative;
-
 }
 
 .modal-img{
-    max-width: 80%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
+    width: 100%;  
+    height: auto;
+    border-radius: 5%;
 }
 
 /*
@@ -231,8 +234,8 @@ ver moduleExperiencia:99
     max-width:none;
 }
 
-
 .saveTextBtn{
+    margin-top: 10px;
     margin-left: 150px;
     width: 50px;
     padding: 0px;
@@ -240,6 +243,7 @@ ver moduleExperiencia:99
 }
 
 .formatTextBtn{
+    margin-top: 10px;
     width: 30px;
     padding: 0px;
 }
@@ -250,89 +254,16 @@ ver moduleExperiencia:99
 
 .formatTextBtn-focus {
     background-color: powderblue;
-  }
-
-/* .card-container{
-    margin-left: 50px;
-} */
-
-.tarjeta{
-    margin-left: 50px;
-    margin-right:35px;
 }
 
-/* EXPERIENCIAS */
-/*
-.grid {
-    display: grid;
-    grid-template-columns: 350px 350px 350px;
-    grid-gap: 8%;;
-    align-content: space-between;
-    justify-content: space-around;
-    margin-left: -2% auto;
-}
-
-.card {
-    width: 21rem;
-    margin-top: 10%;
-    margin-bottom: 5%;
-}
-
-.card-body {
-    display: none;
-    align-self: center;
-}
-
-.card-title {
-    text-align: center;
-}
-
-.number {
-    display: inline;
-}
-
-.divDis {
-    display: inline;
-    float: right;
-}
-
-.a {
-    margin-top: 10px;
-    width: 49%;
-}
-
-.b {
-    margin-top: 10px;
+.box_likes-dislikes{
     width: 100%;
+    display: flex;
+    margin-top: 5px;
+    justify-content: space-between;
+    margin-bottom: -10px;
 }
 
-#content{
-    width: 100%;
-    margin: 0 auto;
-    padding: 1em 3em;
+.modal-footer{
+    justify-content: space-between;
 }
-
-#enunciat{
-    font-size: 64px;
-    text-align: center;
-}
-
-.titolExperiencia>h2{
-    text-align: center;
-}
-
-#titolExperiencies{
-    font-size: 64px;
-    text-align: center;
-}
-
-.pExperiences{
-    text-align: justify;
-    margin: 5% auto;
-    font-size: 18px;
-}
-
-#newExp{
-    margin-top: 5%;
-}
-*/

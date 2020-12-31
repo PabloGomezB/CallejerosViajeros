@@ -61,11 +61,6 @@ class Experiencia extends DBAbstractModel {
 		}else{
 			return "OK";
 		}
-		// foreach ($userData as $property => $value)
-		//   $$property = $value;
-		// $this->query = "UPDATE experiencia SET likes='$likes', dislikes= '$dislikes'
-		// WHERE idExp='$idExp'";
-		// $this->execute_single_query($this->query);
 	}
 
 	public function updateExperiencia ($idExp,$newTitulo,$newFecha,$newTexto,$newImg){
@@ -79,15 +74,14 @@ class Experiencia extends DBAbstractModel {
 		}
 	}
 
-
 	public function eliminarExperiencia($idCard) {
 		$this->query = "DELETE FROM Experiencia WHERE idExp ='$idCard'";
 		$this->execute_single_query($this->query);
 	}
 
-	public function	reportarExp($idExp = "") {
+	public function	reportarExperiencia($idCard) {
 		$this->query = "UPDATE Experiencia SET reportat='1'
-        WHERE idExp='$idExp'";
+        WHERE idExp='$idCard'";
 		$exito = $this->execute_single_query($this->query);
 		if(!$exito){
 			return "FAIL";
