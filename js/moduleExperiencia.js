@@ -1,3 +1,17 @@
+/*
+PREGUNTAR AL PROFE:
+
+Como hacer para que el codigo js no se ejecute sin haber obtenido la respuesta de un axios
+Ejemplo: Cuando despues de mandar like pones el spiner y el setTimeout para que le de tiempo
+    El timeout es generico de 2 segundos... Si en dos segundos no ha hecho el axios
+    entonces no tendrá nueva info que mostrar
+
+    async/await¿?¿?
+*/
+
+
+
+
 var moduleExperiencia = (function () {
 
     // Esta es la funcion "madre" de todas las demas.
@@ -5,13 +19,50 @@ var moduleExperiencia = (function () {
     // Esta funcion se encarga de obtener todas las experiencias de la BD y pasarlas a printExperiencies()
     // printExperiencies() es la encargada de printarlas y añadir todos los listeners correspondientes
     // ademas de crear el modal para la experiencia que el user haya seleccionado
-    function extraerExperiencias(isAdmin, username){
+    function extraerExperiencias(isAdmin, username, categoria){
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
         })
         .then(function (respuesta){
             let baseDades = JSON.parse(respuesta.data);
-            printExperiencies(baseDades, isAdmin, username);
+
+            let desplegableBuscador = "null";
+            // Este axios es obligatorio para obtener las categorias y mostrarlas en el desplegable
+            // No he podido hacerlo de otro modo asincrono llamando a la funcion let categorias = moduleCategoria.extraerCategorias("null", true);
+            // ya que el codigo seguia ejecutandose y no daba tiempo a obtener las categorias
+            ////////////////////////////////////////////////////
+            axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
+            })
+            .then(function (response){
+                let categorias = JSON.parse(response.data);
+
+                desplegableBuscador = `
+                <div style="display:flex;justify-content:space-between;">
+                    <h2 id="titolExperiencies">Experiencias</h2>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categoria
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button id="Todas" class="dropdown-item btn-dropdown-categoria">Todas</button>`;
+                        categorias.forEach(categoria => {
+                            desplegableBuscador += `<button id="${categoria.nom}" class="dropdown-item btn-dropdown-categoria">${categoria.nom}</button>`;
+                        })
+                        desplegableBuscador+=`
+                        </div>
+                    </div>
+                </div>`;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+                printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria);
+            });
+            // Fin segundo axios
+            ////////////////////////////////////////////////////
+            // printExperiencies(baseDades, desplegableBuscador, isAdmin, username);
         })
         .catch(function (error) {
             console.log(error);
@@ -21,35 +72,73 @@ var moduleExperiencia = (function () {
         });
     }
 
-    function printExperiencies(baseDades, isAdmin, username) {
+    function printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria) {
+
         document.getElementById("content").innerHTML="";
-        let htmlExperiences = `
-            <h2 id="titolExperiencies">Experiencies</h2>
+        let htmlExperiences = desplegableBuscador;
+        let existeExperiencia = false;
+        let card;
+
+        htmlExperiences += `
             <div class="content-row tarjeta">
-                <div class="row">`; //class="grid"
-        let index = 0;
-        baseDades.forEach(element => {
-            if (element.estat == 'publicada') {
-                // console.info(element.imatge);
-                htmlExperiences +=
-                    `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
-                        <div id="${element.idExp}" class="card">
-                            <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
-                            <div class="card-body">
-                                <h5 class="card-title">${element.titol}</h5>
-                                <p class="card-data">${element.data}</p>
-                            </div>
-                        </div>
-                    </div>`;
-                index++;
+                <div class="row">`;
+        // IF: Entra cuando se muestran todas las experiencias
+        if (categoria == null || categoria == "Todas"){
+            card = setCard(baseDades, null);
+            if (card != "" || card != null){
+                htmlExperiences += card;
+                existeExperiencia = true;
             }
-        });
+        // ELSE: Entra cuando se filtra por categorias
+        // forEach para imprimir las cards de una en una segun si forma parte de la categoria o no
+        }else{
+            baseDades.forEach(element => {
+                if (element.estat == 'publicada'){
+                    if (element.nomCategoria == categoria) {
+                        card = setCard(baseDades, element.idExp);
+                        if (card != "" || card != null){
+                            htmlExperiences += card;
+                            existeExperiencia = true;
+                        }
+                    }
+                }
+            });
+        }
+
+        if (!existeExperiencia){
+            htmlExperiences += "NO EXISTEN EXPERIENCIAS";
+        }
+
         htmlExperiences +=
                 `</div>
             <div>`;
         htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
-        // document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlExperiences);
         document.getElementById("content").innerHTML=htmlExperiences;
+
+
+        /////////////////////////////////////////////////////////////////
+        //        LISTENERS A CADA CATEGORIA DEL DROPDOWN MENU         //
+        /////////////////////////////////////////////////////////////////
+        document.querySelectorAll(".btn-dropdown-categoria").forEach(dropDownItem => {
+            dropDownItem.addEventListener("click", function(e) {
+                // console.log(dropDownItem.id);
+                let categoria = dropDownItem.id;
+                $("*").css("pointer-events","none");
+                $("*").css("cursor","not-allowed");
+                document.getElementById("content").innerHTML=`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+
+                setTimeout(function(){
+                    $("*").css("pointer-events","auto");
+                    $("*").css("cursor","default");
+                    // Eliminamos el "fade" que hace el modal al fondo, lo escondemos, lo eliminamos del DOM y llamamos al modal de nuevo
+                    $("#modal").removeClass('fade').modal('hide');
+                    $('#modal').remove();
+                    extraerExperiencias(isAdmin, username, categoria);
+                    // mostrar vista filtrada
+                }, 2000);
+            })
+        });
+        
 
         /////////////////////////////////////////////////////////////////
         //   AÑADE LISTENERS A LAS CARDS Y CREA SU RESPECTIVO MODAL    //
@@ -107,7 +196,10 @@ var moduleExperiencia = (function () {
                             <div id="modal-content" class="modal-content">
                                 <div class="modal-header" style="display:block">
                                     <h4 class="modal-title" id="titulo${idCard}">${infoSelectedExp.titol}</h4>
-                                    <p id="fecha${idCard}" style="color:grey">${infoSelectedExp.data}</p>
+                                    <div style="display:flex;justify-content:space-between;">
+                                        <p id="fecha${idCard}" style="color:grey">${infoSelectedExp.data}</p>
+                                        <p id="nomCategoria${idCard}" style="color:grey;">${infoSelectedExp.nomCategoria}</p>
+                                    </div>
                                     <img id="img${idCard}" src="./img/experiencias/${infoSelectedExp.imatge}" class="modal-img" alt="${infoSelectedExp.imatge}">
                                     <div class="box_likes-dislikes">
                                         <button id="dislike${idCard}" class="btn"><li class="fa fa-thumbs-down" style="color:red"></li><span style="margin-left:5px;">${infoSelectedExp.dislikes}</span></button>
@@ -263,9 +355,8 @@ var moduleExperiencia = (function () {
                     });
                 }
             })
-        });        
+        });
     }
-
 
     //////////////////////////////////////////////////////////////////////////////////
     //            AXIOS QUE MODIFICA LOS LIKES Y DISLIKES UNA EXPERIENCIA           //
@@ -403,6 +494,47 @@ var moduleExperiencia = (function () {
 
     }
 
+    // Funcion para construir las cards de cada experiencia
+    // IF: sin bucle y construido en base a un id. Esto es porque el usuario ha filtrado por categoria
+    // ELSE: forEach para mostrar todas, sin filtros
+    // RETURN: En cualquier caso se devuelve el string con la/s card/s contruida/s
+    function setCard(baseDades, idExp){
+        let card = "";
+        let x;
+        if (idExp != null){
+            idExp = parseInt(idExp);
+            x = baseDades[--idExp];
+            card +=
+                    `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
+                        <div id="${x.idExp}" class="card">
+                            <img src="./img/experiencias/${x.imatge}" class="card-img-top" alt="${x.imatge}">
+                            <div class="card-body">
+                                <h5 class="card-title">${x.titol}</h5>
+                                <p class="card-data">${x.data}</p>
+                            </div>
+                        </div>
+                    </div>`;
+        }
+        else{
+            baseDades.forEach(element => {
+                if (element.estat == 'publicada'){
+                    card +=
+                            `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
+                                <div id="${element.idExp}" class="card">
+                                    <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${element.titol}</h5>
+                                        <p class="card-data">${element.data}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                }
+            });
+        }
+        
+        return card;
+    }
+
     // Esta funcion se llama justo despues de que un usuario modifique algo de las experiencias (modal)
     // Funcionamiento: impides al usuario hacer clicks para que cierre el modal, insertas el gif de loading, setTimeout para asegurarnos de que se haya modificado
     // la info en la DB y el axios haya obtenido la info actualizada, reseteas los clicks, cierras el modal viejo y simulas click sobre
@@ -422,8 +554,81 @@ var moduleExperiencia = (function () {
         }, 2000);
     }
 
+
+
+
+    // Esta funcion era de prueba para obtener las categorias y consruir el desplegable
+    // El problema es que el codigo seguia ejecutandose desde donde se llamase esta funcion y por lo tanto
+    // se construir la pagina sin las categorias (en la pagina en vez de printar el desplegable, printaba NULL)
+    // Para solucionarlo (si puede ser temporalmente) lo he metido todo en un segundo axios al principio del todo dentro del primer axios
+    function setBuscadorExperiencias(){
+
+        // El proximo comentario explica como deberia ser, no se ha hecho asi porque no se como se puede
+        // parar la ejecucion del codigo hasta que no termine esta funcion
+            // En extraerCategorias hay un control para saber si esta funcion ha sido llamada desde aqui o desde el propio module
+            // De esta manera evitamos ejecutar la funcion que contiene extraerCategorias y obtenemos las categorias que es lo unico que nos interesa
+            // Se ha decidido hacer así para reutilizar codigo y no implementar aqui un nuevo axios que busque las categorias
+            // let categorias = moduleCategoria.extraerCategorias("null", true);
+            // return categorias;
+
+        /* EL SIGUIENTE CODIGO FUNCIONA PERO POR ALGUNA RAZON EL moduleCategoria no hace el return. No devuelve nada
+        var categorias;
+        async function firstFunction(){
+            categorias = moduleCategoria.extraerCategorias("null", true);
+            return categorias;
+        };
+
+        async function secondFunction(){
+            await firstFunction();
+            console.log(categorias);
+        };
+        firstFunction();
+        secondFunction();
+        */
+        
+    /*
+        var desplegable = "null";
+        
+        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
+        })
+        .then(function (respuesta){
+            let categorias = JSON.parse(respuesta.data);
+
+            let htmlBuscador = `
+            <div style="display:flex;justify-content:space-between;">
+                <h2 id="titolExperiencies">Experiencias</h2>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categoria
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">`;
+                    categorias.forEach(categoria => {
+                        htmlBuscador += `<button class="dropdown-item">${categoria.nom}</button>;`
+                    })
+                    htmlBuscador+=`
+                    </div>
+                </div>
+            </div>`;
+            
+            desplegable = htmlBuscador;
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+            console.log(desplegable);
+            return desplegable;
+        });
+        */
+    }
+
+
+
+
     return {
-        extraerExperiencias: extraerExperiencias, 
+        extraerExperiencias: extraerExperiencias,
+        // Esta ananirExp es necesaria aqui¿?
         ananirExp : ananirExp
     };
 

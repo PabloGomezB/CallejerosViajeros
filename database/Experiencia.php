@@ -22,34 +22,36 @@ class Experiencia extends DBAbstractModel {
 		$this->get_results_from_query();
 		for ($i = 0; $i < count($this->rows); $i++) {
 
-			$idExp = $this->rows[$i]["idExp"];
-			$titol = $this->rows[$i]["titol"];
-			$data = $this->rows[$i]["data"];
-			$text = $this->rows[$i]["text"];
-			$imatge = $this->rows[$i]["imatge"];
-			$coordenades = $this->rows[$i]["coordenades"];
-			$likes = $this->rows[$i]["likes"];
-			$dislikes = $this->rows[$i]["dislikes"];
-			$estat = $this->rows[$i]["estat"];
 			$idCat = $this->rows[$i]["idCat"];
-			$username = $this->rows[$i]["username"];
-			$reportat = $this->rows[$i]["reportat"];
 
 			$exp = array(
-				"idExp" => $idExp, 'titol' => $titol, 'data' =>  $data, 'text' => $text,
-				'imatge' => $imatge,
-				'coordenades' => $coordenades,
-				'likes' => $likes,
-				'dislikes' => $dislikes,
-				'estat' => $estat,
-				'idCat' => $idCat,
-				'username' => $username,
-				'reportat' => $reportat
+				"idExp" => $this->rows[$i]["idExp"],
+				'titol' => $this->rows[$i]["titol"],
+				'data' =>  $this->rows[$i]["data"],
+				'text' => $this->rows[$i]["text"],
+				'imatge' => $this->rows[$i]["imatge"],
+				'coordenades' => $this->rows[$i]["coordenades"],
+				'likes' => $this->rows[$i]["likes"],
+				'dislikes' => $this->rows[$i]["dislikes"],
+				'estat' => $this->rows[$i]["estat"],
+				'idCat' => $this->rows[$i]["idCat"],
+				'username' => $this->rows[$i]["username"],
+				'reportat' => $this->rows[$i]["reportat"],
+				'nomCategoria' => $this->getNomCategoria($idCat)
 			);
-
+			//***************************************************************************************** */
+			
+			
+			//***************************************************************************************** */
 			array_push($experiencias, $exp);
 		}
 		return json_encode($experiencias);
+	}
+
+	public function getNomCategoria($idCat){
+		$this->query = "SELECT nom FROM Categoria WHERE idCat = $idCat;";
+		$this->get_results_from_query();
+		return $this->rows[0]["nom"];
 	}
 
 	public function updateLikes($idExp, $likes, $dislikes) {

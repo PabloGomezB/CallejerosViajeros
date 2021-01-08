@@ -81,8 +81,9 @@
 
 
         
-        <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 60)-->
+        <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 102)-->
         <div id="divModal"></div>
+        <!-- Este modal es la confirmacion de cuando el user va a eliminar una experiencia -->
         <div id="divModalConfirm"></div>
     
     <script src="./js/moduleExperiencia.js"></script>

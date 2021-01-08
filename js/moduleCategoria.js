@@ -1,19 +1,28 @@
 var moduleCategoria = (function () {
 
-    function extraerCategorias(username){
-
+    function extraerCategorias(username, callFromSetBuscador){
+        var x = "null";
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
         })
         .then(function (respuesta){
 
             let categorias = JSON.parse(respuesta.data);
-            creatFormExp(categorias, username);
+            if (callFromSetBuscador === true){
+                // PORQUE ESTO NO HACE RETURN DE CATEGORIAS
+                x = categorias;
+                // return categorias;
+            }
+            else{
+                creatFormExp(categorias, username);
+            }
         })
         .catch(function (error) {
             console.log(error);
         })
         .then(function () {
-            // always executed
+            if (callFromSetBuscador === true){
+                return x;
+            }
         });
     }
 
