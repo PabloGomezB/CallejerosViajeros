@@ -130,9 +130,6 @@ var moduleExperiencia = (function () {
                 setTimeout(function(){
                     $("*").css("pointer-events","auto");
                     $("*").css("cursor","default");
-                    // Eliminamos el "fade" que hace el modal al fondo, lo escondemos, lo eliminamos del DOM y llamamos al modal de nuevo
-                    $("#modal").removeClass('fade').modal('hide');
-                    $('#modal').remove();
                     extraerExperiencias(isAdmin, username, categoria);
                     // mostrar vista filtrada
                 }, 2000);
@@ -238,7 +235,7 @@ var moduleExperiencia = (function () {
                         let likes = parseInt(infoSelectedExp.likes)+1;
                         let dislikes = parseInt(infoSelectedExp.dislikes);
                         
-                        updateLikes(idCard, likes, dislikes, isAdmin, username);
+                        updateLikes(idCard, likes, dislikes, isAdmin, username, categoria);
                         updateModalView(idCard);
                     });
 
@@ -247,7 +244,7 @@ var moduleExperiencia = (function () {
                         let likes = parseInt(infoSelectedExp.likes);
                         let dislikes = parseInt(infoSelectedExp.dislikes)+1;
                         
-                        updateLikes(idCard, likes, dislikes, isAdmin, username);
+                        updateLikes(idCard, likes, dislikes, isAdmin, username, categoria);
                         updateModalView(idCard);
                     });
 
@@ -292,7 +289,7 @@ var moduleExperiencia = (function () {
                             let n = newSrc.lastIndexOf('/');
                             let newImg = newSrc.substring(n + 1);
 
-                            updateExperiencia(idCard,newTitulo,newFecha,newTexto,newImg,isAdmin, username);
+                            updateExperiencia(idCard,newTitulo,newFecha,newTexto,newImg, isAdmin, username, categoria);
                             updateModalView(idCard);
                         });
                     });
@@ -335,7 +332,7 @@ var moduleExperiencia = (function () {
 
                         modalConfirm(function (confirm) {
                             if (confirm) {
-                                eliminarExperiencia(idCard,isAdmin, username);
+                                eliminarExperiencia(idCard, isAdmin, username, categoria);
                                 // Escondemos el modal de la experiencia que hemos eliminado
                                 $('#modal').modal('hide');
                             }
@@ -344,7 +341,7 @@ var moduleExperiencia = (function () {
 
                     // REPORTAR
                     document.getElementById(`reportar${idCard}`).addEventListener("click", function(e){
-                        reportarExperiencia (idCard,isAdmin,username);
+                        reportarExperiencia (idCard,isAdmin,username,categoria);
                     })
                 }
                 else{
@@ -361,7 +358,7 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //            AXIOS QUE MODIFICA LOS LIKES Y DISLIKES UNA EXPERIENCIA           //
     //////////////////////////////////////////////////////////////////////////////////
-    function updateLikes (idUsu, likes, dislikes, isAdmin, username) {
+    function updateLikes (idUsu, likes, dislikes, isAdmin, username, categoria) {
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateLikes.php",{
             params: {
                 idUsu: idUsu,
@@ -374,7 +371,7 @@ var moduleExperiencia = (function () {
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
-                extraerExperiencias(isAdmin, username);
+                extraerExperiencias(isAdmin, username, categoria);
             }
         })
         .catch(function (error) {
@@ -388,7 +385,7 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE ACTUALIZA UNA EXPERIENCIA                        //
     //////////////////////////////////////////////////////////////////////////////////
-    function updateExperiencia (idCard,newTitulo,newFecha,newTexto,newImg, isAdmin,username) {
+    function updateExperiencia (idCard,newTitulo,newFecha,newTexto,newImg, isAdmin,username, categoria) {
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateExperiencia.php",{
             params: {
@@ -404,7 +401,7 @@ var moduleExperiencia = (function () {
             if (respuesta.data=="FAILj") { // DA FAIL Y NO SE PORQUEEE QUE ESTA PASANDOOOOOOOOOO DA FAIL PERO LO GUARDA QUE LOCURA ES ESTAAAAAAAAAA. un pablo desesperado :)
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
-                extraerExperiencias(isAdmin, username);
+                extraerExperiencias(isAdmin, username, categoria);
             }
         })
         .catch(function (error) {
@@ -418,7 +415,7 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE ELIMINA UNA EXPERIENCIA                          //
     //////////////////////////////////////////////////////////////////////////////////
-    function eliminarExperiencia(idCard,isAdmin,username) {
+    function eliminarExperiencia(idCard,isAdmin,username,categoria) {
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/eliminarExperiencia.php",{
             params: {
@@ -429,7 +426,7 @@ var moduleExperiencia = (function () {
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
-                extraerExperiencias(isAdmin,username);
+                extraerExperiencias(isAdmin,username,categoria);
             }
         })
         .catch(function (error) {
@@ -443,7 +440,7 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE REPORTARA UNA EXPERIENCIA                        //
     //////////////////////////////////////////////////////////////////////////////////
-    function reportarExperiencia (idCard,isAdmin,username) {
+    function reportarExperiencia (idCard,isAdmin,username,categoria) {
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/reportarExperiencia.php",{
             params: {
@@ -454,7 +451,7 @@ var moduleExperiencia = (function () {
             if (respuesta.data.status=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
-                extraerExperiencias(isAdmin,username);
+                extraerExperiencias(isAdmin,username,categoria);
             }
         })
         .catch(function (error) {
