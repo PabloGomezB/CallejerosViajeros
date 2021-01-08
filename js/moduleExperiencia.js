@@ -6,6 +6,11 @@ Ejemplo: Cuando despues de mandar like pones el spiner y el setTimeout para que 
     El timeout es generico de 2 segundos... Si en dos segundos no ha hecho el axios
     entonces no tendrá nueva info que mostrar
 
+    Hay alguna manera de obtener un return de un axios¿?
+    Ejemplo:
+        let categorias = moduleCategoria.extraerCategorias();
+        categorias sera null!!!
+
     async/await¿?¿?
 */
 
@@ -20,7 +25,9 @@ var moduleExperiencia = (function () {
     // printExperiencies() es la encargada de printarlas y añadir todos los listeners correspondientes
     // ademas de crear el modal para la experiencia que el user haya seleccionado
     function extraerExperiencias(isAdmin, username, categoria){
-
+        if (categoria == null){
+            categoria = "Todas";
+        }
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
         })
         .then(function (respuesta){
@@ -40,10 +47,10 @@ var moduleExperiencia = (function () {
                 <div style="display:flex;justify-content:space-between;">
                     <h2 id="titolExperiencies">Experiencias</h2>
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categoria
+                        <button class="btn btn-secondary dropdown-toggle" style="width:200px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ${categoria}
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <div class="dropdown-menu" style="width:200px;" aria-labelledby="dropdownMenuButton">
                             <button id="Todas" class="dropdown-item btn-dropdown-categoria">Todas</button>`;
                         categorias.forEach(categoria => {
                             desplegableBuscador += `<button id="${categoria.nom}" class="dropdown-item btn-dropdown-categoria">${categoria.nom}</button>`;
@@ -61,8 +68,7 @@ var moduleExperiencia = (function () {
                 printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria);
             });
             // Fin segundo axios
-            ////////////////////////////////////////////////////
-            // printExperiencies(baseDades, desplegableBuscador, isAdmin, username);
+
         })
         .catch(function (error) {
             console.log(error);
@@ -76,7 +82,7 @@ var moduleExperiencia = (function () {
 
         document.getElementById("content").innerHTML="";
         let htmlExperiences = desplegableBuscador;
-        let existeExperiencia = false;
+        let numExperiencias = 0;
         let card;
 
         htmlExperiences += `
@@ -87,26 +93,31 @@ var moduleExperiencia = (function () {
             card = setCard(baseDades, null);
             if (card != "" || card != null){
                 htmlExperiences += card;
-                existeExperiencia = true;
+                numExperiencias++;
             }
         // ELSE: Entra cuando se filtra por categorias
         // forEach para imprimir las cards de una en una segun si forma parte de la categoria o no
         }else{
+            let cards = [];
             baseDades.forEach(element => {
                 if (element.estat == 'publicada'){
                     if (element.nomCategoria == categoria) {
                         card = setCard(baseDades, element);
                         if (card != "" || card != null){
-                            htmlExperiences += card;
+                            cards.push(card);
                             existeExperiencia = true;
+                            numExperiencias++;
                         }
                     }
                 }
             });
-        }
-
-        if (!existeExperiencia){
-            htmlExperiences += "NO EXISTEN EXPERIENCIAS";
+            // setEstructuraCards es una funcion utilizada para crear un vista adecuada para cada categoria
+            if (numExperiencias > 0){
+                htmlExperiences += setEstructuraCards(numExperiencias, cards, card);
+            }
+            else{
+                htmlExperiences += "NO EXISTEN EXPERIENCIAS";
+            }
         }
 
         htmlExperiences +=
@@ -126,12 +137,10 @@ var moduleExperiencia = (function () {
                 $("*").css("pointer-events","none");
                 $("*").css("cursor","not-allowed");
                 document.getElementById("content").innerHTML=`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
-
                 setTimeout(function(){
                     $("*").css("pointer-events","auto");
                     $("*").css("cursor","default");
                     extraerExperiencias(isAdmin, username, categoria);
-                    // mostrar vista filtrada
                 }, 2000);
             })
         });
@@ -305,12 +314,10 @@ var moduleExperiencia = (function () {
                                     </div>
                                     <div class="modal-body">
                                         <p>Esta accion no se puede revertir.<br>¿Seguro que desea eliminar la exepriencia?</p>
-                                    
                                         <div style="margin-left:25%;">
                                             <button type="button" class="btn btn-secondary" id="modal-btn-si" style="margin-right:20%;">Si</button>
                                             <button type="button" class="btn btn-danger" id="modal-btn-no">No</button>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -518,7 +525,7 @@ var moduleExperiencia = (function () {
     }
 
     // Funcion para construir las cards de cada experiencia
-    // IF: E usuario ha filtrado por categoria y se pasan solo las experiencias correspondientes una a una
+    // IF: El usuario ha filtrado por categoria y se pasan solo las experiencias correspondientes una a una
     // ELSE: forEach para mostrar todas, sin filtros.
     // RETURN: En cualquier caso se devuelve el string con la/s card/s contruida/s
     /*
@@ -531,36 +538,76 @@ var moduleExperiencia = (function () {
         // Si experiencia NO es null quiere decir que el user ha filtrado por categoria, se van construyendo una a una
         if (experiencia != null){
             card +=
-                    `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
-                        <div id="${experiencia.idExp}" class="card">
-                            <img src="./img/experiencias/${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
-                            <div class="card-body">
-                                <h5 class="card-title">${experiencia.titol}</h5>
-                                <p class="card-data">${experiencia.data}</p>
-                            </div>
-                        </div>
-                    </div>`;
+                `<div id="${experiencia.idExp}" class="card">
+                    <img src="./img/experiencias/${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
+                    <div class="card-body">
+                        <h5 class="card-title">${experiencia.titol}</h5>
+                        <p class="card-data">${experiencia.data}</p>
+                    </div>
+                </div>`
         }
         // Si experiencia ES null quiere decir que el user no quiere filtrar. Se construyen todas aqui mediante forEach
         else{
             baseDades.forEach(element => {
                 if (element.estat == 'publicada'){
                     card +=
-                            `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
-                                <div id="${element.idExp}" class="card">
-                                    <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${element.titol}</h5>
-                                        <p class="card-data">${element.data}</p>
-                                    </div>
+                        `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
+                            <div id="${element.idExp}" class="card">
+                                <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${element.titol}</h5>
+                                    <p class="card-data">${element.data}</p>
                                 </div>
-                            </div>`;
+                            </div>
+                        </div>`;
                 }
             });
         }
         
         return card;
     }
+
+    // Funcion creada para mostrar las experiencias mucho mas vistosas utilizando las clases de boostrap
+    // Es llamada cuando se contruye la vista de las experiencias segun su categoria
+    // Dependiendo del numero de experiencias se asignan unas clases u otras de boostrap
+    /*
+    Params:
+        - numExperiencias: numero de experiencias que hay en una misma categoria. Util para saber que clases usar.
+        - cards: es un array con todas las experiencias de una misma categoria.
+        - card: info de una unica experiencia, no se le asignan clases.
+            Esto ocurre cuando en la categoria seleccionada no hay mas que una experiencia.
+    */
+    function setEstructuraCards(numExperiencias, cards, card){
+
+        let classesBoostrap;
+        if (numExperiencias == 1){
+            return `<div class="card-experiencia">` + card + `</div>`;
+        }
+        else if (numExperiencias == 2){
+            classesBoostrap = `col-sm-12 col-md-12 col-lg-6`;
+            return aux(cards, classesBoostrap);
+        }
+        else if (numExperiencias == 3){
+            classesBoostrap = `col-sm-12 col-md-6 col-lg-4`;
+            return aux(cards, classesBoostrap);
+        }
+        else{
+            classesBoostrap = `col-sm-12 col-md-6 col-lg-4 col-xl-3`;
+            return aux(cards, classesBoostrap);
+        }
+
+        // Esta funcion es para ahorrar codigo unicamente
+        function aux(){
+            let finalCard = "";
+            cards.forEach(cardEx => {
+                finalCard += `<div class="${classesBoostrap} card-experiencia">`;
+                finalCard += cardEx;
+                finalCard += `</div>`;
+            });
+            return finalCard;
+        }
+    }
+
 
     // Esta funcion se llama justo despues de que un usuario modifique algo de las experiencias (modal)
     // Funcionamiento: impides al usuario hacer clicks para que cierre el modal, insertas el gif de loading, setTimeout para asegurarnos de que se haya modificado
