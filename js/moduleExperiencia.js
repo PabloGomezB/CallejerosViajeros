@@ -95,7 +95,7 @@ var moduleExperiencia = (function () {
             baseDades.forEach(element => {
                 if (element.estat == 'publicada'){
                     if (element.nomCategoria == categoria) {
-                        card = setCard(baseDades, element.idExp);
+                        card = setCard(baseDades, element);
                         if (card != "" || card != null){
                             htmlExperiences += card;
                             existeExperiencia = true;
@@ -358,6 +358,13 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //            AXIOS QUE MODIFICA LOS LIKES Y DISLIKES UNA EXPERIENCIA           //
     //////////////////////////////////////////////////////////////////////////////////
+    /*
+    Params:
+        - idUsu: id del usuario que ha dado like/dislike
+        - likes, dislikes: cantidad de likes/dislikes que tiene actualmente la experiencia
+        - isAdmin/username: Necesarias para volver actualizar la vista segun el usuario y si es admin o no.
+        - categoria: Necesaria para seguir mostrando la vista de la categoria que estaba seleccionada (si es null muestra todas)
+    */
     function updateLikes (idUsu, likes, dislikes, isAdmin, username, categoria) {
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateLikes.php",{
             params: {
@@ -385,6 +392,13 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE ACTUALIZA UNA EXPERIENCIA                        //
     //////////////////////////////////////////////////////////////////////////////////
+    /*
+    Params:
+        - idCard: id de la card a la que el user ha clicado (util para poder crear su modal)
+        - new*: Todos los valores del modal. Sustituiran los valores previos en la BD
+        - isAdmin/username: Necesarias para volver actualizar la vista segun el usuario y si es admin o no.
+        - categoria: Necesaria para seguir mostrando la vista de la categoria que estaba seleccionada (si es null muestra todas)
+    */
     function updateExperiencia (idCard,newTitulo,newFecha,newTexto,newImg, isAdmin,username, categoria) {
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateExperiencia.php",{
@@ -415,6 +429,12 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE ELIMINA UNA EXPERIENCIA                          //
     //////////////////////////////////////////////////////////////////////////////////
+    /*
+    Params:
+        - idCard: id de la card que el user quiere eliminar
+        - isAdmin/username: Necesarias para volver actualizar la vista segun el usuario y si es admin o no.
+        - categoria: Necesaria para seguir mostrando la vista de la categoria que estaba seleccionada (si es null muestra todas)
+    */
     function eliminarExperiencia(idCard,isAdmin,username,categoria) {
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/eliminarExperiencia.php",{
@@ -440,6 +460,12 @@ var moduleExperiencia = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     //                   AXIOS QUE REPORTARA UNA EXPERIENCIA                        //
     //////////////////////////////////////////////////////////////////////////////////
+    /*
+    Params:
+        - idCard: id de la card que el user quiere eliminar
+        - isAdmin/username: Necesarias para volver actualizar la vista segun el usuario y si es admin o no.
+        - categoria: Necesaria para seguir mostrando la vista de la categoria que estaba seleccionada (si es null muestra todas)
+    */
     function reportarExperiencia (idCard,isAdmin,username,categoria) {
 
         axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/reportarExperiencia.php",{
@@ -492,26 +518,30 @@ var moduleExperiencia = (function () {
     }
 
     // Funcion para construir las cards de cada experiencia
-    // IF: sin bucle y construido en base a un id. Esto es porque el usuario ha filtrado por categoria
-    // ELSE: forEach para mostrar todas, sin filtros
+    // IF: E usuario ha filtrado por categoria y se pasan solo las experiencias correspondientes una a una
+    // ELSE: forEach para mostrar todas, sin filtros.
     // RETURN: En cualquier caso se devuelve el string con la/s card/s contruida/s
-    function setCard(baseDades, idExp){
+    /*
+    Params:
+        - baseDades: contiene TODAS las experiencias de la base de datos en formato Array
+        - experiencia: array asociativo unicamente con una experiencia, ya filtrada por categoria 
+    */
+    function setCard(baseDades, experiencia){
         let card = "";
-        let x;
-        if (idExp != null){
-            idExp = parseInt(idExp);
-            x = baseDades[--idExp];
+        // Si experiencia NO es null quiere decir que el user ha filtrado por categoria, se van construyendo una a una
+        if (experiencia != null){
             card +=
                     `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
-                        <div id="${x.idExp}" class="card">
-                            <img src="./img/experiencias/${x.imatge}" class="card-img-top" alt="${x.imatge}">
+                        <div id="${experiencia.idExp}" class="card">
+                            <img src="./img/experiencias/${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
                             <div class="card-body">
-                                <h5 class="card-title">${x.titol}</h5>
-                                <p class="card-data">${x.data}</p>
+                                <h5 class="card-title">${experiencia.titol}</h5>
+                                <p class="card-data">${experiencia.data}</p>
                             </div>
                         </div>
                     </div>`;
         }
+        // Si experiencia ES null quiere decir que el user no quiere filtrar. Se construyen todas aqui mediante forEach
         else{
             baseDades.forEach(element => {
                 if (element.estat == 'publicada'){
