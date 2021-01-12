@@ -1,5 +1,5 @@
 window.onload = function () {
-    
+
     var logeado = false;
     var username = "";
     var isAdmin = false;
@@ -13,6 +13,9 @@ window.onload = function () {
         if($('#sidebar').hasClass("active")){
             // add fade-out para el texto de border antes del login
             $('.borderText').removeClass('fade-in');
+            $('.pulpito').removeClass('fade-in');
+            $('.pulpito').addClass('fade-out');
+            $('.pulpito').css("display","none");
             $('.borderText').addClass('fade-out');
 
             // add fade-out para el texto del border logeado
@@ -30,7 +33,7 @@ window.onload = function () {
             setTimeout(function(){$('#sidebar').css("border-right","20px solid #04aef0");}, 100);
             setTimeout(function(){$('#sidebar').css("border-right","10px solid #04aef0");}, 100);
             setTimeout(function(){$('#sidebar').css("border-right","0px solid #04aef0");}, 100);
-            
+
             // setTimeout para ocultar el texto para que el cursor no lo detecte y se pueda hacer click en los inputs
             // 400 de tiempo porque tarda 0.3s en hacer el efecto de fade-out, sino se iría de golpe antes de que termine la animacion
             setTimeout(function(){$('.borderText').css("display","none");}, 400);
@@ -117,7 +120,7 @@ window.onload = function () {
     .then(function (respuesta){
         let baseDades = JSON.parse(respuesta.data);
         let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
-        
+
         let maxBaseDades = parseInt(baseDades.length);
         if (maxBaseDades < 5){
             maxBaseDades = maxBaseDades-5;
@@ -128,14 +131,14 @@ window.onload = function () {
             let element = baseDades[i]["titol"];
             htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
             htmlLastExperiences += `<p>${element}</p>`;
-            htmlLastExperiences += '</div>';          
+            htmlLastExperiences += '</div>';
             top++;
         }
 
         htmlLastExperiences += '</div>';
         // injectar despres del primer div
         document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlLastExperiences);
-    
+
     })
     .catch(function (error) {
         console.log(error);
@@ -186,7 +189,7 @@ window.onload = function () {
                             }
                             transformarSidebar();
                             moduleExperiencia.extraerExperiencias(isAdmin, username);
-                            
+
                         }
                     }
                 })
@@ -203,12 +206,12 @@ window.onload = function () {
             });
         }
     })
-    
+
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
     // REGISTER
     document.getElementById("register").addEventListener("click", function () {
-        if (document.getElementById("nom").value === "" || document.getElementById("cognom").value === "" || 
+        if (document.getElementById("nom").value === "" || document.getElementById("cognom").value === "" ||
             document.getElementById("username").value === "" || document.getElementById("passRegister").value === ""){
             Swal.fire({
                 title: "¡ERROR!",
@@ -255,7 +258,7 @@ window.onload = function () {
                     //
             });
         }
-        
+
     })
 
 
@@ -291,6 +294,9 @@ window.onload = function () {
             let sidebarAdmin =
             `<button>Bienvenido ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
+            /////////////////////////////////
+            ///////////////////////////////
+            // JORDI CREAR AQUI LA SECCION DE ADMIN
         }
         else{
             let sidebarNormalUser =
@@ -298,7 +304,7 @@ window.onload = function () {
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
         }
 
-        
+
     }
 
 }

@@ -51,7 +51,7 @@ p{
 .borderText{
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    /* position: absolute; */
+    position: absolute;
     margin-left: 170px;
     font-size: 50px;
     color: #30323b;
