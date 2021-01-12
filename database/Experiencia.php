@@ -92,7 +92,7 @@ class Experiencia extends DBAbstractModel {
 		}
 	}
 
-	public function ananirExp($nuevaExp) {
+	public function anadirExp($nuevaExp) {
 		$titol = $nuevaExp["titol"];
 		$text = $nuevaExp["text"];
 		$imatge = $nuevaExp["imatge"];
@@ -100,7 +100,7 @@ class Experiencia extends DBAbstractModel {
 		$idCat = $nuevaExp["idCat"];
 		$username = $nuevaExp["username"];
 
-		$this->query = `INSERT INTO Experiencia VALUES ("")`;
+		$this->query = "INSERT INTO Experiencia VALUES ('$titol', CURDATE(), '$text', '$imatge', '$coordenades', 0, 0, 'publicada', '$idCat', '$username', false)";
 		$this->execute_single_query($this->query);
 	}
 

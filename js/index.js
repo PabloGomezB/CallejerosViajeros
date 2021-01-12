@@ -276,6 +276,7 @@ window.onload = function () {
             // creatFormExp();
             document.getElementById("newExp").disabled = true;
             moduleCategoria.extraerCategorias(username);
+            // moduleExperiencia.anadirExp()
         }
     });
 
@@ -300,7 +301,7 @@ window.onload = function () {
         if(isAdmin){
             let sidebarAdmin =
             `<button>Bienvenido admin!</button>`;
-            sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
+            sidebar[0].insertAdjacentHTML("beforeend", sidebarAdmin);
         }
         else{
             let sidebarNormalUser =

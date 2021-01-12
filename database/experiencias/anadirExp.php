@@ -18,7 +18,7 @@ $novaExp = array (
 );
 
 
-$exp->ananirExp($novaExp);
+$exp->anadirExp($novaExp);
 
 $experiencias = $exp->mostrarTot();
 

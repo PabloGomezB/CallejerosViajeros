@@ -498,19 +498,15 @@ var moduleExperiencia = (function () {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
-    // FALTA POR HACER
-    function ananirExp (novaExp) {
-        axios.get("./database/experiencias/ananirExp.php",{
+    function anadirExp (novaExp) {
+        axios.get("./database/experiencias/anadirExp.php",{
             params: {
                 titol: novaExp["titol"],
-                data: novaExp["data"],
                 text: novaExp["text"],
                 imatge: novaExp["imatge"],
                 coordenades: novaExp["coordenades"],
-                categoria: novaExp["categoria"],
-                likes: novaExp["likes"],
-                dislikes: novaExp["dislikes"],
-                estat: novaExp["estat"]
+                idCat = $nuevaExp["idCat"],
+                username = $nuevaExp["username"]
             }
         })
         .then(function (respuesta){
@@ -521,7 +517,6 @@ var moduleExperiencia = (function () {
                 extraerExperiencias();
             }
         })
-
     }
 
     // Funcion para construir las cards de cada experiencia
@@ -703,7 +698,7 @@ var moduleExperiencia = (function () {
     return {
         extraerExperiencias: extraerExperiencias,
         // Esta ananirExp es necesaria aqui¿?
-        ananirExp : ananirExp
+        anadirExp  : anadirExp 
     };
 
 })();
