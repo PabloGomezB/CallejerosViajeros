@@ -505,8 +505,8 @@ var moduleExperiencia = (function () {
                 text: novaExp["text"],
                 imatge: novaExp["imatge"],
                 coordenades: novaExp["coordenades"],
-                idCat = $nuevaExp["idCat"],
-                username = $nuevaExp["username"]
+                idCat: $nuevaExp["idCat"],
+                username: $nuevaExp["username"]
             }
         })
         .then(function (respuesta){

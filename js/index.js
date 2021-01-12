@@ -301,7 +301,7 @@ window.onload = function () {
         if(isAdmin){
             let sidebarAdmin =
             `<button>Bienvenido admin!</button>`;
-            sidebar[0].insertAdjacentHTML("beforeend", sidebarAdmin);
+            sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
         }
         else{
             let sidebarNormalUser =
