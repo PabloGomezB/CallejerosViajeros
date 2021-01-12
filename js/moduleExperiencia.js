@@ -44,7 +44,7 @@ var moduleExperiencia = (function () {
                 let categorias = JSON.parse(response.data);
 
                 desplegableBuscador = `
-                <div style="display:flex;justify-content:space-between;">
+                <div class="desplegableBuscador">
                     <h2 id="titolExperiencies">Experiencias</h2>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" style="width:200px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -51,12 +51,6 @@ window.onload = function () {
         $('#sidebar').toggleClass('active');
     });
 
-    // $('#sidebarCollapse').click();
-    // $("#dropDownLogin").click();
-    // $("#email").focus();
-    // $('#desplegableLogin').removeClass('collapse');
-   
-
 
     // Estas dos funciones resetean los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
     document.getElementById("dropDownLogin").addEventListener("click", function(){
@@ -121,10 +115,7 @@ window.onload = function () {
     axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
     })
     .then(function (respuesta){
-        // console.log(respuesta);
         let baseDades = JSON.parse(respuesta.data);
-        // console.log(baseDades);
-        // printLastExperiences(baseDades);
         let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
         
         let maxBaseDades = parseInt(baseDades.length);
@@ -135,7 +126,6 @@ window.onload = function () {
         let top = 0;
         for (let i = parseInt(baseDades.length)-1; top < 5; i--) {
             let element = baseDades[i]["titol"];
-            // console.info(element);
             htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
             htmlLastExperiences += `<p>${element}</p>`;
             htmlLastExperiences += '</div>';          
@@ -299,12 +289,12 @@ window.onload = function () {
         // Si es admin saldrá el boton de admin y logout, sino solo logout
         if(isAdmin){
             let sidebarAdmin =
-            `<button>Bienvenido admin!</button>`;
+            `<button>Bienvenido ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
         }
         else{
             let sidebarNormalUser =
-            `<button>tu no eres admin pendejo</button>`;
+            `<button>Bienvenido ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
         }
 

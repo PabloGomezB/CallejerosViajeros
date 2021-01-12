@@ -9,7 +9,6 @@ p{
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center; */
-    
 }
 
 .logo{
@@ -32,6 +31,7 @@ p{
     padding: 100px;
     min-height: 100vh;
     min-width: 100vh;
+    /* max-height: 600px; */
 }
 
 .subirButton{
@@ -43,20 +43,21 @@ p{
 
 .pulpito{
     width: 100px;
-    margin-left: -60px;
+    /* margin-left: -60px; */
+    margin-left: 150px;
+    /* margin-bottom: 400px; */
 }
 
 .borderText{
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    position: absolute;
-    margin-left: 150px;
-    font-size: 80px;
+    /* position: absolute; */
+    margin-left: 170px;
+    font-size: 50px;
     color: #30323b;
     height: max-content;
     overflow: hidden;
-    margin-top: 60px;
-    /* display: none; */
+    /* margin-top: 60px; */
     cursor: default;
 }
 
@@ -70,7 +71,6 @@ p{
     height: max-content;
     overflow: hidden;
     margin-top: 60px;
-    /* display: none; */
     cursor: default;
 }
 
@@ -111,10 +111,20 @@ p{
 
 /**********************************/
 
+#content{
+    padding: 50px;
+}
+
 .container {
     /* position: relative; */
     width: 100%;
     height: 200px;
+}
+
+.desplegableBuscador{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 10px;
 }
 
 .containerImage{
@@ -181,8 +191,8 @@ p{
 */
 
 .tarjeta{
-    margin-left: 50px;
-    margin-right:35px;
+    /* margin-left: 50px;
+    margin-right:35px; */
 }
 
 .card-experiencia {
@@ -218,11 +228,6 @@ p{
 .modal-content{
     position: relative;
 }
-
-/* .data-categoria{
-    display: flex;
-    justify-content: space-between;
-} */
 
 .modal-img{
     width: 100%;  

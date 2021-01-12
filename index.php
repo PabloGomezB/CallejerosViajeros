@@ -12,7 +12,7 @@
 
 <body>
 
-    <header class="header">
+    <header id="headhead" class="header">
         <button type="button" id="sidebarCollapse" class="btn btn-primary subirButton">
             <i class="fas fa-sign-in-alt"></i>
             <span>Log in !</span>
@@ -33,12 +33,9 @@
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar" class="active">
-
-            <span class="borderText">
-                <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">    
-                Login / registro
-                <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">
-            </span>
+            <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito"> 
+            <span class="borderText">Login / registro</span>
+            <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">
 
             <!-- <span class="borderTextLogeado"> -->
                 <!-- <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">     -->
