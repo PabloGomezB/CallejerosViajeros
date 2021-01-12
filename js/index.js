@@ -245,12 +245,12 @@ window.onload = function () {
         if(isAdmin){
             let sidebarAdmin =
             `<button>Bienvenido admin!</button>`;
-            sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
+            // sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
         }
         else{
             let sidebarNormalUser =
             `<button>tu no eres admin pendejo</button>`;
-            sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
+            // sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);            
         }
     }
 

@@ -24,6 +24,41 @@ class Usuario extends DBAbstractModel {
 		// unset ($this);
 	}
 
+	public function informacionUsuario($username) {
+		$this->query = "SELECT *
+						FROM Usuari
+						WHERE username='$username'";
+
+		$this->get_results_from_query();
+
+		$infoUsuario = array(
+			"nombre" => $this->rows[0]["nom"],
+			"cognom" => $this->rows[0]["cognom"],
+			"username" =>  $this->rows[0]["username"],
+			"password" => $this->rows[0]["password"]
+		);
+
+		return json_encode($infoUsuario);
+	}
+
+
+
+
+	public function UpdateInformacionUsuario($username, $nombre, $apellido, $password) {
+		$this->query = "UPDATE Usuari 
+						SET nom='$nombre', cognom= '$apellido', password='$password' 
+        				WHERE username='$username'";
+		$exito = $this->execute_single_query($this->query);
+		if ($exito){
+			return "FAIL";
+		} else{
+			return "OK";
+		}
+	}
+
+
+
+
 	public function doLogin($userEmail = "", $pass) {
 		if ($userEmail != "") {
 			$this->query = "SELECT *
@@ -55,59 +90,51 @@ class Usuario extends DBAbstractModel {
 		
 	}
 
-	public function mostrarTot() {
-		$this->query = "SELECT * FROM  contactes;";
-		$this->get_results_from_query();
-		for ($i = 0; $i < count($this->rows); $i++) {
-			echo "<br><br>";
-			echo "Email: " . $this->rows[$i]["email"] . "<br>";
-			echo "Nom: " . $this->rows[$i]["nom"] . "<br>";
-			echo "1r Cognom: " . $this->rows[$i]["cognom1"] . "<br>";
-			echo "2n Cognom: " . $this->rows[$i]["cognom2"] . "<br>";
-			echo "Telefon: " . $this->rows[$i]["telefon"] . "<br>";
-			// foreach ($this->rows[$i] as $key => $value) {
-			//   echo $value;
-			// }
-		}
-	}
+	// public function mostrarTot() {
+	// 	$this->query = "SELECT * FROM  contactes;";
+	// 	$this->get_results_from_query();
+	// 	for ($i = 0; $i < count($this->rows); $i++) {
+	// 		echo "<br><br>";
+	// 		echo "Email: " . $this->rows[$i]["email"] . "<br>";
+	// 		echo "Nom: " . $this->rows[$i]["nom"] . "<br>";
+	// 		echo "1r Cognom: " . $this->rows[$i]["cognom1"] . "<br>";
+	// 		echo "2n Cognom: " . $this->rows[$i]["cognom2"] . "<br>";
+	// 		echo "Telefon: " . $this->rows[$i]["telefon"] . "<br>";
+	// 		// foreach ($this->rows[$i] as $key => $value) {
+	// 		//   echo $value;
+	// 		// }
+	// 	}
+	// }
 
-	public function select($userEmail = "") {
-		if ($userEmail != "") {
-			$this->query = "SELECT *
-                    FROM contactes
-                    WHERE email='$userEmail'";
-			$this->get_results_from_query();
-		}
-	}
+	// public function select($userEmail = "") {
+	// 	if ($userEmail != "") {
+	// 		$this->query = "SELECT *
+    //                 FROM contactes
+    //                 WHERE email='$userEmail'";
+	// 		$this->get_results_from_query();
+	// 	}
+	// }
 
-	public function insert($userData = array()) {
-		/*CREO QUE HABRA DE CREAR LA FUNCION array_key_exists*/
-		// echo "ESTO ES LA FUNCION INSERT";
-		if (array_key_exists("email", $userData)) {
-			$this->select($userData["email"]);
-			if ($userData["email"] != $this->email) {
-				foreach ($userData as $property => $value)
-					$$property = $value;
-				$this->query = "INSERT INTO contactes (email, nom, cognom1, cognom2, telefon)
-					VALUES ('$email', '$nom', '$cognom1', '$cognom2', '$telefon')";
-				$this->execute_single_query();
-			}
-		}
-	}
+	// public function insert($userData = array()) {
+	// 	/*CREO QUE HABRA DE CREAR LA FUNCION array_key_exists*/
+	// 	// echo "ESTO ES LA FUNCION INSERT";
+	// 	if (array_key_exists("email", $userData)) {
+	// 		$this->select($userData["email"]);
+	// 		if ($userData["email"] != $this->email) {
+	// 			foreach ($userData as $property => $value)
+	// 				$$property = $value;
+	// 			$this->query = "INSERT INTO contactes (email, nom, cognom1, cognom2, telefon)
+	// 				VALUES ('$email', '$nom', '$cognom1', '$cognom2', '$telefon')";
+	// 			$this->execute_single_query();
+	// 		}
+	// 	}
+	// }
 
-	public function update($userData = array()) {
-		foreach ($userData as $property => $value)
-			$$property = $value;
-		$this->query = "UPDATE contactes SET nom='$nom', cognom1= '$cognom1',
-    cognom2 = '$cognom2', telefon = '$telefon' WHERE email='$email'";
-		$this->execute_single_query($this->query);
-	}
-
-	public function delete($userEmail = "") {
-		$this->query = "DELETE FROM contactes WHERE email ='$userEmail'";
-		$this->execute_single_query($this->query);
-		echo "<br>" . $userEmail . " ha sigut eliminat.";
-	}
+	// public function delete($userEmail = "") {
+	// 	$this->query = "DELETE FROM contactes WHERE email ='$userEmail'";
+	// 	$this->execute_single_query($this->query);
+	// 	echo "<br>" . $userEmail . " ha sigut eliminat.";
+	// }
 }
 
 ?>
