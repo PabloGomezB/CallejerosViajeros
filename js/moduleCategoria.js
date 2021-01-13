@@ -60,10 +60,16 @@ var moduleCategoria = (function () {
 
             // ForEach para crear los radio buttons según todas las categorias que existan en la base de datos
             categorias.forEach(categoria => {
-                console.log(categoria.nom);
-                crearFormNovaExperiencia +=
-                `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
-                <label for="${categoria.nom}">${categoria.nom}</label><br>`;
+                // console.log(categoria.nom);
+                if (`r${categoria.idCat}` == 'r1') {
+                    crearFormNovaExperiencia +=
+                    `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
+                    <label for="${categoria.nom}">${categoria.nom}</label><br>`;
+                } else {
+                    crearFormNovaExperiencia +=
+                    `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}">
+                    <label for="${categoria.nom}">${categoria.nom}</label><br>`;
+                }
             })
             crearFormNovaExperiencia +=
             `</div>
@@ -125,41 +131,13 @@ var moduleCategoria = (function () {
         let latitud = document.getElementById('latitudExp').value;
         let longitud = document.getElementById('longitudExp').value;
         let coordenades;
+        let categoriaSel;
 
-
-        // AQUI SE DEBERÍA INTERAR TODO CON UN FOREACH SOBRE categorias (mismo sistema que en la linea 45)
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
-        // document.getElementById('r1').value es hardcoded y no sirve!
-        // debería ser algo como 
-        //  categorias.forEach(categoria => {    
-        //      document.getElementById('r${categoria.id}').value
-        //  }
-
-        let categoria = function(){
-            categorias.forEach(categoria => {   
-                if (document.getElementById(`r${categoria.idCat}`).checked) {
-                    return document.getElementById(`r${categoria.idCat}`).value;
-                } else {
-                    console.log(document.getElementById(`r${categoria.idCat}`).value);
-                }
-            })
-        }
-
-        // let categoria = function(){
-        //     if (document.getElementById('r1').checked) {
-        //         return document.getElementById('r1').value;
-        //     } else if (document.getElementById('r2').checked) {
-        //         return document.getElementById('r2').value;
-        //     } else if (document.getElementById('r3').checked) {
-        //         return document.getElementById('r3').value;
-        //     } else if (document.getElementById('r4').checked) {
-        //         return document.getElementById('r4').value;
-        //     }  else {
-        //         return document.getElementById('r5').value;
-        //     }
-        // }
-
+        categorias.forEach(categoria => {
+            if (document.getElementById(`r${categoria.idCat}`).checked) {
+                categoriaSel = document.getElementById(`r${categoria.idCat}`).value;
+            }
+        })
 
         let imatge = "https://picsum.photos/400/300";
 
@@ -186,16 +164,16 @@ var moduleCategoria = (function () {
             return false;
         } else {
             coordenades = `${latitud},${longitud}`;
-            console.log(testInput(titol)+"hola1");
-            console.log(data+"hola2");
-            console.log(testInput(text)+"hola3");
-            console.log(imatge+"hola5");
-            console.log(latitud+"hola6");
-            console.log(longitud+"hola7");
-            console.log(coordenades+"hola8");
-            console.log(categoria()+"hola4");
+            // console.log(testInput(titol)+"hola1");
+            // console.log(data+"hola2");
+            // console.log(testInput(text)+"hola3");
+            // console.log(imatge+"hola5");
+            // console.log(latitud+"hola6");
+            // console.log(longitud+"hola7");
+            // console.log(coordenades+"hola8");
+            // console.log(categoriaSel+"hola4");
 
-            let experiencia = [testInput(titol), data, testInput(text), coordenades, categoria(), imatge];
+            let experiencia = [testInput(titol), data, testInput(text), coordenades, categoriaSel, imatge];
             return experiencia;
         }
     }
