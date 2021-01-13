@@ -62,7 +62,7 @@ var moduleCategoria = (function () {
             categorias.forEach(categoria => {
                 console.log(categoria.nom);
                 crearFormNovaExperiencia +=
-                `<input type="radio" id="r${categoria.id}" name="categoriaExp" value="${categoria.nom}" checked="checked">
+                `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
                 <label for="${categoria.nom}">${categoria.nom}</label><br>`;
             })
             crearFormNovaExperiencia +=
@@ -76,8 +76,8 @@ var moduleCategoria = (function () {
         // Crear Nova Experiencia
         document.addEventListener('click',function(e){
             if(e.target && e.target.id == 'btnCrearExp'){
-                if (validateForm()) {
-                    let experiencia = validateForm();
+                if (validateForm(categorias)) {
+                    let experiencia = validateForm(categorias);
 
                     // AQUI SE DEBERÍA INTERAR TODO CON UN FOREACH SOBRE categorias (mismo sistema que en la linea 45)
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ var moduleCategoria = (function () {
     // Validacio per js
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
-    function validateForm() {
+    function validateForm(categorias) {
         let titol = document.getElementById('titolExp').value;
         let data = document.getElementById('dataExp').value;
         let text = document.getElementById('textExp').value;
@@ -135,17 +135,32 @@ var moduleCategoria = (function () {
         //  categorias.forEach(categoria => {    
         //      document.getElementById('r${categoria.id}').value
         //  }
+
         let categoria = function(){
-            if (document.getElementById('r1').checked) {
-                return document.getElementById('r1').value;
-            } else if (document.getElementById('r2').checked) {
-                return document.getElementById('r2').value;
-            } else if (document.getElementById('r3').checked) {
-                return document.getElementById('r3').value;
-            } else {
-                return document.getElementById('r4').value;
-            }
+            categorias.forEach(categoria => {   
+                if (document.getElementById(`r${categoria.idCat}`).checked) {
+                    return document.getElementById(`r${categoria.idCat}`).value;
+                } else {
+                    console.log(document.getElementById(`r${categoria.idCat}`).value);
+                }
+            })
         }
+
+        // let categoria = function(){
+        //     if (document.getElementById('r1').checked) {
+        //         return document.getElementById('r1').value;
+        //     } else if (document.getElementById('r2').checked) {
+        //         return document.getElementById('r2').value;
+        //     } else if (document.getElementById('r3').checked) {
+        //         return document.getElementById('r3').value;
+        //     } else if (document.getElementById('r4').checked) {
+        //         return document.getElementById('r4').value;
+        //     }  else {
+        //         return document.getElementById('r5').value;
+        //     }
+        // }
+
+
         let imatge = "https://picsum.photos/400/300";
 
         if (titol == "") {
@@ -171,14 +186,14 @@ var moduleCategoria = (function () {
             return false;
         } else {
             coordenades = `${latitud},${longitud}`;
-            // console.log(testInput(titol));
-            // console.log(data);
-            // console.log(testInput(text));
-            // console.log(categoria());
-            // console.log(imatge);
-            // console.log(latitud);
-            // console.log(longitud);
-            // console.log(coordenades);
+            console.log(testInput(titol)+"hola1");
+            console.log(data+"hola2");
+            console.log(testInput(text)+"hola3");
+            console.log(imatge+"hola5");
+            console.log(latitud+"hola6");
+            console.log(longitud+"hola7");
+            console.log(coordenades+"hola8");
+            console.log(categoria()+"hola4");
 
             let experiencia = [testInput(titol), data, testInput(text), coordenades, categoria(), imatge];
             return experiencia;
@@ -199,7 +214,7 @@ var moduleCategoria = (function () {
         novaExperiencia['likes'] = 0;
         novaExperiencia['dislikes'] = 0;
         novaExperiencia['estat'] = 'esborrany';
-        ovaExperiencia['username'] = username;
+        novaExperiencia['username'] = username;
         return novaExperiencia;
     }
 
