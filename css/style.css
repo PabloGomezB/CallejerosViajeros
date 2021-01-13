@@ -41,37 +41,27 @@ p{
     padding: 50px;
 }
 
+.borderAssets{
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    position: relative;
+    max-width: 250px;
+}
+
 .pulpito{
     width: 100px;
-    /* margin-left: -60px; */
-    margin-left: 150px;
-    /* margin-bottom: 400px; */
+    left: 150px;
+    position: absolute;
 }
 
 .borderText{
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    position: absolute;
-    margin-left: 170px;
+    left: 170px;
+    top: 80px;
     font-size: 50px;
     color: #30323b;
-    height: max-content;
-    overflow: hidden;
-    /* margin-top: 60px; */
     cursor: default;
-}
-
-.borderTextLogeado{
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
     position: absolute;
-    margin-left: 150px;
-    font-size: 80px;
-    color: #30323b;
-    height: max-content;
-    overflow: hidden;
-    margin-top: 60px;
-    cursor: default;
+    height: 400px;
 }
 
 .fade-out {

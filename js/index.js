@@ -4,23 +4,13 @@ window.onload = function () {
     var username = "";
     var isAdmin = false;
 
-    // $('#sidebar').css("border-right","100px solid #04aef0");
-    // Esta funcion gestiona el comportamiento del sidebar
-    // $('.borderText').hide();
-    // $('#sidebar').toggleClass('active');
+    // Funcion para gestionar el comportamiento y la vista del sidebar
     $("#dropDownLogin").click();
     $('#sidebarCollapse').on('click', function () {
         if($('#sidebar').hasClass("active")){
             // add fade-out para el texto de border antes del login
-            $('.borderText').removeClass('fade-in');
-            $('.pulpito').removeClass('fade-in');
-            $('.pulpito').addClass('fade-out');
-            $('.pulpito').css("display","none");
-            $('.borderText').addClass('fade-out');
-
-            // add fade-out para el texto del border logeado
-            $('.borderTextLogeado').removeClass('fade-in');
-            $('.borderTextLogeado').addClass('fade-out');
+            $('.borderAssets').removeClass('fade-in');
+            $('.borderAssets').addClass('fade-out');
 
             // "animacion" para quitar el border cada vez que se esconde el sidebar
             setTimeout(function(){$('#sidebar').css("border-right","90px solid #04aef0");}, 100);
@@ -40,13 +30,9 @@ window.onload = function () {
         }
         else{
             // add fade-in para el texto de border antes del login
-            $('.borderText').removeClass('fade-out');
-            $('.borderText').addClass('fade-in');
+            $('.borderAssets').removeClass('fade-out');
+            $('.borderAssets').addClass('fade-in');
             setTimeout(function(){$('.borderText').css("display","initial");}, 100);
-
-            // add fade-in para el texto del border logeado
-            $('.borderTextLogeado').removeClass('fade-out');
-            $('.borderTextLogeado').addClass('fade-in');
 
             // se restablece el border del sidebar cuando se esconde
             $('#sidebar').css("border-right","100px solid #04aef0");
@@ -55,8 +41,12 @@ window.onload = function () {
     });
 
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ARREGLAR ESTE DESASTREEEEEEE YA
     // Estas dos funciones resetean los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
     document.getElementById("dropDownLogin").addEventListener("click", function(){
+        if()
         // $("#dropDownRegistro").click();
         let formRegistro = document.querySelector("#formRegistro");
         formRegistro.querySelectorAll("input.form-control").forEach(input => {
@@ -272,8 +262,7 @@ window.onload = function () {
         }
     });
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////
+    
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar(){
 
@@ -281,18 +270,25 @@ window.onload = function () {
         $('#sidebar').toggleClass('active');
         $('#sidebar').css("border-right","100px solid #04aef0");
 
-        // Construir la misma estructura para añadir texto al border
-        document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
-        sidebar.innerHTML = `
-        <span class="borderTextLogeado">
-            Opciones
-        </span>
-        <button onClick="window.location.reload();">LOGOUT!</button>`;
+        // Obtenemos el div que contiene los formularios para sobreescribirlo
+        let sidebar = document.getElementById("formsIndex");
+        sidebar.innerHTML = `<button onClick="window.location.reload();">LOGOUT</button>`;
 
-        // Si es admin saldrá el boton de admin y logout, sino solo logout
+        $('.borderAssets').removeClass('fade-out');
+        $('.borderAssets').addClass('fade-in');
+
+        $('.borderText').css("top","140px");
+        $('.borderText').css("height","fit-content");
+        $('.borderText').css("display","initial");
+
+        // Cambia el boton para abrir sidebar
+        document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
+        // Cambia el texto del borde del sidebar
+        document.getElementById("borderText").innerHTML = `Opciones`;
+
         if(isAdmin){
             let sidebarAdmin =
-            `<button>Bienvenido ${username}</button>`;
+            `<button>Rol admin: ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
             /////////////////////////////////
             ///////////////////////////////
@@ -300,7 +296,7 @@ window.onload = function () {
         }
         else{
             let sidebarNormalUser =
-            `<button>Bienvenido ${username}</button>`;
+            `<button>Rol user: ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
         }
 
