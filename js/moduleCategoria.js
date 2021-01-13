@@ -88,6 +88,7 @@ var moduleCategoria = (function () {
                     // AQUI SE DEBERÍA INTERAR TODO CON UN FOREACH SOBRE categorias (mismo sistema que en la linea 45)
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
+                    //PABLO tooo tuyoooo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     console.log(expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], experiencia[5], username));
                     document.getElementById("formNewExp").style.display = "none";
                     document.getElementById("newExp").disabled = false;
