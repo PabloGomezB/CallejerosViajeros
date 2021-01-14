@@ -57,8 +57,8 @@ class Experiencia extends DBAbstractModel {
 	public function updateLikes($idExp, $likes, $dislikes) {
 		$this->query = "UPDATE Experiencia SET likes='$likes', dislikes= '$dislikes'
         WHERE idExp='$idExp'";
-		$exito = $this->execute_single_query($this->query);
-		if(!$exito){
+		$this->execute_single_query();
+		if($this->queryExitosa == 0){
 			return "FAIL";
 		}else{
 			return "OK";
@@ -68,8 +68,8 @@ class Experiencia extends DBAbstractModel {
 	public function updateExperiencia ($idExp,$newTitulo,$newFecha,$newTexto,$newImg){
 		$this->query = "UPDATE Experiencia SET titol='$newTitulo', data='$newFecha', text='$newTexto', imatge='$newImg'
         WHERE idExp='$idExp'";
-		$exito = $this->execute_single_query($this->query);
-		if(!$exito){
+		$this->execute_single_query();
+		if($this->queryExitosa == 0){
 			return "FAIL";
 		}else{
 			return "OK";
@@ -78,14 +78,19 @@ class Experiencia extends DBAbstractModel {
 
 	public function eliminarExperiencia($idCard) {
 		$this->query = "DELETE FROM Experiencia WHERE idExp ='$idCard'";
-		$this->execute_single_query($this->query);
+		$this->execute_single_query();
+		if($this->queryExitosa == 0){
+			return "FAIL";
+		}else{
+			return "OK";
+		}
 	}
 
 	public function	reportarExperiencia($idCard) {
 		$this->query = "UPDATE Experiencia SET reportat='1'
         WHERE idExp='$idCard'";
-		$exito = $this->execute_single_query($this->query);
-		if(!$exito){
+		$this->execute_single_query();
+		if($this->queryExitosa == 0){
 			return "FAIL";
 		}else{
 			return "OK";
@@ -101,7 +106,7 @@ class Experiencia extends DBAbstractModel {
 		$username = $nuevaExp["username"];
 
 		$this->query = `INSERT INTO Experiencia VALUES ("")`;
-		$this->execute_single_query($this->query);
+		$this->execute_single_query();
 	}
 
 }

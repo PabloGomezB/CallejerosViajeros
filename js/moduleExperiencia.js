@@ -381,8 +381,8 @@ var moduleExperiencia = (function () {
             }
         })
         .then(function (respuesta){
-            // console.log(respuesta);
-            if (respuesta.data.status=="FAIL") {
+            console.log(respuesta);
+            if (respuesta.data=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
                 extraerExperiencias(isAdmin, username, categoria);
@@ -419,7 +419,7 @@ var moduleExperiencia = (function () {
         })
         .then(function (respuesta){
             console.log("RESPUESTA UPDATE: "+respuesta.data);
-            if (respuesta.data=="FAILj") { // DA FAIL Y NO SE PORQUEEE QUE ESTA PASANDOOOOOOOOOO DA FAIL PERO LO GUARDA QUE LOCURA ES ESTAAAAAAAAAA. un pablo desesperado :)
+            if (respuesta.data=="FAIL") { // DA FAIL Y NO SE PORQUEEE QUE ESTA PASANDOOOOOOOOOO DA FAIL PERO LO GUARDA QUE LOCURA ES ESTAAAAAAAAAA. un pablo desesperado :)
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
                 extraerExperiencias(isAdmin, username, categoria);
@@ -450,7 +450,7 @@ var moduleExperiencia = (function () {
             }
         })
         .then(function (respuesta){
-            if (respuesta.data.status=="FAIL") {
+            if (respuesta.data=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
                 extraerExperiencias(isAdmin,username,categoria);
@@ -481,7 +481,7 @@ var moduleExperiencia = (function () {
             }
         })
         .then(function (respuesta){
-            if (respuesta.data.status=="FAIL") {
+            if (respuesta.data=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
                 extraerExperiencias(isAdmin,username,categoria);
@@ -515,7 +515,7 @@ var moduleExperiencia = (function () {
         })
         .then(function (respuesta){
             // console.log("RESPUESTA REPORTAREXP: "+respuesta.data);
-            if (respuesta.data.status=="FAIL") {
+            if (respuesta.data=="FAIL") {
                 alert("ERROR, TE HAS EQUIVODADO");
             } else {
                 extraerExperiencias();
@@ -627,8 +627,6 @@ var moduleExperiencia = (function () {
             document.getElementById(idCard).click();
         }, 2000);
     }
-
-
 
 
     // Esta funcion era de prueba para obtener las categorias y consruir el desplegable
