@@ -52,8 +52,42 @@ class Usuario extends DBAbstractModel {
 		else{
 			return json_encode(array('status' => 'FAIL', 'email' => $username));
 		}
-		
 	}
+
+	public function informacionUsuario($username) {
+		$this->query = "SELECT *
+						FROM Usuari
+						WHERE username='$username'";
+
+		$this->get_results_from_query();
+
+		$infoUsuario = array(
+			"nombre" => $this->rows[0]["nom"],
+			"cognom" => $this->rows[0]["cognom"],
+			"username" =>  $this->rows[0]["username"],
+			"password" => $this->rows[0]["password"]
+		);
+
+		return json_encode($infoUsuario);
+	}
+
+	public function updateInformacionUsuario($username, $nombre, $apellido, $password) {
+		$this->query = "UPDATE Usuari 
+						SET nom='$nombre', cognom= '$apellido', password='$password' 
+        				WHERE username='$username'";
+		$exito = $this->execute_single_query($this->query);
+		if ($exito){
+			return "FAIL";
+		} else{
+			return "OK";
+		}
+	}
+
+
+
+
+
+
 
 	public function mostrarTot() {
 		$this->query = "SELECT * FROM  contactes;";
@@ -91,7 +125,6 @@ class Usuario extends DBAbstractModel {
 			echo "Username: ".$this->rows[$i]["username"]."<br>";
 		}
 
-		return 
     }
 
 	public function insert($userData = array()) {

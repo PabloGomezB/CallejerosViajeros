@@ -124,7 +124,109 @@ var moduleExperiencia = (function () {
                 `</div>
             <div>`;
         htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
+
+
+        htmlExperiences += `
+        <div id="formModUsu"> 
+            <div>
+                <label for="">Nombre: </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" name="" id="nombre">
+                <br>
+                <label for="">Apellido: </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" name="" id="apellido">
+                <br>
+                <label for="">Contraseña: </label>
+                &nbsp;
+                <input type="text" name="" id="contraseña">
+                <br><br>
+                <button id="modificarUsu">Modificar Usurio</button>
+            </div>
+        </div>
+        `;
+
+        axios.get("./database/usuari/infoUsuario.php",{
+            params: {
+                username: username
+            }
+        })
+        .then(function (respuesta){
+            // console.log(respuesta);
+            if (respuesta.data.status=="FAIL") {
+                alert("ERROR, TE HAS EQUIVODADO");
+            } else {
+                console.log(respuesta.data);
+                document.getElementById("nombre").value = respuesta.data["nombre"];
+                document.getElementById("apellido").value = respuesta.data["cognom"];
+                document.getElementById("contraseña").value = respuesta.data["password"];
+                // $("#nombre").value = respuesta.data["nombre"];
+                // $("#apellido").value = respuesta.data["cognom"];
+                // $("#contraseña").value = respuesta.data["password"];
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
+
         document.getElementById("content").innerHTML=htmlExperiences;
+
+        document.getElementById("modificarUsu").addEventListener("click", function(){
+            console.log("CLICK");
+            axios.get("./database/usuari/updateInfoUsuario.php",{
+                params: {
+                    username: username,
+                    nombre: document.getElementById("nombre").value,
+                    apellido: document.getElementById("apellido").value,
+                    password: document.getElementById("contraseña").value
+                }
+            })
+            .then(function (respuesta){
+                console.log(respuesta);
+                if (respuesta.data.status=="FAIL") {
+                    alert("ERROR, TE HAS EQUIVODADO");
+                } else {
+
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+    })
+
+
+
+        axios.get("./database/usuari/infoUsuario.php",{
+                        params: {
+                            username: username
+                        }
+                    })
+                    .then(function (respuesta){
+                        // console.log(respuesta);
+                        if (respuesta.data.status=="FAIL") {
+                            alert("ERROR, TE HAS EQUIVODADO");
+                        } else {
+                            console.log(respuesta.data);
+                            document.getElementById("nombre").value = respuesta.data["nombre"];
+                            document.getElementById("apellido").value = respuesta.data["cognom"];
+                            document.getElementById("contraseña").value = respuesta.data["password"];
+                            // $("#nombre").value = respuesta.data["nombre"];
+                            // $("#apellido").value = respuesta.data["cognom"];
+                            // $("#contraseña").value = respuesta.data["password"];
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .then(function () {
+                        // always executed
+                    });
 
 
         /////////////////////////////////////////////////////////////////
