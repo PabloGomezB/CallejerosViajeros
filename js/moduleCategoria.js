@@ -72,6 +72,12 @@ var moduleCategoria = (function () {
             crearFormNovaExperiencia +=
             `</div>
             <button id="btnCrearExp">Crear</button>
+
+            <!-- no mes de 8 megas de cop -->
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" name="files[]" multiple />
+                <input type="submit" value="Upload File" name="submit" />
+            </form>
         </div>
         `;
 

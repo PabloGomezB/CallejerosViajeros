@@ -98,6 +98,8 @@
     <!-- End full page content -->
     <script src="./js/moduleExperiencia.js"></script>
     <script src="./js/moduleCategoria.js"></script>
+    <!-- prova imatges upload -->
+    <script src="./js/upload.js"></script>
 </body>
 
 </html>
