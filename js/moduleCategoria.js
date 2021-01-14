@@ -44,9 +44,6 @@ var moduleCategoria = (function () {
             <label for="titolExp">Titol: </label>
             <input type="text" name="titolExp" id="titolExp"><br>
 
-            <label for="dataExp">Data: </label>
-            <input type="date" name="dataExp" id="dataExp"><br>
-
             <label for="textExp">Text:</label>
             <textarea id="textExp" name="textExp" rows="4" cols="50"></textarea><br>
 
@@ -64,11 +61,12 @@ var moduleCategoria = (function () {
                 if (`r${categoria.idCat}` == 'r1') {
                     crearFormNovaExperiencia +=
                     `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
-                    <label for="${categoria.nom}">${categoria.nom}</label><br>`;
+                    <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
+                    
                 } else {
                     crearFormNovaExperiencia +=
                     `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}">
-                    <label for="${categoria.nom}">${categoria.nom}</label><br>`;
+                    <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
                 }
             })
             crearFormNovaExperiencia +=
@@ -79,19 +77,66 @@ var moduleCategoria = (function () {
 
         document.getElementById('newExp').insertAdjacentHTML('afterEnd', crearFormNovaExperiencia);
 
+
+
+        document.querySelectorAll(".labelNewExp").forEach(labelNewExp => {
+            labelNewExp.addEventListener("click", function(e){
+                // console.log(e.target.innerText);
+                let radios = $('input[type=radio]');
+                for (let index = 0; index < radios.length; index++) {
+                    // console.log(radios[index].value);
+                    if (e.target.innerText == radios[index].value) {
+                        radios[index].checked = "checked";
+                    }
+
+                }
+            })    
+        });
+        
+
+
         // Crear Nova Experiencia
         document.addEventListener('click',function(e){
             if(e.target && e.target.id == 'btnCrearExp'){
                 if (validateForm(categorias)) {
                     let experiencia = validateForm(categorias);
-
+                    experiencia.forEach(element => {
+                        console.log(element);
+                    });
                     // AQUI SE DEBERÍA INTERAR TODO CON UN FOREACH SOBRE categorias (mismo sistema que en la linea 45)
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
                     //PABLO tooo tuyoooo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    console.log(expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], experiencia[5], username));
+                    // console.log(expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], username));
+                    let newExp = expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], username);
+                    // console.log(newExp);
                     document.getElementById("formNewExp").style.display = "none";
                     document.getElementById("newExp").disabled = false;
+
+                    axios.get("./database/experiencias/anadirExp.php",{
+                    params: {
+                        titol: newExp["titol"],
+                        text: newExp["text"],
+                        imatge: newExp["imatge"],
+                        coordenades: newExp["coordenades"],
+                        categoria: newExp["categoria"],
+                        username: newExp["username"]
+                        
+                    }
+                    })
+                    .then(function (respuesta){
+                        console.log(respuesta);
+                        moduleExperiencia.extraerExperiencias();
+
+
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                        .then(function () {
+                          
+                        });
+                    
                 }
             }
         });
@@ -127,7 +172,6 @@ var moduleCategoria = (function () {
     //////////////////////////////////////////////////////////////////////////////////
     function validateForm(categorias) {
         let titol = document.getElementById('titolExp').value;
-        let data = document.getElementById('dataExp').value;
         let text = document.getElementById('textExp').value;
         let latitud = document.getElementById('latitudExp').value;
         let longitud = document.getElementById('longitudExp').value;
@@ -136,7 +180,7 @@ var moduleCategoria = (function () {
 
         categorias.forEach(categoria => {
             if (document.getElementById(`r${categoria.idCat}`).checked) {
-                categoriaSel = document.getElementById(`r${categoria.idCat}`).value;
+                categoriaSel = `${categoria.idCat}`;
             }
         })
 
@@ -144,9 +188,6 @@ var moduleCategoria = (function () {
 
         if (titol == "") {
             alert("Cal omplir el Titol");
-            return false;
-        } else if (data == "") {
-            alert("Cal omplir la Data");
             return false;
         } else if (text == "") {
             alert("Cal omplir el Text");
@@ -165,16 +206,8 @@ var moduleCategoria = (function () {
             return false;
         } else {
             coordenades = `${latitud},${longitud}`;
-            // console.log(testInput(titol)+"hola1");
-            // console.log(data+"hola2");
-            // console.log(testInput(text)+"hola3");
-            // console.log(imatge+"hola5");
-            // console.log(latitud+"hola6");
-            // console.log(longitud+"hola7");
-            // console.log(coordenades+"hola8");
-            // console.log(categoriaSel+"hola4");
 
-            let experiencia = [testInput(titol), data, testInput(text), coordenades, categoriaSel, imatge];
+            let experiencia = [testInput(titol), imatge, testInput(text), coordenades, categoriaSel];
             return experiencia;
         }
     }
@@ -182,17 +215,13 @@ var moduleCategoria = (function () {
     // Crear Stringify
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
-    function expToJson(titol, data, text, coordenades, categoria, imatge, username) {
+    function expToJson(titol, imatge, text, coordenades, categoria, username) {
         let novaExperiencia = new Map();
         novaExperiencia['titol'] = titol;
-        novaExperiencia['data'] = data;
         novaExperiencia['text'] = text;
         novaExperiencia['imatge'] = imatge;
         novaExperiencia['coordenades'] = coordenades;
         novaExperiencia['categoria'] = categoria;
-        novaExperiencia['likes'] = 0;
-        novaExperiencia['dislikes'] = 0;
-        novaExperiencia['estat'] = 'esborrany';
         novaExperiencia['username'] = username;
         return novaExperiencia;
     }

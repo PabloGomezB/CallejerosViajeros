@@ -4,24 +4,9 @@ header('Content-Type: text/html; charset-utf-8');
 require_once('../Experiencia.php');
 
 $exp = new Experiencia ();
-$_REQUEST['idUsu']
-$novaExp = array (
-    "titol" => $_REQUEST['titol'],
-                "data" => $_REQUEST["data"],
-                text: $_REQUEST["text"],
-                imatge: $_REQUEST["imatge"],
-                coordenades: $_REQUEST["coordenades"],
-                categoria: $_REQUEST["categoria"],
-                likes: $_REQUEST["likes"],
-                dislikes: $_REQUEST["dislikes"],
-                estat: $_REQUEST["estat"]
-);
 
-
-$exp->anadirExp($novaExp);
-
-$experiencias = $exp->mostrarTot();
-
-
-echo json_encode($experiencias);
+$var = $exp->anadirExp($_REQUEST["titol"], $_REQUEST["text"], $_REQUEST["imatge"], $_REQUEST["coordenades"], $_REQUEST["categoria"], $_REQUEST["username"]);
+// echo $var;
+// $experiencias = $exp->mostrarTot();
+// echo json_encode($experiencias);
 ?>

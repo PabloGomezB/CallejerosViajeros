@@ -92,16 +92,17 @@ class Experiencia extends DBAbstractModel {
 		}
 	}
 
-	public function anadirExp($nuevaExp) {
-		$titol = $nuevaExp["titol"];
-		$text = $nuevaExp["text"];
-		$imatge = $nuevaExp["imatge"];
-		$coordenades = $nuevaExp["coordenades"];
-		$idCat = $nuevaExp["idCat"];
-		$username = $nuevaExp["username"];
+	public function anadirExp($titol, $text, $imatge, $coordenades, $idCat, $username) {
+		// $titol = $nuevaExp["titol"];
+		// $text = $nuevaExp["text"];
+		// $imatge = $nuevaExp["imatge"];
+		// $coordenades = $nuevaExp["coordenades"];
+		// $idCat = $nuevaExp["categoria"];
+		// $username = $nuevaExp["username"];
 
-		$this->query = "INSERT INTO Experiencia VALUES ('$titol', CURDATE(), '$text', '$imatge', '$coordenades', 0, 0, 'publicada', '$idCat', '$username', false)";
+		$this->query = "INSERT INTO Experiencia (titol, data, text, imatge, coordenades, likes, dislikes, estat, idCat, username, reportat) VALUES ('$titol', CURDATE(), '$text', '$imatge', '$coordenades', 0, 0, 'publicada', $idCat, '$username', false)";
 		$this->execute_single_query($this->query);
+		return "ALGO".$imatge;
 	}
 
 }
