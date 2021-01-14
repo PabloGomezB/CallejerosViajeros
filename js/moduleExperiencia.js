@@ -363,7 +363,7 @@ var moduleExperiencia = (function () {
     }
 
     //////////////////////////////////////////////////////////////////////////////////
-    //            AXIOS QUE MODIFICA LOS LIKES Y DISLIKES UNA EXPERIENCIA           //
+    //                  AXIOS DE LIKES Y DISLIKES UNA EXPERIENCIA                   //
     //////////////////////////////////////////////////////////////////////////////////
     /*
     Params:
