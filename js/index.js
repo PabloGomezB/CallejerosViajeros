@@ -1,23 +1,16 @@
 window.onload = function () {
-    
+
     var logeado = false;
     var username = "";
     var isAdmin = false;
 
-    // $('#sidebar').css("border-right","100px solid #04aef0");
-    // Esta funcion gestiona el comportamiento del sidebar
-    // $('.borderText').hide();
-    // $('#sidebar').toggleClass('active');
+    // Funcion para gestionar el comportamiento y la vista del sidebar
     $("#dropDownLogin").click();
     $('#sidebarCollapse').on('click', function () {
         if($('#sidebar').hasClass("active")){
             // add fade-out para el texto de border antes del login
-            $('.borderText').removeClass('fade-in');
-            $('.borderText').addClass('fade-out');
-
-            // add fade-out para el texto del border logeado
-            $('.borderTextLogeado').removeClass('fade-in');
-            $('.borderTextLogeado').addClass('fade-out');
+            $('.borderAssets').removeClass('fade-in');
+            $('.borderAssets').addClass('fade-out');
 
             // "animacion" para quitar el border cada vez que se esconde el sidebar
             setTimeout(function(){$('#sidebar').css("border-right","90px solid #04aef0");}, 100);
@@ -30,20 +23,16 @@ window.onload = function () {
             setTimeout(function(){$('#sidebar').css("border-right","20px solid #04aef0");}, 100);
             setTimeout(function(){$('#sidebar').css("border-right","10px solid #04aef0");}, 100);
             setTimeout(function(){$('#sidebar').css("border-right","0px solid #04aef0");}, 100);
-            
+
             // setTimeout para ocultar el texto para que el cursor no lo detecte y se pueda hacer click en los inputs
             // 400 de tiempo porque tarda 0.3s en hacer el efecto de fade-out, sino se iría de golpe antes de que termine la animacion
             setTimeout(function(){$('.borderText').css("display","none");}, 400);
         }
         else{
             // add fade-in para el texto de border antes del login
-            $('.borderText').removeClass('fade-out');
-            $('.borderText').addClass('fade-in');
+            $('.borderAssets').removeClass('fade-out');
+            $('.borderAssets').addClass('fade-in');
             setTimeout(function(){$('.borderText').css("display","initial");}, 100);
-
-            // add fade-in para el texto del border logeado
-            $('.borderTextLogeado').removeClass('fade-out');
-            $('.borderTextLogeado').addClass('fade-in');
 
             // se restablece el border del sidebar cuando se esconde
             $('#sidebar').css("border-right","100px solid #04aef0");
@@ -51,53 +40,48 @@ window.onload = function () {
         $('#sidebar').toggleClass('active');
     });
 
-    // $('#sidebarCollapse').click();
-    // $("#dropDownLogin").click();
-    // $("#email").focus();
-    // $('#desplegableLogin').removeClass('collapse');
-   
 
+    // Esta funcion resetea los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
+    document.querySelectorAll(".dropdown-toggle").forEach(dropDownItem => {
+        dropDownItem.addEventListener("click", function(){
+            $("#dropDownRegistro").click();
+            $("#dropDownLogin").click();
 
-    // Estas dos funciones resetean los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
-    document.getElementById("dropDownLogin").addEventListener("click", function(){
-        // $("#dropDownRegistro").click();
-        let formRegistro = document.querySelector("#formRegistro");
-        formRegistro.querySelectorAll("input.form-control").forEach(input => {
-            input.value = ``;
+            if($("#dropDownLogin").attr('aria-expanded') == 'true' ){
+                reset("#formRegistro");
+                document.getElementById("email").focus();
+            }
+            else{
+                reset("#formLogin");
+                document.getElementById("nom").focus();
+            }
         })
-        formRegistro.querySelector(".checkboxPass").checked = false;
-        document.getElementById("email").focus();
-    })
-    document.getElementById("dropDownRegistro").addEventListener("click", function(){
-        // $("#dropDownLogin").click();
-        let formLogin = document.querySelector("#formLogin");
-        formLogin.querySelectorAll("input.form-control").forEach(input => {
-            input.value = ``;
-        })
-        formLogin.querySelector(".checkboxPass").checked = false;
-        document.getElementById("nom").focus();
-    })
+
+        function reset(id){
+            let form = document.querySelector(id);
+            form.querySelectorAll("input.form-control").forEach(input => {
+                input.value = ``;
+            })
+            form.querySelector(".checkboxPass").checked = false;
+        }
+    });
 
     // Aqui se añade la funcionalidad de enviar los formularios presionando ENTER en cada uno de los campos existentes
     let formLogin = document.querySelector("#formLogin");
-    formLogin.querySelectorAll("input.form-control").forEach(input => {
-        input.addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                // event.preventDefault();
-                document.getElementById("login").click();
-            }
-        })
-    })
-    let formRegistro = document.querySelector("#formRegistro");
-    formRegistro.querySelectorAll("input.form-control").forEach(input => {
-        input.addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                // event.preventDefault();
-                document.getElementById("register").click();
-            }
-        })
-    })
+    submitOnEnter(formLogin, "login");
 
+    let formRegistro = document.querySelector("#formRegistro");
+    submitOnEnter(formRegistro, "register");
+
+    function submitOnEnter(form, btnId){
+        form.querySelectorAll("input.form-control").forEach(input => {
+            input.addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    document.getElementById(btnId).click();
+                }
+            })
+        })
+    }
 
     // Muestra las contraseñas de los formularios y marca los checkbox
     document.querySelectorAll(".checkEyePass").forEach(spanCheckBox => {
@@ -121,12 +105,9 @@ window.onload = function () {
     axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
     })
     .then(function (respuesta){
-        // console.log(respuesta);
         let baseDades = JSON.parse(respuesta.data);
-        // console.log(baseDades);
-        // printLastExperiences(baseDades);
         let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
-        
+
         let maxBaseDades = parseInt(baseDades.length);
         if (maxBaseDades < 5){
             maxBaseDades = maxBaseDades-5;
@@ -135,17 +116,16 @@ window.onload = function () {
         let top = 0;
         for (let i = parseInt(baseDades.length)-1; top < 5; i--) {
             let element = baseDades[i]["titol"];
-            // console.info(element);
             htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
             htmlLastExperiences += `<p>${element}</p>`;
-            htmlLastExperiences += '</div>';          
+            htmlLastExperiences += '</div>';
             top++;
         }
 
         htmlLastExperiences += '</div>';
         // injectar despres del primer div
         document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlLastExperiences);
-    
+
     })
     .catch(function (error) {
         console.log(error);
@@ -196,7 +176,7 @@ window.onload = function () {
                             }
                             transformarSidebar();
                             moduleExperiencia.extraerExperiencias(isAdmin, username);
-                            
+
                         }
                     }
                 })
@@ -213,12 +193,12 @@ window.onload = function () {
             });
         }
     })
-    
+
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
     // REGISTER
     document.getElementById("register").addEventListener("click", function () {
-        if (document.getElementById("nom").value === "" || document.getElementById("cognom").value === "" || 
+        if (document.getElementById("nom").value === "" || document.getElementById("cognom").value === "" ||
             document.getElementById("username").value === "" || document.getElementById("passRegister").value === ""){
             Swal.fire({
                 title: "¡ERROR!",
@@ -265,7 +245,7 @@ window.onload = function () {
                     //
             });
         }
-        
+
     })
 
     // JORDI
@@ -279,8 +259,7 @@ window.onload = function () {
         }
     });
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////
+    
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar(){
 
@@ -288,18 +267,25 @@ window.onload = function () {
         $('#sidebar').toggleClass('active');
         $('#sidebar').css("border-right","100px solid #04aef0");
 
-        // Construir la misma estructura para añadir texto al border
-        document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
-        sidebar.innerHTML = `
-        <span class="borderTextLogeado">
-            Opciones
-        </span>
-        <button onClick="window.location.reload();">LOGOUT!</button>`;
+        // Obtenemos el div que contiene los formularios para sobreescribirlo
+        let sidebar = document.getElementById("formsIndex");
+        sidebar.innerHTML = `<button onClick="window.location.reload();">LOGOUT</button>`;
 
-        // Si es admin saldrá el boton de admin y logout, sino solo logout
+        $('.borderAssets').removeClass('fade-out');
+        $('.borderAssets').addClass('fade-in');
+
+        $('.borderText').css("top","140px");
+        $('.borderText').css("height","fit-content");
+        $('.borderText').css("display","initial");
+
+        // Cambia el boton para abrir sidebar
+        document.getElementById("sidebarCollapse").innerHTML=`Opciones`;
+        // Cambia el texto del borde del sidebar
+        document.getElementById("borderText").innerHTML = `Opciones`;
+
         if(isAdmin){
             let sidebarAdmin =
-            `<button>Bienvenido admin!</button>`;
+            `<button>Rol admin: ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarAdmin);
 
             let categoriaAdmin =
@@ -386,7 +372,7 @@ window.onload = function () {
         }
         else{
             let sidebarNormalUser =
-            `<button>tu no eres admin pendejo</button>`;
+            `<button>Rol user: ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
         }
     }

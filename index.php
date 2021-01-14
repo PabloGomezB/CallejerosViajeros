@@ -12,7 +12,7 @@
 
 <body>
 
-    <header class="header">
+    <header id="headhead" class="header">
         <button type="button" id="sidebarCollapse" class="btn btn-primary subirButton">
             <i class="fas fa-sign-in-alt"></i>
             <span>Log in !</span>
@@ -30,45 +30,51 @@
         </div>
     </header>
 
+    <!-- Full page content -->
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar" class="active">
+            <!-- Border -->
+            <div class="borderAssets">
+                <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito" style="top:20px;"> 
+                <span id="borderText" class="borderText">Login / registro</span>
+                <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito" style="top:440px;">
+            </div>
+            <!-- End border -->
 
-            <span class="borderText">
-                <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">    
-                Login / registro
-                <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">
-            </span>
+            <!-- Forms -->
+            <div id="formsIndex">
+                <!-- Login -->
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle sidebar-header">Login</a>
+                        <ul class="collapse list-unstyled" id="desplegableLogin">
+                            <li>
+                                <?php include("includes/sidebarLogin.php") ?>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- End login -->
 
-            <!-- <span class="borderTextLogeado"> -->
-                <!-- <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito">     -->
-                <!-- Opciones -->
-                <!-- <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito"> -->
-            <!-- </span> -->
-
-            <ul class="list-unstyled components">
-                <li class="active">
-                    <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle sidebar-header">Login</a>
-                    <ul class="collapse list-unstyled" id="desplegableLogin">
-                        <li>
-                            <?php include("includes/sidebarLogin.php") ?>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="list-unstyled components">
-                <li class="active">
-                    <a id="dropDownRegistro" href="#desplegableRegistro" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-header">Registro</a>
-                    <ul class="collapse list-unstyled" id="desplegableRegistro">
-                        <li>
-                            <?php include("includes/sidebarRegister.php") ?>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                <!-- Register -->
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <a id="dropDownRegistro" href="#desplegableRegistro" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-header">Registro</a>
+                        <ul class="collapse list-unstyled" id="desplegableRegistro">
+                            <li>
+                                <?php include("includes/sidebarRegister.php") ?>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- End register -->
+            </div>
+            <!-- End forms -->
         </nav>
         <!-- End sidebar -->
+
+        <!-- Page content -->
         <div id="content">
             
             <h1 id="enunciat">Vacances</h1>
@@ -83,11 +89,13 @@
 
         <div id="modalAdminUser"></div>
         
-        <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 102)-->
+        <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 200)-->
         <div id="divModal"></div>
         <!-- Este modal es la confirmacion de cuando el user va a eliminar una experiencia -->
         <div id="divModalConfirm"></div>
-    
+        
+    </div>
+    <!-- End full page content -->
     <script src="./js/moduleExperiencia.js"></script>
     <script src="./js/moduleCategoria.js"></script>
 </body>
