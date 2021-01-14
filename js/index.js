@@ -41,50 +41,47 @@ window.onload = function () {
     });
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ARREGLAR ESTE DESASTREEEEEEE YA
-    // Estas dos funciones resetean los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
-    document.getElementById("dropDownLogin").addEventListener("click", function(){
-        if()
-        // $("#dropDownRegistro").click();
-        let formRegistro = document.querySelector("#formRegistro");
-        formRegistro.querySelectorAll("input.form-control").forEach(input => {
-            input.value = ``;
+    // Esta funcion resetea los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
+    document.querySelectorAll(".dropdown-toggle").forEach(dropDownItem => {
+        dropDownItem.addEventListener("click", function(){
+            $("#dropDownRegistro").click();
+            $("#dropDownLogin").click();
+
+            if($("#dropDownLogin").attr('aria-expanded') == 'true' ){
+                reset("#formRegistro");
+                document.getElementById("email").focus();
+            }
+            else{
+                reset("#formLogin");
+                document.getElementById("nom").focus();
+            }
         })
-        formRegistro.querySelector(".checkboxPass").checked = false;
-        document.getElementById("email").focus();
-    })
-    document.getElementById("dropDownRegistro").addEventListener("click", function(){
-        // $("#dropDownLogin").click();
-        let formLogin = document.querySelector("#formLogin");
-        formLogin.querySelectorAll("input.form-control").forEach(input => {
-            input.value = ``;
-        })
-        formLogin.querySelector(".checkboxPass").checked = false;
-        document.getElementById("nom").focus();
-    })
+
+        function reset(id){
+            let form = document.querySelector(id);
+            form.querySelectorAll("input.form-control").forEach(input => {
+                input.value = ``;
+            })
+            form.querySelector(".checkboxPass").checked = false;
+        }
+    });
 
     // Aqui se añade la funcionalidad de enviar los formularios presionando ENTER en cada uno de los campos existentes
     let formLogin = document.querySelector("#formLogin");
-    formLogin.querySelectorAll("input.form-control").forEach(input => {
-        input.addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                // event.preventDefault();
-                document.getElementById("login").click();
-            }
-        })
-    })
-    let formRegistro = document.querySelector("#formRegistro");
-    formRegistro.querySelectorAll("input.form-control").forEach(input => {
-        input.addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                // event.preventDefault();
-                document.getElementById("register").click();
-            }
-        })
-    })
+    submitOnEnter(formLogin, "login");
 
+    let formRegistro = document.querySelector("#formRegistro");
+    submitOnEnter(formRegistro, "register");
+
+    function submitOnEnter(form, btnId){
+        form.querySelectorAll("input.form-control").forEach(input => {
+            input.addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    document.getElementById(btnId).click();
+                }
+            })
+        })
+    }
 
     // Muestra las contraseñas de los formularios y marca los checkbox
     document.querySelectorAll(".checkEyePass").forEach(spanCheckBox => {
