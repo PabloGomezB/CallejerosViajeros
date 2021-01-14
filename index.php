@@ -79,7 +79,9 @@
 
         </div>
 
+        <div id="modalAdminCat"></div>
 
+        <div id="modalAdminUser"></div>
         
         <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 102)-->
         <div id="divModal"></div>

@@ -80,6 +80,20 @@ class Usuario extends DBAbstractModel {
 		}
 	}
 
+	public function mostrarUsuario() {
+        $this->query = "SELECT *
+                        FROM Usuari";
+        $this->get_results_from_query();
+		for($i = 0; $i < count($this->rows); $i++){
+			echo "<br><br>";
+			echo "Nom: ".$this->rows[$i]["nom"] . "<br>";
+			echo "Cognom: ".$this->rows[$i]["cognom"]."<br>";
+			echo "Username: ".$this->rows[$i]["username"]."<br>";
+		}
+
+		return 
+    }
+
 	public function insert($userData = array()) {
 		/*CREO QUE HABRA DE CREAR LA FUNCION array_key_exists*/
 		// echo "ESTO ES LA FUNCION INSERT";
