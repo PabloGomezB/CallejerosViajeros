@@ -41,7 +41,13 @@ var moduleCategoria = (function () {
         <div id="formNewExp">
             <h2>Nova Experiencia</h2>
 
-            <label for="titolExp">Titol: </label>
+            <!-- no mes de 8 megas de cop -->
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" name="files[]" multiple />
+                <input type="submit" value="Upload File" name="submit" />
+            </form>
+
+            <label for="titolExp">Titol1: </label>
             <input type="text" name="titolExp" id="titolExp"><br>
 
             <label for="textExp">Text:</label>
@@ -72,12 +78,6 @@ var moduleCategoria = (function () {
             crearFormNovaExperiencia +=
             `</div>
             <button id="btnCrearExp">Crear</button>
-
-            <!-- no mes de 8 megas de cop -->
-            <form method="post" enctype="multipart/form-data">
-                <input type="file" name="files[]" multiple />
-                <input type="submit" value="Upload File" name="submit" />
-            </form>
         </div>
         `;
 
