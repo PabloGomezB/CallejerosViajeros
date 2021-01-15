@@ -228,9 +228,9 @@ window.onload = function () {
                     else{
                         // PRINT VISTA DE LOGEADO
                         logeado = true;
-                        emailUserLogeado = respuesta2.data.email;
+                        username = respuesta2.data.email;
                         transformarSidebar();
-                        moduleExperiencia.extraerExperiencias();
+                        moduleExperiencia.extraerExperiencias(isAdmin, username);
                     }
                 })
                 .catch(function (error) {
