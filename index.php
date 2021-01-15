@@ -1,4 +1,7 @@
-<?php session_start();?>
+<?php session_start();
+$_SESSION['username']="df";
+print_r($_SESSION);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,7 +15,6 @@
 </head>
 
 <body>
-
     <header id="headhead" class="header">
         <button type="button" id="sidebarCollapse" class="btn btn-primary subirButton">
             <i class="fas fa-sign-in-alt"></i>
