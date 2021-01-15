@@ -363,7 +363,6 @@ window.onload = function () {
                         botonesEliminar = document.getElementsByClassName("btnEliminarUser");
                 for(i=0;i<botonesEliminar.length;i++){
                     botonesEliminar[i].addEventListener('click', function(e){
-                        console.log("hola");
                         let seleccionado = e.target.getAttribute("nombre");
                         axios.get("./database/usuari/eliminarUsuario.php",{
                             params: {
