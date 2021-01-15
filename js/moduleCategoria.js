@@ -1,29 +1,27 @@
 var moduleCategoria = (function () {
 
-    function extraerCategorias(username, callFromSetBuscador){
+    function extraerCategorias(username, callFromSetBuscador) {
         var x = "null";
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
-        })
-        .then(function (respuesta){
+        axios.get("./database/categoria/categoria.php", {})
+            .then(function (respuesta) {
 
-            let categorias = JSON.parse(respuesta.data);
-            if (callFromSetBuscador === true){
-                // PORQUE ESTO NO HACE RETURN DE CATEGORIAS
-                x = categorias;
-                // return categorias;
-            }
-            else{
-                creatFormExp(categorias, username);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            if (callFromSetBuscador === true){
-                return x;
-            }
-        });
+                let categorias = JSON.parse(respuesta.data);
+                if (callFromSetBuscador === true) {
+                    // PORQUE ESTO NO HACE RETURN DE CATEGORIAS
+                    x = categorias;
+                    // return categorias;
+                } else {
+                    creatFormExp(categorias, username);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                if (callFromSetBuscador === true) {
+                    return x;
+                }
+            });
     }
 
 
@@ -37,7 +35,7 @@ var moduleCategoria = (function () {
 
         // faltan coordenadas y username
         let crearFormNovaExperiencia =
-        `
+            `
         <div id="formNewExp">
             <h2>Nova Experiencia</h2>
 
@@ -55,21 +53,21 @@ var moduleCategoria = (function () {
 
             <div id="categoriaExp">`;
 
-            // ForEach para crear los radio buttons según todas las categorias que existan en la base de datos
-            categorias.forEach(categoria => {
-                // console.log(categoria.nom);
-                if (`r${categoria.idCat}` == 'r1') {
-                    crearFormNovaExperiencia +=
+        // ForEach para crear los radio buttons según todas las categorias que existan en la base de datos
+        categorias.forEach(categoria => {
+            // console.log(categoria.nom);
+            if (`r${categoria.idCat}` == 'r1') {
+                crearFormNovaExperiencia +=
                     `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
                     <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
-                    
-                } else {
-                    crearFormNovaExperiencia +=
+
+            } else {
+                crearFormNovaExperiencia +=
                     `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}">
                     <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
-                }
-            })
-            crearFormNovaExperiencia +=
+            }
+        })
+        crearFormNovaExperiencia +=
             `</div>
             <button id="btnCrearExp">Crear</button>
         </div>
@@ -80,7 +78,7 @@ var moduleCategoria = (function () {
 
 
         document.querySelectorAll(".labelNewExp").forEach(labelNewExp => {
-            labelNewExp.addEventListener("click", function(e){
+            labelNewExp.addEventListener("click", function (e) {
                 // console.log(e.target.innerText);
                 let radios = $('input[type=radio]');
                 for (let index = 0; index < radios.length; index++) {
@@ -90,14 +88,14 @@ var moduleCategoria = (function () {
                     }
 
                 }
-            })    
+            })
         });
-        
+
 
 
         // Crear Nova Experiencia
-        document.addEventListener('click',function(e){
-            if(e.target && e.target.id == 'btnCrearExp'){
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.id == 'btnCrearExp') {
                 if (validateForm(categorias)) {
                     let experiencia = validateForm(categorias);
                     experiencia.forEach(element => {
@@ -113,20 +111,20 @@ var moduleCategoria = (function () {
                     document.getElementById("formNewExp").style.display = "none";
                     document.getElementById("newExp").disabled = false;
 
-                    axios.get("./database/experiencias/anadirExp.php",{
-                    params: {
-                        titol: newExp["titol"],
-                        text: newExp["text"],
-                        imatge: newExp["imatge"],
-                        coordenades: newExp["coordenades"],
-                        categoria: newExp["categoria"],
-                        username: newExp["username"]
-                        
-                    }
-                    })
-                    .then(function (respuesta){
-                        console.log(respuesta);
-                        moduleExperiencia.extraerExperiencias();
+                    axios.get("./database/experiencias/anadirExp.php", {
+                            params: {
+                                titol: newExp["titol"],
+                                text: newExp["text"],
+                                imatge: newExp["imatge"],
+                                coordenades: newExp["coordenades"],
+                                categoria: newExp["categoria"],
+                                username: newExp["username"]
+
+                            }
+                        })
+                        .then(function (respuesta) {
+                            console.log(respuesta);
+                            moduleExperiencia.extraerExperiencias();
 
 
                         })
@@ -134,9 +132,9 @@ var moduleCategoria = (function () {
                             console.log(error);
                         })
                         .then(function () {
-                          
+
                         });
-                    
+
                 }
             }
         });
@@ -153,15 +151,17 @@ var moduleCategoria = (function () {
             '"': '&quot;',
             "'": '&#039;'
         };
-        
-        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+
+        return text.replace(/[&<>"']/g, function (m) {
+            return map[m];
+        });
     }
 
     // Validacio per php
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
     function testInput(data) {
-        data = data.replace(/\\/g," ");
+        data = data.replace(/\\/g, " ");
         data = data.trim();
         data = escapeHtml(data);
         return data;
