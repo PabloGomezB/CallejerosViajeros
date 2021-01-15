@@ -71,6 +71,21 @@ class Usuario extends DBAbstractModel {
 		return json_encode($infoUsuario);
 	}
 
+	public function mostrarUsuario() {
+        $this->query = "SELECT *
+                        FROM Usuari";
+		$this->get_results_from_query();
+		$todosUsuarios = array();
+		for($i = 0; $i < count($this->rows); $i++){
+			$username = $this->rows[$i]["username"];
+			$usuari = array(
+				"username" => $username
+			);
+			array_push($todosUsuarios, $usuari);
+		}
+		return json_encode($todosUsuarios);
+    }
+
 	public function updateInformacionUsuario($username, $nombre, $apellido, $password) {
 		$this->query = "UPDATE Usuari 
 						SET nom='$nombre', cognom= '$apellido', password='$password' 
@@ -82,12 +97,6 @@ class Usuario extends DBAbstractModel {
 			return "OK";
 		}
 	}
-
-
-
-
-
-
 
 	public function mostrarTot() {
 		$this->query = "SELECT * FROM  contactes;";
@@ -113,19 +122,6 @@ class Usuario extends DBAbstractModel {
 			$this->get_results_from_query();
 		}
 	}
-
-	public function mostrarUsuario() {
-        $this->query = "SELECT *
-                        FROM Usuari";
-        $this->get_results_from_query();
-		for($i = 0; $i < count($this->rows); $i++){
-			echo "<br><br>";
-			echo "Nom: ".$this->rows[$i]["nom"] . "<br>";
-			echo "Cognom: ".$this->rows[$i]["cognom"]."<br>";
-			echo "Username: ".$this->rows[$i]["username"]."<br>";
-		}
-
-    }
 
 	public function insert($userData = array()) {
 		/*CREO QUE HABRA DE CREAR LA FUNCION array_key_exists*/

@@ -333,13 +333,13 @@ window.onload = function () {
             sidebar.insertAdjacentHTML("beforeend", experienciasAdmin);
             
             let usuarisAdmin =
-            `<button id=usersAdmin>Usuarios</button>`;
+            `<button id="usersAdmin">Usuarios</button>`;
             sidebar.insertAdjacentHTML("beforeend", usuarisAdmin);
             document.getElementById("usersAdmin").addEventListener('click', function(){
-                axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/Usuario.php",{
+                axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/usuari/mostrarUsuarios.php",{
                     })
                     .then(function (respuesta){
-                        let usuarios = JSON.parse(respuesta.data);
+                        let usuarios = respuesta.data;
                         let htmlmodal = `<div id="modalUser" class="modal" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -350,11 +350,9 @@ window.onload = function () {
                                 </button>
                             </div>
                             <div class="modal-body">`;
-
-                            usuarios.forEach(usuario => {
-                                console.log(usuario.nom);
-                                htmlmodal += `<label>${usuario.nom}</label><br>`;
-                            })
+                            for(i=0; i<usuarios.length; i++){
+                                htmlmodal += `<label>${usuarios[i].username}</label><br>`;
+                            }
                             htmlmodal += `
                             </div>
                             </div>
