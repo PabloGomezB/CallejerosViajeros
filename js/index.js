@@ -349,11 +349,15 @@ window.onload = function () {
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">`;
+                            <div class="modal-body">
+                                <table>`;
                             for(i=0; i<usuarios.length; i++){
-                                htmlmodal += `<label>${usuarios[i].username}</label><br>`;
+                                htmlmodal += `<tr>
+                                <td id="${usuarios[i].username}">${usuarios[i].username}</td>
+                                <td><button class="btnEliminarUser" nombre="${usuarios[i].username}">Darse de baja</button></td>
+                                </tr>`;
                             }
-                            htmlmodal += `
+                            htmlmodal += `</table>
                             </div>
                             </div>
                         </div>
@@ -365,8 +369,24 @@ window.onload = function () {
                         console.log(error);
                     })
                     .then(function () {
+                        botonesEliminar = document.getElementsByClassName("btnEliminarUser");
+                for(i=0;i<botonesEliminar.length;i++){
+                    botonesEliminar[i].addEventListener('click', function(e){
+                        console.log("hola");
+                        let seleccionado = e.target.getAttribute("nombre");
+                        axios.get("./database/usuari/eliminarUsuario.php",{
+                            params: {
+                                    username: seleccionado
+                            }
+                        })
+                        .then(function(){
+                            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+                        })
+                    })
+                }
                 });
             })
+            
         }
         else{
             let sidebarNormalUser =
@@ -375,3 +395,4 @@ window.onload = function () {
         }
     }
 }
+

@@ -84,8 +84,15 @@ class Usuario extends DBAbstractModel {
 			array_push($todosUsuarios, $usuari);
 		}
 		return json_encode($todosUsuarios);
-    }
+	}
+	
+	public function deleteUser($username) {
+		$this->query = "DELETE FROM Usuari WHERE username ='$username'";
+		$this->execute_single_query($this->query);
+	}
 
+
+	
 	public function updateInformacionUsuario($username, $nombre, $apellido, $password) {
 		$this->query = "UPDATE Usuari 
 						SET nom='$nombre', cognom= '$apellido', password='$password' 
