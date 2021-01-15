@@ -176,7 +176,11 @@ var moduleExperiencia = (function () {
                     if (respuesta.data.status == "FAIL") {
                         alert("ERROR, TE HAS EQUIVODADO");
                     } else {
-
+                        Swal.fire({
+                            title: "Modificaste Tus Datos De Usuario a:",
+                            text: "   Nombre: "+document.getElementById("nombre").value+"   Apellido: "+document.getElementById("apellido").value+"   Contraseña: "+ document.getElementById("contraseña").value,
+                            icon: "error",
+                        });
                     }
                 })
                 .catch(function (error) {
