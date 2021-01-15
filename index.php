@@ -12,6 +12,7 @@ print_r($_SESSION);
     <title>Index</title>
     <script src="./js/index.js"></script>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/footer.css" />
 </head>
 
 <body>
@@ -98,6 +99,179 @@ print_r($_SESSION);
         <div id="divModalConfirm"></div>
         
     </div>
+
+
+
+
+    <!-- Start footer -->
+    <footer class="container-fluid footer">
+        <!-- Divisor -->
+        <div class="divisor row mt-5 p-5 px-3 mb-5 d-flex justify-content-between">
+            <div>
+                <span class="mr-5 font-weight-bold">Ready to get started?</span>
+                <span class="d-none d-md-inline-block">Get in touch to discuss your cybersecurity needs</span>
+            </div>
+            <div>
+                <span class="d-none d-sm-inline-block">JOIN NOW</span>
+            </div>
+        </div>
+        <!-- End Divisor -->
+
+        <!-- Upper Container -->
+        <div class="container-fluid px-0">
+            <div class="row">
+                <!-- Links -->
+                <div class="row col-sm-8 px-0">
+                    <!-- Company -->
+                    <div class="col col-md-auto mr-5">
+                        <h6 class="font-weight-bold footer-ul">COMPANY</h6>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">About us</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Certification</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Customer Stories</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Partners</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- About -->
+                    <div class="col col-md-auto mr-5">
+                        <h6 class="font-weight-bold footer-ul">ABOUT</h6>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Privacy Policy</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Cookie Policy</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Terms of Use</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">FAQ</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Get in touch -->
+                    <div class="col col-md-auto mr-5">
+                        <h6 class="font-weight-bold footer-ul">
+                            GET IN TOUCH
+                        </h6>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Contact us</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Jobs</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Locations</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Technical support -->
+                    <div class="col col-md-auto">
+                        <h6 class="font-weight-bold footer-ul">
+                            TECHNICAL SUPPORT
+                        </h6>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Incident?</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Communities</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Contact Support</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Customer Portal</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Documentation Portal</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="footer-links" href="#">Report Security Issue</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End Links -->
+
+                <!-- Media -->
+                <div class="col-sm-4 px-0 ml-4">
+                    <div class="float-right">
+                        <div class="mb-4">
+                            <p class="footer-media-title mb-0">
+                                GIFT DEMO CARDS
+                            </p>
+                            <p class="footer-media-text">
+                                Give a Demo Today
+                            </p>
+                        </div>
+                        <div>
+                            <p class="footer-media-title mb-0">
+                                SOCIAL MEDIA
+                            </p>
+                            <p class="footer-media-text">
+                                Give a Demo Today
+                            </p>
+                        </div>
+                        <div class="">
+                            <a class="mr-3" href="#"><i class="fab fa-twitter fa-lg text-dark"></i></a>
+                            <a class="mr-3" href="#"><i class="fab fa-facebook-f fa-lg text-dark"></i></a>
+                            <a href="#"><i class="fab fa-instagram fa-lg text-dark"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Media -->
+            </div>
+        </div>
+        <!-- End Upper Container -->
+
+        <!-- Lower Container -->
+        <div class="container-fluid mt-5 mb-5 px-0">
+            <div class="row">
+                <div class="col-sm-6 px-0">
+                    <p class="mb-0">
+                        <span class="mr-2 footer-bottom-grail" style="color: #000F14;">GRAIL</span><span
+                            class="footer-bottom-grail" style="color: #BDBDBD;">CYBERTECH</span>
+                    </p>
+                    <p class="footer-bottom-copyright">
+                        &copy; Grail 2021. All rights reserved
+                    </p>
+                </div>
+                <div class="col-sm-6 px-0">
+                    <p class="footer-bottom-text">
+                        SECURITY FOR EVERYONE
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- End Lower Container -->
+    </footer>
+    <!-- End footer -->
+
+
+
+
+
+
+
+
+
+
+
+
     <?php
 print_r($_SESSION);
 if(!isset($_SESSION["username"])){
