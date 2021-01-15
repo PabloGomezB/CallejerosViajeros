@@ -48,6 +48,12 @@ class Categoria extends DBAbstractModel {
 			return json_encode(array('status' => 'FAIL'));
 		}
 	}
+
+	public function insertCategoria($nom){
+		$this->query = "INSERT INTO Categoria (nom) VALUES ('$nom')";
+		$this->execute_single_query();
+	}
+	
 /*
 	public function insert($userData = array()) {
 		//CREO QUE HABRA DE CREAR LA FUNCION array_key_exists

@@ -285,39 +285,48 @@ window.onload = function () {
             let categoriaAdmin =
                 `<button id="categoriaAdmin">Categorias</button>` + `<br>`;
             sidebar.insertAdjacentHTML("beforeend", categoriaAdmin);
-            document.getElementById("categoriaAdmin").addEventListener('click', function () {
-                axios.get("./database/categoria/categoria.php", {})
-                    .then(function (respuesta) {
-                        let categorias = JSON.parse(respuesta.data);
-                        let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Categorias</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            <input type="text"></input><button id="crearCategory">Crear</button><br>`;
+            document.getElementById("categoriaAdmin").addEventListener('click', function(){
+                axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
+                })
+                .then(function (respuesta){
+                    let categorias = JSON.parse(respuesta.data);
+                    let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Categorias</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        <input type="text" id="nuevaCategoria"></input><button id="crearCategory" data-dismiss="modal">Crear</button><br>`;
 
                         categorias.forEach(categoria => {
-                            console.log(categoria.nom);
-
                             htmlmodal += `<label>${categoria.nom}</label><br>`;
                         })
                         htmlmodal += `
-                            </div>
-                            </div>
                         </div>
-                        </div>`;
-                        document.getElementById("modalAdminCat").innerHTML = htmlmodal;
-                        $("#modalCategoria").modal();
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                    .then(function () {});
+                        </div>
+                    </div>
+                    </div>`;
+                    document.getElementById("modalAdminCat").innerHTML = htmlmodal;
+                    $("#modalCategoria").modal();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+                    document.getElementById("crearCategory").addEventListener('click', function (){
+                        nuevaCategoria = document.getElementById("nuevaCategoria").value;
+                        console.log(nuevaCategoria);
+                        axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/categoria/crearCategoria.php",{
+                            params: {
+                                nom: nuevaCategoria
+                            }
+                        })
+                    });
+                })
             })
 
             let experienciasAdmin =
