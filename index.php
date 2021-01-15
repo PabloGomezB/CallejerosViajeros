@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -95,10 +96,19 @@
         <div id="divModalConfirm"></div>
         
     </div>
+    <?php
+print_r($_SESSION);
+if(!isset($_SESSION["username"])){
+    echo "TONTOOOO";
+}
+else{echo "REGISTRADOOOOO :D";};
+?>
+
     <!-- End full page content -->
     <script src="./js/moduleExperiencia.js"></script>
     <script src="./js/moduleNewExperiencia.js"></script>
     <!-- <script src="./js/moduleCategoria.js"></script> -->
+
 </body>
 
 </html>
