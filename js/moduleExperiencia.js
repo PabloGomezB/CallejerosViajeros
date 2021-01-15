@@ -1,22 +1,3 @@
-/*
-PREGUNTAR AL PROFE:
-
-Como hacer para que el codigo js no se ejecute sin haber obtenido la respuesta de un axios
-Ejemplo: Cuando despues de mandar like pones el spiner y el setTimeout para que le de tiempo
-    El timeout es generico de 2 segundos... Si en dos segundos no ha hecho el axios
-    entonces no tendrá nueva info que mostrar
-
-    Hay alguna manera de obtener un return de un axios¿?
-    Ejemplo:
-        let categorias = moduleCategoria.extraerCategorias();
-        categorias sera null!!!
-
-    async/await¿?¿?
-*/
-
-
-
-
 var moduleExperiencia = (function () {
 
     // Esta es la funcion "madre" de todas las demas.
@@ -28,44 +9,40 @@ var moduleExperiencia = (function () {
         if (categoria == null) {
             categoria = "Todas";
         }
-        axios.get("./database/experiencias/extraer.php", {})
+        axios.get("./database/experiencias/extraerExperiencias.php")
             .then(function (respuesta) {
                 let baseDades = JSON.parse(respuesta.data);
 
                 let desplegableBuscador = "null";
                 // Este axios es obligatorio para obtener las categorias y mostrarlas en el desplegable
-                // No he podido hacerlo de otro modo asincrono llamando a la funcion let categorias = moduleCategoria.extraerCategorias("null", true);
-                // ya que el codigo seguia ejecutandose y no daba tiempo a obtener las categorias
-                ////////////////////////////////////////////////////
-                axios.get("./database/categoria/categoria.php", {})
-                    .then(function (response) {
-                        let categorias = JSON.parse(response.data);
+                extraerCategorias().then(function (response) {
+                    let categorias = JSON.parse(response.data);
 
-                        desplegableBuscador = `
-                <div class="desplegableBuscador">
-                    <h2 id="titolExperiencies">Experiencias</h2>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" style="width:200px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ${categoria}
-                        </button>
-                        <div class="dropdown-menu" style="width:200px;" aria-labelledby="dropdownMenuButton">
-                            <button id="Todas" class="dropdown-item btn-dropdown-categoria">Todas</button>`;
-                        categorias.forEach(categoria => {
-                            desplegableBuscador += `<button id="${categoria.nom}" class="dropdown-item btn-dropdown-categoria">${categoria.nom}</button>`;
-                        })
-                        desplegableBuscador += `
+                    desplegableBuscador = `
+                    <div class="desplegableBuscador">
+                        <h2 id="titolExperiencies">Experiencias</h2>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" style="width:200px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ${categoria}
+                            </button>
+                            <div class="dropdown-menu" style="width:200px;" aria-labelledby="dropdownMenuButton">
+                                <button id="Todas" class="dropdown-item btn-dropdown-categoria">Todas</button>`;
+                            categorias.forEach(categoria => {
+                                desplegableBuscador += `<button id="${categoria.nom}" class="dropdown-item btn-dropdown-categoria">${categoria.nom}</button>`;
+                            })
+                            desplegableBuscador += `
+                            </div>
                         </div>
-                    </div>
-                </div>`;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                    .then(function () {
-                        // always executed
-                        printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria);
-                    });
-                // Fin segundo axios
+                    </div>`;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                    printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria);
+                });
+            // Fin segundo axios
 
             })
             .catch(function (error) {
@@ -74,6 +51,10 @@ var moduleExperiencia = (function () {
             .then(function () {
                 // always executed
             });
+    }
+
+    function extraerCategorias(){
+        return axios.get("./database/categoria/categoria.php");
     }
 
     function printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria) {
@@ -153,7 +134,7 @@ var moduleExperiencia = (function () {
                 if (respuesta.data.status == "FAIL") {
                     alert("ERROR, TE HAS EQUIVODADO");
                 } else {
-                    console.log(respuesta.data);
+                    // console.log(respuesta.data);
                     document.getElementById("nombre").value = respuesta.data["nombre"];
                     document.getElementById("apellido").value = respuesta.data["cognom"];
                     document.getElementById("contraseña").value = respuesta.data["password"];
@@ -170,6 +151,15 @@ var moduleExperiencia = (function () {
             });
 
         document.getElementById("content").innerHTML = htmlExperiences;
+
+        
+        // JORDI
+        // Nova Experiencia
+        document.getElementById("newExp").addEventListener('click', function (e) {
+            document.getElementById("newExp").disabled = true;
+            moduleNewExperiencia.crearExperiencia(username);
+        });
+
 
         document.getElementById("modificarUsu").addEventListener("click", function () {
             console.log("CLICK");
@@ -209,7 +199,7 @@ var moduleExperiencia = (function () {
                 if (respuesta.data.status == "FAIL") {
                     alert("ERROR, TE HAS EQUIVODADO");
                 } else {
-                    console.log(respuesta.data);
+                    // console.log(respuesta.data);
                     document.getElementById("nombre").value = respuesta.data["nombre"];
                     document.getElementById("apellido").value = respuesta.data["cognom"];
                     document.getElementById("contraseña").value = respuesta.data["password"];
@@ -721,6 +711,7 @@ var moduleExperiencia = (function () {
 
     return {
         extraerExperiencias: extraerExperiencias,
+        extraerCategorias: extraerCategorias,
         // Esta ananirExp es necesaria aqui¿?
         anadirExp: anadirExp
     };

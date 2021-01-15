@@ -249,18 +249,6 @@ window.onload = function () {
 
     })
 
-    // JORDI
-    // Nova Experiencia
-    document.addEventListener('click', function (e) {
-        if (e.target && e.target.id == 'newExp') {
-            // creatFormExp();
-            document.getElementById("newExp").disabled = true;
-            moduleCategoria.extraerCategorias(username);
-            // moduleExperiencia.anadirExp()
-        }
-    });
-
-
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar() {
 
