@@ -112,7 +112,7 @@ window.onload = function () {
     //////////////////////////////////////////////////////////////////////////////////
     // ANTES DE HACER LOGIN
     // AXIOS para mostrar los titulos de las ultimas experiencias
-    axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php", {})
+    axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraerExperiencias.php", {})
         .then(function (respuesta) {
             let baseDades = JSON.parse(respuesta.data);
             let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
