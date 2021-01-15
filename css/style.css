@@ -62,6 +62,7 @@ p{
     cursor: default;
     position: absolute;
     height: 400px;
+    font-variant: small-caps;
 }
 
 .fade-out {

@@ -39,16 +39,13 @@ class Experiencia extends DBAbstractModel {
 				'reportat' => $this->rows[$i]["reportat"],
 				'nomCategoria' => $this->getNomCategoria($idCat)
 			);
-			//***************************************************************************************** */
-			
-			
-			//***************************************************************************************** */
+
 			array_push($experiencias, $exp);
 		}
 		return json_encode($experiencias);
 	}
 
-	public function getNomCategoria($idCat){
+	public function getNomCategoria($idCat) {
 		$this->query = "SELECT nom FROM Categoria WHERE idCat = $idCat;";
 		$this->get_results_from_query();
 		return $this->rows[0]["nom"];
@@ -58,20 +55,20 @@ class Experiencia extends DBAbstractModel {
 		$this->query = "UPDATE Experiencia SET likes='$likes', dislikes= '$dislikes'
         WHERE idExp='$idExp'";
 		$this->execute_single_query();
-		if($this->queryExitosa == 0){
+		if ($this->queryExitosa == 0) {
 			return "FAIL";
-		}else{
+		} else {
 			return "OK";
 		}
 	}
 
-	public function updateExperiencia ($idExp,$newTitulo,$newFecha,$newTexto,$newImg){
+	public function updateExperiencia($idExp, $newTitulo, $newFecha, $newTexto, $newImg) {
 		$this->query = "UPDATE Experiencia SET titol='$newTitulo', data='$newFecha', text='$newTexto', imatge='$newImg'
         WHERE idExp='$idExp'";
 		$this->execute_single_query();
-		if($this->queryExitosa == 0){
+		if ($this->queryExitosa == 0) {
 			return "FAIL";
-		}else{
+		} else {
 			return "OK";
 		}
 	}
@@ -79,9 +76,9 @@ class Experiencia extends DBAbstractModel {
 	public function eliminarExperiencia($idCard) {
 		$this->query = "DELETE FROM Experiencia WHERE idExp ='$idCard'";
 		$this->execute_single_query();
-		if($this->queryExitosa == 0){
+		if ($this->queryExitosa == 0) {
 			return "FAIL";
-		}else{
+		} else {
 			return "OK";
 		}
 	}
@@ -90,9 +87,9 @@ class Experiencia extends DBAbstractModel {
 		$this->query = "UPDATE Experiencia SET reportat='1'
         WHERE idExp='$idCard'";
 		$this->execute_single_query();
-		if($this->queryExitosa == 0){
+		if ($this->queryExitosa == 0) {
 			return "FAIL";
-		}else{
+		} else {
 			return "OK";
 		}
 	}
@@ -107,7 +104,6 @@ class Experiencia extends DBAbstractModel {
 
 		$this->query = "INSERT INTO Experiencia (titol, data, text, imatge, coordenades, likes, dislikes, estat, idCat, username, reportat) VALUES ('$titol', CURDATE(), '$text', '$imatge', '$coordenades', 0, 0, 'publicada', $idCat, '$username', false)";
 		$this->execute_single_query($this->query);
-		return "ALGO".$imatge;
+		return "ALGO" . $imatge;
 	}
-
 }
