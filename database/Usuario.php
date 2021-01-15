@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once('DBAbstractModel.php');
 
 class Usuario extends DBAbstractModel {
@@ -33,8 +33,7 @@ class Usuario extends DBAbstractModel {
 		}
 		// Any register selected
 		if (count($this->rows) == 1) {
-			// session_start();
-			// $_SESSION['email']=$this->rows[0]['username'];
+			// $_SESSION['username']="df";
 			$response = array('status' => 'OK', 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'isAdmin' => $this->rows[0]["isAdmin"]);
 			return json_encode($response);
 		} else {
