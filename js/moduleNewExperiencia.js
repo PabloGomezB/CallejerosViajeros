@@ -1,9 +1,9 @@
 var moduleNewExperiencia = (function (){
 
-    function crearExperiencia(){
+    function crearExperiencia(username, isAdmin){
         moduleExperiencia.extraerCategorias().then((respuesta) => {
             let categorias = JSON.parse(respuesta.data);
-            console.log(categorias);
+            // console.log(categorias);
 
             // el parametro categorias tiene TODAS las categorias
             // faltaría hacer aqui un forEach exactament igual que el de moduleExperencias linea 33
@@ -51,7 +51,6 @@ var moduleNewExperiencia = (function (){
             document.getElementById('newExp').insertAdjacentHTML('afterEnd', crearFormNovaExperiencia);
 
 
-
             document.querySelectorAll(".labelNewExp").forEach(labelNewExp => {
                 labelNewExp.addEventListener("click", function (e) {
                     // console.log(e.target.innerText);
@@ -94,14 +93,11 @@ var moduleNewExperiencia = (function (){
                                     coordenades: newExp["coordenades"],
                                     categoria: newExp["categoria"],
                                     username: newExp["username"]
-
                                 }
                             })
                             .then(function (respuesta) {
                                 console.log(respuesta);
-                                moduleExperiencia.extraerExperiencias();
-
-
+                                moduleExperiencia.extraerExperiencias(username, isAdmin);
                             })
                             .catch(function (error) {
                                 console.log(error);

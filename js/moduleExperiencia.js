@@ -346,95 +346,96 @@ var moduleExperiencia = (function () {
                         updateModalView(idCard);
                     });
 
-                    // EDITAR
-                    // Marca como editables el titulo, la fecha y el texto
-                    // Habilita la posibilidad de escribir en negrita e italica
-                    // Guarda todos los cambios y muestra la experiencia actualizada
-                    document.getElementById(`editar${idCard}`).addEventListener("click", function (e) {
-                        document.getElementById(`editar${idCard}`).disabled = true;
+                    if (isAdmin || (username == infoSelectedExp.username)) {
+                        // EDITAR
+                        // Marca como editables el titulo, la fecha y el texto
+                        // Habilita la posibilidad de escribir en negrita e italica
+                        // Guarda todos los cambios y muestra la experiencia actualizada
+                        document.getElementById(`editar${idCard}`).addEventListener("click", function (e) {
+                            document.getElementById(`editar${idCard}`).disabled = true;
 
-                        document.getElementById(`titulo${idCard}`).contentEditable = true;
-                        document.getElementById(`fecha${idCard}`).contentEditable = true;
+                            document.getElementById(`titulo${idCard}`).contentEditable = true;
+                            document.getElementById(`fecha${idCard}`).contentEditable = true;
 
-                        let textoExperiencia = document.getElementById(`texto${idCard}`);
-                        textoExperiencia.contentEditable = true;
-                        textoExperiencia.focus();
-
-                        let btnsModificarTexto = `<div style="display:flex;margin-left:auto;margin-right:auto;margin-top:5px;">
-                            <button id="bold" class="btn formatTextBtn" style="margin-right:100px;"><i class="fas fa-bold"></i></button>
-                            <button id="italic" class="btn formatTextBtn"><i class="fas fa-italic"></i></button>
-                            <button id="save" class="btn saveTextBtn"><i class="fas fa-save"></i></button>
-                        </div>`
-
-                        document.getElementById("modal-body").insertAdjacentHTML("beforebegin", btnsModificarTexto);
-
-                        document.getElementById("bold").addEventListener("click", function (e) {
-                            document.getElementById("bold").classList.toggle("formatTextBtn-focus");
-                            document.execCommand('bold');
+                            let textoExperiencia = document.getElementById(`texto${idCard}`);
+                            textoExperiencia.contentEditable = true;
                             textoExperiencia.focus();
-                        });
-                        document.getElementById("italic").addEventListener("click", function (e) {
-                            document.getElementById("italic").classList.toggle("formatTextBtn-focus");
-                            document.execCommand('italic');
-                            textoExperiencia.focus();
-                        });
-                        document.getElementById("save").addEventListener("click", function (e) {
-                            let newTitulo = document.getElementById(`titulo${idCard}`).textContent;
-                            let newFecha = document.getElementById(`fecha${idCard}`).textContent;
-                            let newTexto = document.getElementById(`texto${idCard}`).innerHTML;
-                            let newSrc = document.getElementById(`img${idCard}`).src;
-                            // Obtener solo el nombre de la imagen, no todo el src (el nombre se encuentra despues del ultimo "/")
-                            let n = newSrc.lastIndexOf('/');
-                            let newImg = newSrc.substring(n + 1);
 
-                            updateExperiencia(idCard, newTitulo, newFecha, newTexto, newImg, isAdmin, username, categoria);
-                            updateModalView(idCard);
-                        });
-                    });
+                            let btnsModificarTexto = `<div style="display:flex;margin-left:auto;margin-right:auto;margin-top:5px;">
+                                <button id="bold" class="btn formatTextBtn" style="margin-right:100px;"><i class="fas fa-bold"></i></button>
+                                <button id="italic" class="btn formatTextBtn"><i class="fas fa-italic"></i></button>
+                                <button id="save" class="btn saveTextBtn"><i class="fas fa-save"></i></button>
+                            </div>`
 
-                    // ELIMINAR
-                    document.getElementById(`eliminar${idCard}`).addEventListener("click", function (e) {
-                        let modalConfirmDialog = `
-                        <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" style="margin-left:auto;margin-right:auto;" id="myModalLabel">¿Eliminar?</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Esta accion no se puede revertir.<br>¿Seguro que desea eliminar la exepriencia?</p>
-                                        <div style="margin-left:25%;">
-                                            <button type="button" class="btn btn-secondary" id="modal-btn-si" style="margin-right:20%;">Si</button>
-                                            <button type="button" class="btn btn-danger" id="modal-btn-no">No</button>
+                            document.getElementById("modal-body").insertAdjacentHTML("beforebegin", btnsModificarTexto);
+
+                            document.getElementById("bold").addEventListener("click", function (e) {
+                                document.getElementById("bold").classList.toggle("formatTextBtn-focus");
+                                document.execCommand('bold');
+                                textoExperiencia.focus();
+                            });
+                            document.getElementById("italic").addEventListener("click", function (e) {
+                                document.getElementById("italic").classList.toggle("formatTextBtn-focus");
+                                document.execCommand('italic');
+                                textoExperiencia.focus();
+                            });
+                            document.getElementById("save").addEventListener("click", function (e) {
+                                let newTitulo = document.getElementById(`titulo${idCard}`).textContent;
+                                let newFecha = document.getElementById(`fecha${idCard}`).textContent;
+                                let newTexto = document.getElementById(`texto${idCard}`).innerHTML;
+                                let newSrc = document.getElementById(`img${idCard}`).src;
+                                // Obtener solo el nombre de la imagen, no todo el src (el nombre se encuentra despues del ultimo "/")
+                                let n = newSrc.lastIndexOf('/');
+                                let newImg = newSrc.substring(n + 1);
+
+                                updateExperiencia(idCard, newTitulo, newFecha, newTexto, newImg, isAdmin, username, categoria);
+                                updateModalView(idCard);
+                            });
+                        });
+
+                        // ELIMINAR
+                        document.getElementById(`eliminar${idCard}`).addEventListener("click", function (e) {
+                            let modalConfirmDialog = `
+                            <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="margin-left:auto;margin-right:auto;" id="myModalLabel">¿Eliminar?</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Esta accion no se puede revertir.<br>¿Seguro que desea eliminar la exepriencia?</p>
+                                            <div style="margin-left:25%;">
+                                                <button type="button" class="btn btn-secondary" id="modal-btn-si" style="margin-right:20%;">Si</button>
+                                                <button type="button" class="btn btn-danger" id="modal-btn-no">No</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
 
-                        document.getElementById("divModalConfirm").innerHTML = modalConfirmDialog;
-                        $("#modalConfirm").modal();
+                            document.getElementById("divModalConfirm").innerHTML = modalConfirmDialog;
+                            $("#modalConfirm").modal();
 
-                        let modalConfirm = function (callback) {
-                            $("#modal-btn-si").on("click", function () {
-                                callback(true);
-                                $("#modalConfirm").modal('hide');
+                            let modalConfirm = function (callback) {
+                                $("#modal-btn-si").on("click", function () {
+                                    callback(true);
+                                    $("#modalConfirm").modal('hide');
+                                });
+                                $("#modal-btn-no").on("click", function () {
+                                    callback(false);
+                                    $("#modalConfirm").modal('hide');
+                                });
+                            };
+
+                            modalConfirm(function (confirm) {
+                                if (confirm) {
+                                    eliminarExperiencia(idCard, isAdmin, username, categoria);
+                                    // Escondemos el modal de la experiencia que hemos eliminado
+                                    $('#modal').modal('hide');
+                                }
                             });
-                            $("#modal-btn-no").on("click", function () {
-                                callback(false);
-                                $("#modalConfirm").modal('hide');
-                            });
-                        };
-
-                        modalConfirm(function (confirm) {
-                            if (confirm) {
-                                eliminarExperiencia(idCard, isAdmin, username, categoria);
-                                // Escondemos el modal de la experiencia que hemos eliminado
-                                $('#modal').modal('hide');
-                            }
                         });
-                    });
-
+                    }
                     // REPORTAR
                     document.getElementById(`reportar${idCard}`).addEventListener("click", function (e) {
                         reportarExperiencia(idCard, isAdmin, username, categoria);
@@ -541,6 +542,7 @@ var moduleExperiencia = (function () {
                 if (respuesta.data == "FAIL") {
                     alert("ERROR, TE HAS EQUIVODADO");
                 } else {
+                    // En vez de volver a mostrar la lista llamando a la BD solo eliminarlo de la vista, porque la BD ya está actualizada y no hace falta llamrla de nuevo
                     extraerExperiencias(isAdmin, username, categoria);
                 }
             })
