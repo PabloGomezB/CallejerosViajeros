@@ -11,22 +11,30 @@ var moduleNewExperiencia = (function (){
             // faltan coordenadas y username
             let crearFormNovaExperiencia =
             `
-            <div id="formNewExp">
+            <div id="formNewExp" class="container">
                 <h2>Nova Experiencia</h2>
 
-                <label for="titolExp">Titol: </label>
-                <input type="text" name="titolExp" id="titolExp"><br>
+                <div class="form-group">
+                    <label for="titolExp">Titol: </label>
+                    <input type="text" class="form-control" name="titolExp" id="titolExp">
+                </div>
 
-                <label for="textExp">Text:</label>
-                <textarea id="textExp" name="textExp" rows="4" cols="50"></textarea><br>
+                <div class="form-group">
+                    <label for="textExp">Text:</label>
+                    <textarea id="textExp" class="form-control" name="textExp" rows="4" cols="50"></textarea>
+                </div>
 
-                <label for="latitud">Latitud entre -90 i 90: </label>
-                <input type="number" id="latitudExp" name="latitud" min="-90" max="90"><br><br>
+                <div class="form-group">
+                    <label for="latitud">Latitud entre -90 i 90: </label>
+                    <input type="number" id="latitudExp"class="form-control" name="latitud" min="-90" max="90">
+                </div>
 
-                <label for="longitud">Longitud entre -180 i 180: </label>
-                <input type="number" id="longitudExp" name="longitud" min="-180" max="180"><br><br>
+                <div class="form-group">
+                    <label for="longitud">Longitud entre -180 i 180: </label>
+                    <input type="number" id="longitudExp" class="form-control" name="longitud" min="-180" max="180">
+                </div>
 
-            <div id="categoriaExp">`;
+            <div id="categoriaExp" class="form-group">`;
 
             // ForEach para crear los radio buttons según todas las categorias que existan en la base de datos
             categorias.forEach(categoria => {
@@ -44,7 +52,7 @@ var moduleNewExperiencia = (function (){
             })
             crearFormNovaExperiencia +=
                 `</div>
-                <button id="btnCrearExp">Crear</button>
+                <button id="btnCrearExp" class="btn btn-primary">Crear</button>
             </div>
             `;
 

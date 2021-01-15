@@ -101,7 +101,7 @@ var moduleExperiencia = (function () {
         htmlExperiences +=
             `</div>
             <div>`;
-        htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
+        htmlExperiences += '<div class="container"><button id="newExp" class="btn btn-primary">Nova Experiencia</button></div>';
 
 
         htmlExperiences += `
