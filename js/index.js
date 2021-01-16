@@ -17,16 +17,17 @@ window.onload = function () {
             $('.borderAssets').addClass('fade-out');
 
             // "animacion" para quitar el border cada vez que se esconde el sidebar
-            setTimeout(function () {$('#sidebar').css("border-right", "90px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "80px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "70px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "60px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "50px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "40px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "30px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "20px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "10px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "0px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "90px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "80px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "70px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "60px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "50px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "40px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "30px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "20px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "10px solid #04aef0");}, 100);
+            // setTimeout(function () {$('#sidebar').css("border-right", "0px solid #04aef0");}, 100);
+            $('#sidebar').css("border-right", "0px solid #04aef0")
 
             // setTimeout para ocultar el texto para que el cursor no lo detecte y se pueda hacer click en los inputs
             // 400 de tiempo porque tarda 0.3s en hacer el efecto de fade-out, sino se iría de golpe antes de que termine la animacion
@@ -42,7 +43,7 @@ window.onload = function () {
             }, 100);
 
             // se restablece el border del sidebar cuando se esconde
-            $('#sidebar').css("border-right", "100px solid #04aef0");
+            $('#sidebar').css("border-right", "120px solid #04aef0");
         }
         $('#sidebar').toggleClass('active');
     });
@@ -182,7 +183,7 @@ window.onload = function () {
                             if (respuesta.data.isAdmin == 1) {
                                 isAdmin = true;
                             }
-                            transformarSidebar();
+                            // transformarSidebar();
                             moduleExperiencia.extraerExperiencias(isAdmin, username);
 
                         }
@@ -259,7 +260,7 @@ window.onload = function () {
 
         // Esconder el sidebar y añadir el border
         $('#sidebar').toggleClass('active');
-        $('#sidebar').css("border-right", "100px solid #04aef0");
+        $('#sidebar').css("border-right", "120px solid #04aef0");
 
         // Obtenemos el div que contiene los formularios para sobreescribirlo
         let sidebar = document.getElementById("formsIndex");

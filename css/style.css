@@ -1,3 +1,11 @@
+*{
+    font-family: Nunito;
+}
+
+body{
+    background-color: rgb(255, 255, 255);
+}
+
 p{
     font-weight: initial;
     color: #30323b;
@@ -22,10 +30,15 @@ p{
     z-index: 99;
 }
 
+.checkEyePass{
+    cursor: pointer;
+}
+
 .login{
-    margin: 0 auto;
+    margin-top: 30px;
     text-align: center;
 }
+
 
 #content{
     padding: 100px;
@@ -45,18 +58,19 @@ p{
     writing-mode: vertical-rl;
     text-orientation: mixed;
     position: relative;
-    max-width: 250px;
+    /* max-width: 150px; */
+    margin-left: 90px;
 }
 
 .pulpito{
-    width: 100px;
-    left: 150px;
+    width: 80px;
+    left: 160px;
     position: absolute;
 }
 
 .borderText{
-    left: 170px;
-    top: 80px;
+    left: 167px;
+    top: 125px;
     font-size: 50px;
     color: #30323b;
     cursor: default;
@@ -70,15 +84,20 @@ p{
     animation-name: fadeOut;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
-    animation-duration: 0.3s;
+    animation-duration: 0.2s;
+    /* left: -80px; */
+    margin-left: -90px;
 }
 
 @keyframes fadeOut {
     0% {
+        margin-left: 90px;
         opacity: 1;
     }
     100% {
+        margin-left: -100px;
         opacity: 0;
+        
     }
 }
 
@@ -88,13 +107,16 @@ p{
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
     animation-duration: 0.3s;
+    /* left: 70px; */
 }
 
 @keyframes fadeIn {
     0% {
+        margin-left: -100px;
         opacity: 0;
     }
     100% {
+        margin-left: 90px;
         opacity: 1;
     }
 }
@@ -173,6 +195,8 @@ p{
 .text{
     font-size: 80px;
     font-weight: bolder;
+    letter-spacing: 7.7px;
+    font-variant: small-caps;
 }
 
 /******************************************

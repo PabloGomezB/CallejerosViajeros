@@ -13,6 +13,7 @@ print_r($_SESSION);
     <script src="./js/index.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/footer.css" />
+
 </head>
 
 <body>
@@ -40,18 +41,18 @@ print_r($_SESSION);
         <nav id="sidebar" class="active">
             <!-- Border -->
             <div class="borderAssets">
-                <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito" style="top:20px;"> 
+                <img class="pulpito" src="./img/sidebar/plane.gif" alt="cute pulpito" style="top:25px;"> 
                 <span id="borderText" class="borderText">Login / registro</span>
-                <img class="pulpito" src="./img/sidebar/pulpitoSmall.gif" alt="cute pulpito" style="top:440px;">
+                <img class="pulpito" src="./img/sidebar/plane.gif" alt="cute pulpito" style="top:470px;">
             </div>
             <!-- End border -->
 
             <!-- Forms -->
             <div id="formsIndex">
                 <!-- Login -->
-                <ul class="list-unstyled components">
+                <ul class="list-unstyled components pb-0">
                     <li class="active">
-                        <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle sidebar-header">Login</a>
+                        <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle sidebar-header" style="border-radius: 0px 999px 0px 0px;">Login</a>
                         <ul class="collapse list-unstyled" id="desplegableLogin">
                             <li>
                                 <?php include("includes/sidebarLogin.php") ?>
@@ -104,15 +105,15 @@ print_r($_SESSION);
 
 
     <!-- Start footer -->
-    <footer class="container-fluid footer">
+    <footer class="container-fluid mt-3 footer">
         <!-- Divisor -->
-        <div class="divisor row mt-5 p-5 px-3 mb-5 d-flex justify-content-between">
+        <div class="divisor row p-4 px-3 mb-3 d-flex justify-content-between">
             <div>
-                <span class="mr-5 font-weight-bold">Ready to get started?</span>
-                <span class="d-none d-md-inline-block">Get in touch to discuss your cybersecurity needs</span>
+                <span class="mr-5 font-weight-bold">¿Preparado para tu aventura?</span>
+                <span class="d-none d-md-inline-block">Miles de experiencias y millones de buenos recuerdos</span>
             </div>
             <div>
-                <span class="d-none d-sm-inline-block">JOIN NOW</span>
+                <span class="d-none d-sm-inline-block">ÚNETE AHORA</span>
             </div>
         </div>
         <!-- End Divisor -->
@@ -124,18 +125,15 @@ print_r($_SESSION);
                 <div class="row col-sm-8 px-0">
                     <!-- Company -->
                     <div class="col col-md-auto mr-5">
-                        <h6 class="font-weight-bold footer-ul">COMPANY</h6>
+                        <h6 class="font-weight-bold footer-ul">¿QUIENES SOMOS?</h6>
                         <ul class="list-unstyled mt-3">
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">About us</a>
+                            <li>
+                                <a class="footer-links" href="#">Sobre nosotros</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Certification</a>
+                            <li>
+                                <a class="footer-links" href="#">Equipo</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Customer Stories</a>
-                            </li>
-                            <li class="mb-2">
+                            <li>
                                 <a class="footer-links" href="#">Partners</a>
                             </li>
                         </ul>
@@ -145,16 +143,13 @@ print_r($_SESSION);
                     <div class="col col-md-auto mr-5">
                         <h6 class="font-weight-bold footer-ul">ABOUT</h6>
                         <ul class="list-unstyled mt-3">
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Privacy Policy</a>
+                            <li>
+                                <a class="footer-links" href="#">Política de privacidad</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Cookie Policy</a>
+                            <li>
+                                <a class="footer-links" href="#">Política de cookies</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Terms of Use</a>
-                            </li>
-                            <li class="mb-2">
+                            <li>
                                 <a class="footer-links" href="#">FAQ</a>
                             </li>
                         </ul>
@@ -163,17 +158,17 @@ print_r($_SESSION);
                     <!-- Get in touch -->
                     <div class="col col-md-auto mr-5">
                         <h6 class="font-weight-bold footer-ul">
-                            GET IN TOUCH
+                            CONTACTO
                         </h6>
                         <ul class="list-unstyled mt-3">
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Contact us</a>
+                            <li>
+                                <a class="footer-links" href="#">Contáctanos</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Jobs</a>
+                            <li>
+                                <a class="footer-links" href="#">Trabajo</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Locations</a>
+                            <li>
+                                <a class="footer-links" href="#">Sede/Localización</a>
                             </li>
                         </ul>
                     </div>
@@ -181,26 +176,20 @@ print_r($_SESSION);
                     <!-- Technical support -->
                     <div class="col col-md-auto">
                         <h6 class="font-weight-bold footer-ul">
-                            TECHNICAL SUPPORT
+                            SOPORTE TÉCNICO
                         </h6>
                         <ul class="list-unstyled mt-3">
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Incident?</a>
+                            <li>
+                                <a class="footer-links" href="#">¿Incidencias?</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Communities</a>
+                            <li>
+                                <a class="footer-links" href="#">Contactar a soporte</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Contact Support</a>
+                            <li>
+                                <a class="footer-links" href="#">Documentación</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Customer Portal</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Documentation Portal</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="footer-links" href="#">Report Security Issue</a>
+                            <li>
+                                <a class="footer-links" href="#">Reportar un bug</a>
                             </li>
                         </ul>
                     </div>
@@ -212,18 +201,18 @@ print_r($_SESSION);
                     <div class="float-right">
                         <div class="mb-4">
                             <p class="footer-media-title mb-0">
-                                GIFT DEMO CARDS
+                                INS PEDRALBES
                             </p>
                             <p class="footer-media-text">
-                                Give a Demo Today
+                                Proyecto viajes
                             </p>
                         </div>
                         <div>
                             <p class="footer-media-title mb-0">
-                                SOCIAL MEDIA
+                                REDES SOCIALES
                             </p>
                             <p class="footer-media-text">
-                                Give a Demo Today
+                                Entérate de todo
                             </p>
                         </div>
                         <div class="">
@@ -243,16 +232,16 @@ print_r($_SESSION);
             <div class="row">
                 <div class="col-sm-6 px-0">
                     <p class="mb-0">
-                        <span class="mr-2 footer-bottom-grail" style="color: #000F14;">GRAIL</span><span
-                            class="footer-bottom-grail" style="color: #BDBDBD;">CYBERTECH</span>
+                        <span class="mr-2 footer-bottom-grail" style="color: #000F14;">CALLEJEROS</span><span
+                            class="footer-bottom-grail" style="color: #BDBDBD;">VIAJEROS</span>
                     </p>
                     <p class="footer-bottom-copyright">
-                        &copy; Grail 2021. All rights reserved
+                        &copy; CallejerosViajeros 2021. All rights reserved
                     </p>
                 </div>
                 <div class="col-sm-6 px-0">
                     <p class="footer-bottom-text">
-                        SECURITY FOR EVERYONE
+                        BY TRAVELERS FOR TRAVELERS
                     </p>
                 </div>
             </div>

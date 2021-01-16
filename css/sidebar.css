@@ -8,7 +8,9 @@
     /*
     El margen negativo tiene que ser proporcional a los px del borde
     */
-    margin-left: -150px;
+    margin-left: -250px;
+    /* max-width: 200px; */
+    /* width: 200px; */
 }
 
 a[data-toggle="collapse"] {
@@ -21,35 +23,13 @@ a[data-toggle="collapse"] {
     top: 50%;
     right: 20px;
     transform: translateY(-50%);
+    margin-right: 40px;
 }
 
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-}
 
 /*
     MUCH MORE BONITO
 */
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-}
-
-p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
-}
 
 a, a:hover, a:focus {
     color: inherit;
@@ -58,15 +38,16 @@ a, a:hover, a:focus {
 }
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
-    /* don't forget to add all the previously mentioned styles here too */
+    /* min-width: 200px;
+    max-width: 200px; */
+    /* width: 200px; */
+    /* min-height: 100vh; */
+    height: 590px;
     background: #04aef0;
-    /* background: #227fd6; */
     color: #fff;
     transition: all 0.4s;
-    border-right: 100px solid #04aef0;
+    border-right: 120px solid #04aef0;
+    border-radius: 0px 75px 100px 0px;
 }
 
 #sidebar .sidebar-header {
@@ -76,13 +57,7 @@ a, a:hover, a:focus {
 
 #sidebar ul.components {
     padding-bottom: 20px;
-    /* border-bottom: 1px solid #47748b; */
 }
-
-/* #sidebar ul p {
-    color: #fff;
-    padding: 10px;
-} */
 
 #sidebar ul li a {
     padding: 10px;
@@ -97,8 +72,8 @@ a, a:hover, a:focus {
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
-    /* background: #6d7fcc; */
 }
+
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;

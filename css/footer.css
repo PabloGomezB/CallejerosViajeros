@@ -1,12 +1,11 @@
-
 .footer {
     /* border: 1px solid grey; */
     max-width: 95%;
 }
 
 .divisor {
-    background-color: #000f14;
-    color: white;
+    background-color: #04aef0;
+    color: #000f14;
     font: normal normal normal 14px/14px Nunito;
     letter-spacing: 1.4px;
 }
