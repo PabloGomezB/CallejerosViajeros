@@ -12,6 +12,7 @@ var moduleExperiencia = (function () {
         axios.get("./database/experiencias/extraerExperiencias.php")
             .then(function (respuesta) {
                 let baseDades = JSON.parse(respuesta.data);
+                // let baseDades = respuesta.data;
 
                 console.log(baseDades);
 
