@@ -8,9 +8,7 @@
     /*
     El margen negativo tiene que ser proporcional a los px del borde
     */
-    margin-left: -250px;
-    /* max-width: 200px; */
-    /* width: 200px; */
+    margin-left: -150px;
 }
 
 a[data-toggle="collapse"] {
@@ -23,13 +21,27 @@ a[data-toggle="collapse"] {
     top: 50%;
     right: 20px;
     transform: translateY(-50%);
-    margin-right: 40px;
 }
 
+/* @media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+} */
 
 /*
     MUCH MORE BONITO
 */
+
+/* p {
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+} */
 
 a, a:hover, a:focus {
     color: inherit;
@@ -38,15 +50,15 @@ a, a:hover, a:focus {
 }
 
 #sidebar {
-    /* min-width: 200px;
-    max-width: 200px; */
-    /* width: 200px; */
-    /* min-height: 100vh; */
-    height: 590px;
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 600px;
+    /* don't forget to add all the previously mentioned styles here too */
     background: #04aef0;
+    /* background: #227fd6; */
     color: #fff;
     transition: all 0.4s;
-    border-right: 120px solid #04aef0;
+    border-right: 100px solid #04aef0;
     border-radius: 0px 75px 100px 0px;
 }
 
@@ -57,7 +69,13 @@ a, a:hover, a:focus {
 
 #sidebar ul.components {
     padding-bottom: 20px;
+    /* border-bottom: 1px solid #47748b; */
 }
+
+/* #sidebar ul p {
+    color: #fff;
+    padding: 10px;
+} */
 
 #sidebar ul li a {
     padding: 10px;
@@ -72,8 +90,8 @@ a, a:hover, a:focus {
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
+    /* background: #6d7fcc; */
 }
-
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;

@@ -10,7 +10,7 @@
         <div class="checkEyePass">
             <input type="checkbox" class="checkboxPass" style="margin-top:10px;">
             <span>Show pass</span>
-        <div>
+        </div>
     </div>
     <div class="login">
         <button class="btn btn-default" id="login">Log in</button>

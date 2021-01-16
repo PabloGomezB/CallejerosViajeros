@@ -13,12 +13,11 @@ print_r($_SESSION);
     <script src="./js/index.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/footer.css" />
-
 </head>
 
 <body>
     <header id="headhead" class="header">
-        <button type="button" id="sidebarCollapse" class="btn btn-primary subirButton">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary btn-toggle-sidebar">
             <i class="fas fa-sign-in-alt"></i>
             <span>Log in !</span>
         </button>
@@ -41,7 +40,7 @@ print_r($_SESSION);
         <nav id="sidebar" class="active">
             <!-- Border -->
             <div class="borderAssets">
-                <img class="pulpito" src="./img/sidebar/plane.gif" alt="cute pulpito" style="top:25px;"> 
+                <img class="pulpito" src="./img/sidebar/plane.gif" alt="cute pulpito" style="top:20px;"> 
                 <span id="borderText" class="borderText">Login / registro</span>
                 <img class="pulpito" src="./img/sidebar/plane.gif" alt="cute pulpito" style="top:470px;">
             </div>
@@ -50,7 +49,7 @@ print_r($_SESSION);
             <!-- Forms -->
             <div id="formsIndex">
                 <!-- Login -->
-                <ul class="list-unstyled components pb-0">
+                <ul class="list-unstyled components">
                     <li class="active">
                         <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle sidebar-header" style="border-radius: 0px 999px 0px 0px;">Login</a>
                         <ul class="collapse list-unstyled" id="desplegableLogin">
@@ -100,7 +99,6 @@ print_r($_SESSION);
         <div id="divModalConfirm"></div>
         
     </div>
-
 
 
 
@@ -249,15 +247,6 @@ print_r($_SESSION);
         <!-- End Lower Container -->
     </footer>
     <!-- End footer -->
-
-
-
-
-
-
-
-
-
 
 
 

@@ -17,17 +17,16 @@ window.onload = function () {
             $('.borderAssets').addClass('fade-out');
 
             // "animacion" para quitar el border cada vez que se esconde el sidebar
-            // setTimeout(function () {$('#sidebar').css("border-right", "90px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "80px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "70px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "60px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "50px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "40px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "30px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "20px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "10px solid #04aef0");}, 100);
-            // setTimeout(function () {$('#sidebar').css("border-right", "0px solid #04aef0");}, 100);
-            $('#sidebar').css("border-right", "0px solid #04aef0")
+            setTimeout(function () {$('#sidebar').css("border-right", "90px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "80px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "70px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "60px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "50px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "40px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "30px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "20px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "10px solid #04aef0");}, 100);
+            setTimeout(function () {$('#sidebar').css("border-right", "0px solid #04aef0");}, 100);
 
             // setTimeout para ocultar el texto para que el cursor no lo detecte y se pueda hacer click en los inputs
             // 400 de tiempo porque tarda 0.3s en hacer el efecto de fade-out, sino se iría de golpe antes de que termine la animacion
@@ -43,7 +42,7 @@ window.onload = function () {
             }, 100);
 
             // se restablece el border del sidebar cuando se esconde
-            $('#sidebar').css("border-right", "120px solid #04aef0");
+            $('#sidebar').css("border-right", "100px solid #04aef0");
         }
         $('#sidebar').toggleClass('active');
     });
@@ -183,7 +182,7 @@ window.onload = function () {
                             if (respuesta.data.isAdmin == 1) {
                                 isAdmin = true;
                             }
-                            // transformarSidebar();
+                            transformarSidebar();
                             moduleExperiencia.extraerExperiencias(isAdmin, username);
 
                         }
@@ -260,16 +259,16 @@ window.onload = function () {
 
         // Esconder el sidebar y añadir el border
         $('#sidebar').toggleClass('active');
-        $('#sidebar').css("border-right", "120px solid #04aef0");
+        $('#sidebar').css("border-right", "100px solid #04aef0");
 
         // Obtenemos el div que contiene los formularios para sobreescribirlo
         let sidebar = document.getElementById("formsIndex");
-        sidebar.innerHTML = `<button onClick="window.location.reload();">LOGOUT</button>`;
+        sidebar.innerHTML = `<button style="margin-top:50px;" onClick="window.location.reload();">LOGOUT</button>`;
 
         $('.borderAssets').removeClass('fade-out');
         $('.borderAssets').addClass('fade-in');
 
-        $('.borderText').css("top", "140px");
+        $('.borderText').css("top", "200px");
         $('.borderText').css("height", "fit-content");
         $('.borderText').css("display", "initial");
 
@@ -286,39 +285,48 @@ window.onload = function () {
             let categoriaAdmin =
                 `<button id="categoriaAdmin">Categorias</button>` + `<br>`;
             sidebar.insertAdjacentHTML("beforeend", categoriaAdmin);
-            document.getElementById("categoriaAdmin").addEventListener('click', function () {
-                axios.get("./database/categoria/categoria.php", {})
-                    .then(function (respuesta) {
-                        let categorias = JSON.parse(respuesta.data);
-                        let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Categorias</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            <input type="text"></input><button id="crearCategory">Crear</button><br>`;
+            document.getElementById("categoriaAdmin").addEventListener('click', function(){
+                axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
+                })
+                .then(function (respuesta){
+                    let categorias = JSON.parse(respuesta.data);
+                    let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Categorias</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        <input type="text" id="nuevaCategoria"></input><button id="crearCategory" data-dismiss="modal">Crear</button><br>`;
 
                         categorias.forEach(categoria => {
-                            console.log(categoria.nom);
-
                             htmlmodal += `<label>${categoria.nom}</label><br>`;
                         })
                         htmlmodal += `
-                            </div>
-                            </div>
                         </div>
-                        </div>`;
-                        document.getElementById("modalAdminCat").innerHTML = htmlmodal;
-                        $("#modalCategoria").modal();
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                    .then(function () {});
+                        </div>
+                    </div>
+                    </div>`;
+                    document.getElementById("modalAdminCat").innerHTML = htmlmodal;
+                    $("#modalCategoria").modal();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+                    document.getElementById("crearCategory").addEventListener('click', function (){
+                        nuevaCategoria = document.getElementById("nuevaCategoria").value;
+                        console.log(nuevaCategoria);
+                        axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/categoria/crearCategoria.php",{
+                            params: {
+                                nom: nuevaCategoria
+                            }
+                        })
+                    });
+                })
             })
 
             let experienciasAdmin =
