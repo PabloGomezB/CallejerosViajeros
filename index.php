@@ -239,7 +239,7 @@ print_r($_SESSION);
                 </div>
                 <div class="col-sm-6 px-0">
                     <p class="footer-bottom-text">
-                        BY TRAVELERS FOR TRAVELERS
+                        FOR TRAVELERS BY TRAVELERS
                     </p>
                 </div>
             </div>

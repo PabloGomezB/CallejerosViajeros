@@ -13,6 +13,8 @@ var moduleExperiencia = (function () {
             .then(function (respuesta) {
                 let baseDades = JSON.parse(respuesta.data);
 
+                console.log(baseDades);
+
                 let desplegableBuscador = "null";
                 // Este axios es obligatorio para obtener las categorias y mostrarlas en el desplegable
                 extraerCategorias().then(function (response) {

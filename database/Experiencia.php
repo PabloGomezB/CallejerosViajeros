@@ -42,6 +42,11 @@ class Experiencia extends DBAbstractModel {
 
 			array_push($experiencias, $exp);
 		}
+
+		$num_experiencias = 3;
+		$total_experiencias = count($this->rows);
+		$paginas = $total_experiencias/$num_experiencias;
+		// hace falta redondear¿?¿?¿?¿?
 		return json_encode($experiencias);
 	}
 
