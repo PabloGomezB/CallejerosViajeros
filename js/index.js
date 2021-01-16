@@ -176,7 +176,7 @@ window.onload = function () {
                                 icon: "error",
                             });
                         } else {
-                            console.log(respuesta.data);
+                            // console.log(respuesta.data);
                             logeado = true;
                             username = respuesta.data.email;
                             if (respuesta.data.isAdmin == 1) {

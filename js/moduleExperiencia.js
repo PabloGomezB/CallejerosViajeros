@@ -11,10 +11,12 @@ var moduleExperiencia = (function () {
         }
         axios.get("./database/experiencias/extraerExperiencias.php")
             .then(function (respuesta) {
+                // console.log(respuesta);
                 let baseDades = JSON.parse(respuesta.data);
+                
                 // let baseDades = respuesta.data;
 
-                console.log(baseDades);
+                // console.log(baseDades);
 
                 let desplegableBuscador = "null";
                 // Este axios es obligatorio para obtener las categorias y mostrarlas en el desplegable
@@ -22,7 +24,7 @@ var moduleExperiencia = (function () {
                     let categorias = JSON.parse(response.data);
 
                     desplegableBuscador = `
-                    <div class="desplegableBuscador">
+                    <div id="desplegableBuscador" class="desplegableBuscador">
                         <h2 id="titolExperiencies">Experiencias</h2>
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" style="width:200px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -36,14 +38,29 @@ var moduleExperiencia = (function () {
                             desplegableBuscador += `
                             </div>
                         </div>
-                    </div>`;
+                    </div>
+                    <div class="content-row">
+                        <div id="contenedorExperiencias" class="row">`;
+                    document.getElementById("content").innerHTML = desplegableBuscador;
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
                 .then(function () {
-                    // always executed
-                    printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria);
+
+                    printExperiencies(baseDades, isAdmin, username, categoria);
+
+                    // Añadir el nav para las paginas además de su listener
+                    axios.get("./database/experiencias/extraerExperiencias.php", {
+                        params: {
+                            homePage: "true"
+                        }
+                    })
+                    .then(function(respuesta) {
+                        document.getElementById("contenedorExperiencias").insertAdjacentHTML("afterend",respuesta.data);
+                        cambiarDePagina(isAdmin, username, categoria);
+                    });
+                    
                 });
             // Fin segundo axios
 
@@ -60,16 +77,12 @@ var moduleExperiencia = (function () {
         return axios.get("./database/categoria/categoria.php");
     }
 
-    function printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria) {
+    function printExperiencies(baseDades, isAdmin, username, categoria) {
 
-        document.getElementById("content").innerHTML = "";
-        let htmlExperiences = desplegableBuscador;
+        let htmlExperiences = "";
         let numExperiencias = 0;
         let card;
 
-        htmlExperiences += `
-            <div class="content-row tarjeta">
-                <div class="row">`;
         // IF: Entra cuando se muestran todas las experiencias
         if (categoria == null || categoria == "Todas") {
             card = setCard(baseDades, null);
@@ -98,148 +111,77 @@ var moduleExperiencia = (function () {
                 htmlExperiences += setEstructuraCards(numExperiencias, cards, card);
             } else {
                 htmlExperiences += "NO EXISTEN EXPERIENCIAS";
+                console.log(baseDades)
             }
         }
 
         htmlExperiences +=
-            `</div>
-            <div>`;
-        htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
+                            `<!-- final contenedor experiencias -->
+                            </div>
+                        <div>`;
+        
+        // htmlExperiences += `<button id="newExp">Nova Experiencia</button>`;
 
+        // htmlExperiences += `
+        // <div id="formModUsu"> 
+        //     <div>
+        //         <label for="">Nombre: </label>
+        //         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        //         <input type="text" name="" id="nombre">
+        //         <br>
+        //         <label for="">Apellido: </label>
+        //         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        //         <input type="text" name="" id="apellido">
+        //         <br>
+        //         <label for="">Contraseña: </label>
+        //         &nbsp;
+        //         <input type="text" name="" id="contraseña">
+        //         <br><br>
+        //         <button id="modificarUsu">Modificar Usurio</button>
+        //     </div>
+        // </div>
+        // `;
 
-        htmlExperiences += `
-        <div id="formModUsu"> 
-            <div>
-                <label for="">Nombre: </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="" id="nombre">
-                <br>
-                <label for="">Apellido: </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="" id="apellido">
-                <br>
-                <label for="">Contraseña: </label>
-                &nbsp;
-                <input type="text" name="" id="contraseña">
-                <br><br>
-                <button id="modificarUsu">Modificar Usurio</button>
-            </div>
-        </div>
-        `;
+        // axios.get("./database/usuari/infoUsuario.php", {
+        //         params: {
+        //             username: username
+        //         }
+        //     })
+        //     .then(function (respuesta) {
+        //         // console.log(respuesta);
+        //         if (respuesta.data.status == "FAIL") {
+        //             alert("ERROR, TE HAS EQUIVODADO");
+        //         } else {
+        //             // console.log(respuesta.data);
+        //             document.getElementById("nombre").value = respuesta.data["nombre"];
+        //             document.getElementById("apellido").value = respuesta.data["cognom"];
+        //             document.getElementById("contraseña").value = respuesta.data["password"];
+        //             // $("#nombre").value = respuesta.data["nombre"];
+        //             // $("#apellido").value = respuesta.data["cognom"];
+        //             // $("#contraseña").value = respuesta.data["password"];
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     })
+        //     .then(function () {
+        //         // always executed
+        //     });
 
-        axios.get("./database/usuari/infoUsuario.php", {
-                params: {
-                    username: username
-                }
-            })
-            .then(function (respuesta) {
-                // console.log(respuesta);
-                if (respuesta.data.status == "FAIL") {
-                    alert("ERROR, TE HAS EQUIVODADO");
-                } else {
-                    // console.log(respuesta.data);
-                    document.getElementById("nombre").value = respuesta.data["nombre"];
-                    document.getElementById("apellido").value = respuesta.data["cognom"];
-                    document.getElementById("contraseña").value = respuesta.data["password"];
-                    // $("#nombre").value = respuesta.data["nombre"];
-                    // $("#apellido").value = respuesta.data["cognom"];
-                    // $("#contraseña").value = respuesta.data["password"];
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
+        // document.getElementById("content").insertAdjacentHTML("beforeend",htmlExperiences);
+        document.getElementById("contenedorExperiencias").innerHTML = htmlExperiences;
 
-        document.getElementById("content").innerHTML = htmlExperiences;
-
+        listenerDropdownCategorias(isAdmin, username, categoria);
+        // listenerModificarUsuario(username);
+        
         
         // JORDI
         // Nova Experiencia
-        document.getElementById("newExp").addEventListener('click', function (e) {
-            document.getElementById("newExp").disabled = true;
-            moduleNewExperiencia.crearExperiencia(username);
-        });
+        // document.getElementById("newExp").addEventListener('click', function (e) {
+        //     document.getElementById("newExp").disabled = true;
+        //     moduleNewExperiencia.crearExperiencia(username);
+        // });
 
-
-        document.getElementById("modificarUsu").addEventListener("click", function () {
-            console.log("CLICK");
-            axios.get("./database/usuari/updateInfoUsuario.php", {
-                    params: {
-                        username: username,
-                        nombre: document.getElementById("nombre").value,
-                        apellido: document.getElementById("apellido").value,
-                        password: document.getElementById("contraseña").value
-                    }
-                })
-                .then(function (respuesta) {
-                    console.log(respuesta);
-                    if (respuesta.data.status == "FAIL") {
-                        alert("ERROR, TE HAS EQUIVODADO");
-                    } else {
-                        Swal.fire({
-                            title: "Modificaste Tus Datos De Usuario a:",
-                            text: "   Nombre: "+document.getElementById("nombre").value+"   Apellido: "+document.getElementById("apellido").value+"   Contraseña: "+ document.getElementById("contraseña").value,
-                            icon: "error",
-                        });
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-                .then(function () {
-                    // always executed
-                });
-        })
-
-
-
-        axios.get("./database/usuari/infoUsuario.php", {
-                params: {
-                    username: username
-                }
-            })
-            .then(function (respuesta) {
-                // console.log(respuesta);
-                if (respuesta.data.status == "FAIL") {
-                    alert("ERROR, TE HAS EQUIVODADO");
-                } else {
-                    // console.log(respuesta.data);
-                    document.getElementById("nombre").value = respuesta.data["nombre"];
-                    document.getElementById("apellido").value = respuesta.data["cognom"];
-                    document.getElementById("contraseña").value = respuesta.data["password"];
-                    // $("#nombre").value = respuesta.data["nombre"];
-                    // $("#apellido").value = respuesta.data["cognom"];
-                    // $("#contraseña").value = respuesta.data["password"];
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
-
-
-        /////////////////////////////////////////////////////////////////
-        //        LISTENERS A CADA CATEGORIA DEL DROPDOWN MENU         //
-        /////////////////////////////////////////////////////////////////
-        document.querySelectorAll(".btn-dropdown-categoria").forEach(dropDownItem => {
-            dropDownItem.addEventListener("click", function (e) {
-                // console.log(dropDownItem.id);
-                let categoria = dropDownItem.id;
-                $("*").css("pointer-events", "none");
-                $("*").css("cursor", "not-allowed");
-                document.getElementById("content").innerHTML = `<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
-                setTimeout(function () {
-                    $("*").css("pointer-events", "auto");
-                    $("*").css("cursor", "default");
-                    extraerExperiencias(isAdmin, username, categoria);
-                }, 2000);
-            })
-        });
 
 
         /////////////////////////////////////////////////////////////////
@@ -590,6 +532,63 @@ var moduleExperiencia = (function () {
             });
     }
 
+
+    // Esta funcion lanza un axios para gestionar todo el tema del paginado
+    function cambiarDePagina(isAdmin, username, categoria){
+        $('.pagination li a').on('click', function(){
+            
+            // document.getElementById("content").innerHTML = `<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+            // document.getElementById("desplegableBuscador").insertAdjacentHTML("afterend",`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`);
+            // $('#contenedorExperiencias').fadeOut(1000);
+            $('#contenedorExperiencias').animate({ opacity: 0 });
+
+            let page = $(this).attr('data');
+
+            axios.get("./database/experiencias/extraerExperiencias.php", {
+                params: {
+                    page: page
+                }
+            })
+            .then(function (respuesta) {
+                // console.log(respuesta.data);
+                document.getElementById("contenedorExperiencias").innerHTML = "";
+
+                experienciasLimpias = respuesta.data.toString().split(`]"`);
+                experienciasLimpias[0] += `]`;
+                let nextExperiencias = JSON.parse(experienciasLimpias[0]);
+
+                
+                printExperiencies(nextExperiencias, isAdmin, username, categoria);
+                
+                // $('#contenedorExperiencias').fadeIn(1000);
+                $('#contenedorExperiencias').animate({ opacity: 1 })
+
+                $('.pagination li').removeClass('active');
+                $('.pagination li a[data="'+page+'"]').parent().addClass('active');
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+
+        });      
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
@@ -714,6 +713,92 @@ var moduleExperiencia = (function () {
             document.getElementById(idCard).click();
         }, 2000);
     }
+
+
+    /////////////////////////////////////////////////////////////////
+    //        LISTENERS A CADA CATEGORIA DEL DROPDOWN MENU         //
+    /////////////////////////////////////////////////////////////////
+    function listenerDropdownCategorias(isAdmin, username, categoria){
+        
+        document.querySelectorAll(".btn-dropdown-categoria").forEach(dropDownItem => {
+            dropDownItem.addEventListener("click", function (e) {
+                // console.log(dropDownItem.id);
+                let categoria = dropDownItem.id;
+                $("*").css("pointer-events", "none");
+                $("*").css("cursor", "not-allowed");
+                document.getElementById("content").innerHTML = `<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+                setTimeout(function () {
+                    $("*").css("pointer-events", "auto");
+                    $("*").css("cursor", "default");
+                    extraerExperiencias(isAdmin, username, categoria);
+                }, 2000);
+            })
+        });
+    }
+
+    function listenerModificarUsuario(username){
+
+        axios.get("./database/usuari/infoUsuario.php", {
+            params: {
+                username: username
+            }
+            })
+            .then(function (respuesta) {
+                // console.log(respuesta);
+                if (respuesta.data.status == "FAIL") {
+                    alert("ERROR, TE HAS EQUIVODADO");
+                } else {
+                    // console.log(respuesta.data);
+                    document.getElementById("nombre").value = respuesta.data["nombre"];
+                    document.getElementById("apellido").value = respuesta.data["cognom"];
+                    document.getElementById("contraseña").value = respuesta.data["password"];
+                    // $("#nombre").value = respuesta.data["nombre"];
+                    // $("#apellido").value = respuesta.data["cognom"];
+                    // $("#contraseña").value = respuesta.data["password"];
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+        });
+
+
+
+
+        document.getElementById("modificarUsu").addEventListener("click", function () {
+            console.log("CLICK");
+            axios.get("./database/usuari/updateInfoUsuario.php", {
+                    params: {
+                        username: username,
+                        nombre: document.getElementById("nombre").value,
+                        apellido: document.getElementById("apellido").value,
+                        password: document.getElementById("contraseña").value
+                    }
+                })
+                .then(function (respuesta) {
+                    console.log(respuesta);
+                    if (respuesta.data.status == "FAIL") {
+                        alert("ERROR, TE HAS EQUIVODADO");
+                    } else {
+                        Swal.fire({
+                            title: "Modificaste Tus Datos De Usuario a:",
+                            text: "   Nombre: "+document.getElementById("nombre").value+"   Apellido: "+document.getElementById("apellido").value+"   Contraseña: "+ document.getElementById("contraseña").value,
+                            icon: "error",
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+        });
+    }
+
+
 
 
     return {
