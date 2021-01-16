@@ -1,3 +1,11 @@
+*{
+    font-family: Nunito;
+}
+
+body{
+    background-color: rgb(255, 255, 255);
+}
+
 p{
     font-weight: initial;
     color: #30323b;
@@ -16,17 +24,6 @@ p{
     border: 1px solid red;
 }
 
-.form{
-    margin: auto auto;
-    width: 90%;
-    z-index: 99;
-}
-
-.login{
-    margin: 0 auto;
-    text-align: center;
-}
-
 #content{
     padding: 100px;
     min-height: 100vh;
@@ -34,7 +31,7 @@ p{
     /* max-height: 600px; */
 }
 
-.subirButton{
+.btn-toggle-sidebar{
     position: absolute;
     z-index: 5;
     margin-top: 350px;
@@ -42,27 +39,64 @@ p{
 }
 
 .borderAssets{
-    writing-mode: vertical-rl;
+    /* writing-mode: vertical-rl;
     text-orientation: mixed;
     position: relative;
+    max-width: 250px; */
+
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    /* position: absolute; */
     max-width: 250px;
+    /* border: 4px solid red; */
+    left: 0px;
+    /* height: 546px; */
+    /* width: 110px; */
+    /* top: 75%; */
+    /* top: 550px; */
+
+
+    position: relative;
 }
 
+
 .pulpito{
-    width: 100px;
+    /* width: 100px;
     left: 150px;
+    position: absolute; */
+
+    /* width: 100px; */
+
+    width: 100px;
+    left: 146px;
     position: absolute;
 }
 
 .borderText{
-    left: 170px;
+    /* left: 170px;
     top: 80px;
     font-size: 50px;
     color: #30323b;
     cursor: default;
     position: absolute;
     height: 400px;
+    font-variant: small-caps; */
+
+
+    /* font-size: 50px;
+    color: #30323b;
+    cursor: default;
+    font-variant: small-caps; */
+
+    font-size: 50px;
+    color: #30323b;
+    cursor: default;
+    /* height: 400px; */
     font-variant: small-caps;
+    position: absolute;
+    left: 160px;
+    height: max-content;
+    top: 130px;
 }
 
 .fade-out {
@@ -99,6 +133,21 @@ p{
     }
 }
 
+.form{
+    margin: auto auto;
+    width: 90%;
+    z-index: 99;
+}
+
+.login{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.checkEyePass{
+    cursor: pointer;
+    max-height: fit-content;
+}
 
 /**********************************/
 

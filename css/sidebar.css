@@ -23,33 +23,25 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     #sidebar {
         margin-left: -250px;
     }
     #sidebar.active {
         margin-left: 0;
     }
-}
+} */
 
 /*
     MUCH MORE BONITO
 */
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-}
-
-p {
-    font-family: 'Poppins', sans-serif;
+/* p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
     color: #999;
-}
+} */
 
 a, a:hover, a:focus {
     color: inherit;
@@ -60,13 +52,14 @@ a, a:hover, a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    min-height: 100vh;
+    min-height: 600px;
     /* don't forget to add all the previously mentioned styles here too */
     background: #04aef0;
     /* background: #227fd6; */
     color: #fff;
     transition: all 0.4s;
     border-right: 100px solid #04aef0;
+    border-radius: 0px 75px 100px 0px;
 }
 
 #sidebar .sidebar-header {

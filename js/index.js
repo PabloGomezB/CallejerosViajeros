@@ -263,12 +263,12 @@ window.onload = function () {
 
         // Obtenemos el div que contiene los formularios para sobreescribirlo
         let sidebar = document.getElementById("formsIndex");
-        sidebar.innerHTML = `<button onClick="window.location.reload();">LOGOUT</button>`;
+        sidebar.innerHTML = `<button style="margin-top:50px;" onClick="window.location.reload();">LOGOUT</button>`;
 
         $('.borderAssets').removeClass('fade-out');
         $('.borderAssets').addClass('fade-in');
 
-        $('.borderText').css("top", "140px");
+        $('.borderText').css("top", "200px");
         $('.borderText').css("height", "fit-content");
         $('.borderText').css("display", "initial");
 

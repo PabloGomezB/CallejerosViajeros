@@ -5,11 +5,11 @@
     </div>
     <div class="form-group">
         <label for="passLogin">Contraseña:</label>
-        <div class="divPassword">
-            <input type="password" class="form-control passwd" id="passLogin">
-            <span class="checkEyePass">
-                <input type="checkbox" class="checkboxPass" style="margin-top:10px;">Show Password
-            </span>
+        <input type="password" class="form-control passwd" id="passLogin">
+
+        <div class="checkEyePass">
+            <input type="checkbox" class="checkboxPass" style="margin-top:10px;">
+            <span>Show pass</span>
         </div>
     </div>
     <div class="login">

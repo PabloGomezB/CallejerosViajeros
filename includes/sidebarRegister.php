@@ -5,7 +5,7 @@
     </div>
 
     <div class="form-group">
-        <label for="cognom">Cognom:</label>
+        <label for="cognom">Apellido:</label>
         <input type="text" class="form-control" id="cognom">
     </div>
 
@@ -15,11 +15,11 @@
     </div>
     <div class="form-group">
         <label for="pass">Contraseña:</label>
-        <div class="divPassword">
-            <input type="password" class="form-control passwd" id="passRegister">
-            <span class="checkEyePass">
-                <input type="checkbox" class="checkboxPass" style="margin-top:10px;">Show Password
-            </span>
+        <input type="password" class="form-control passwd" id="passRegister">
+        
+        <div class="checkEyePass">
+            <input type="checkbox" class="checkboxPass" style="margin-top:10px;">
+            <span>Show pass</span>
         </div>
     </div>
     <div class="login">
