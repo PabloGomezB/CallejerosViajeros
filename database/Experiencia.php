@@ -8,6 +8,8 @@ class Experiencia extends DBAbstractModel {
 	private $likes;
 	private $dislikes;
 
+	private $num_experiencias_por_pagina = 3;
+
 	function __construct() {
 		$this->db_name = "a16miqboipos_pr";
 	}
@@ -15,6 +17,174 @@ class Experiencia extends DBAbstractModel {
 	function __destruct() {
 		// unset ($this);
 	}
+
+
+
+	public function getExperiencias($categoria) {
+
+		// $numTotalExperiencias = $this->getTotalExperiences($categoria);
+
+		$experiencias = array();
+
+		if($categoria!="Todas"){
+			$this->query = "SELECT * FROM Experiencia WHERE idCat = (SELECT idCat FROM Categoria WHERE nom = '$categoria') LIMIT 0, ".$this->num_experiencias_por_pagina;
+		}
+		else{
+			$this->query = 'SELECT * FROM Experiencia LIMIT 0, '.$this->num_experiencias_por_pagina;
+		}
+
+
+		$this->get_results_from_query();
+		for ($i = 0; $i < count($this->rows); $i++) {
+
+			$idCat = $this->rows[$i]["idCat"];
+
+			$exp = array(
+				"idExp" => $this->rows[$i]["idExp"],
+				'titol' => $this->rows[$i]["titol"],
+				'data' =>  $this->rows[$i]["data"],
+				'text' => $this->rows[$i]["text"],
+				'imatge' => $this->rows[$i]["imatge"],
+				'coordenades' => $this->rows[$i]["coordenades"],
+				'likes' => $this->rows[$i]["likes"],
+				'dislikes' => $this->rows[$i]["dislikes"],
+				'estat' => $this->rows[$i]["estat"],
+				'idCat' => $this->rows[$i]["idCat"],
+				'username' => $this->rows[$i]["username"],
+				'reportat' => $this->rows[$i]["reportat"],
+				'nomCategoria' => $this->getNomCategoria($idCat)
+			);
+
+			array_push($experiencias, $exp);
+		}
+
+		return json_encode($experiencias);
+	}
+
+
+
+	public function getTotalExperiences($categoria){
+
+		if($categoria!="Todas"){
+			$this->query = "SELECT COUNT(*) as total_experiencias FROM Experiencia WHERE idCat = (SELECT idCat FROM Categoria WHERE nom = '$categoria')";
+		}
+		else{
+			$this->query = 'SELECT COUNT(*) as total_experiencias FROM Experiencia';
+		}
+		
+		$this->get_results_from_query();
+		return $this->rows[0]["total_experiencias"];
+	}
+
+
+
+
+	public function setNavegadorPaginas($categoria){
+		$navegador = "";
+		$numTotalExperiencias = $this->getTotalExperiences($categoria);
+		$num_paginas = ceil($numTotalExperiencias / $this->num_experiencias_por_pagina);
+
+		if ($num_paginas > 1) {
+			$navegador = '<div class="row">';
+			$navegador .= '<div class="col-lg-12">';
+			$navegador .= '<nav aria-label="Page navigation example">';
+			$navegador .= '<ul class="pagination justify-content-end">';
+
+			for ($i=1;$i<=$num_paginas;$i++) {
+				$class_active = '';
+				if ($i == 1) {
+					$class_active = 'active';
+				}
+				$navegador .= '<li class="page-item '.$class_active.'"><a class="page-link" data="'.$i.'">'.$i.'</a></li>';
+			}
+
+			$navegador .= '</ul>';
+			$navegador .= '</nav>';
+			$navegador .= '</div>';
+			$navegador .= '</div>';
+		}
+		return $navegador;
+	}
+
+	public function muestraExperienciasPaginadas($numTotalExperiencias){
+		$experiencias = array();
+
+		if($numTotalExperiencias > 0){
+
+			$this->query = 'SELECT * FROM Experiencia LIMIT 0, '.$this->num_experiencias_por_pagina;
+
+			$this->get_results_from_query();
+			for ($i = 0; $i < count($this->rows); $i++) {
+
+				$idCat = $this->rows[$i]["idCat"];
+
+				$exp = array(
+					"idExp" => $this->rows[$i]["idExp"],
+					'titol' => $this->rows[$i]["titol"],
+					'data' =>  $this->rows[$i]["data"],
+					'text' => $this->rows[$i]["text"],
+					'imatge' => $this->rows[$i]["imatge"],
+					'coordenades' => $this->rows[$i]["coordenades"],
+					'likes' => $this->rows[$i]["likes"],
+					'dislikes' => $this->rows[$i]["dislikes"],
+					'estat' => $this->rows[$i]["estat"],
+					'idCat' => $this->rows[$i]["idCat"],
+					'username' => $this->rows[$i]["username"],
+					'reportat' => $this->rows[$i]["reportat"],
+					'nomCategoria' => $this->getNomCategoria($idCat)
+				);
+
+				array_push($experiencias, $exp);
+			}
+
+		}
+
+		return json_encode($experiencias);
+	}
+
+
+	public function muestraOtraPagina($page, $categoria){
+		$experiencias = array();
+		
+		$rowsPerPage = $this->num_experiencias_por_pagina;
+		$offset = ($page - 1) * $rowsPerPage;
+		sleep(1);
+
+		if($categoria!="Todas"){
+			$this->query = "SELECT * FROM Experiencia WHERE idCat = (SELECT idCat FROM Categoria WHERE nom = '$categoria') LIMIT ".$offset.", ".$rowsPerPage;
+		}
+		else{
+			$this->query = 'SELECT * FROM Experiencia LIMIT '.$offset.', '.$rowsPerPage;
+		}
+		
+		
+		$this->get_results_from_query();
+
+		for ($i = 0; $i < count($this->rows); $i++) {
+
+			$idCat = $this->rows[$i]["idCat"];
+
+			$exp = array(
+				"idExp" => $this->rows[$i]["idExp"],
+				'titol' => $this->rows[$i]["titol"],
+				'data' =>  $this->rows[$i]["data"],
+				'text' => $this->rows[$i]["text"],
+				'imatge' => $this->rows[$i]["imatge"],
+				'coordenades' => $this->rows[$i]["coordenades"],
+				'likes' => $this->rows[$i]["likes"],
+				'dislikes' => $this->rows[$i]["dislikes"],
+				'estat' => $this->rows[$i]["estat"],
+				'idCat' => $this->rows[$i]["idCat"],
+				'username' => $this->rows[$i]["username"],
+				'reportat' => $this->rows[$i]["reportat"],
+				'nomCategoria' => $this->getNomCategoria($idCat)
+			);
+
+			array_push($experiencias, $exp);
+		}
+		return json_encode($experiencias);
+	}
+
 
 	public function mostrarTot() {
 		$experiencias = array();
@@ -42,6 +212,7 @@ class Experiencia extends DBAbstractModel {
 
 			array_push($experiencias, $exp);
 		}
+
 		return json_encode($experiencias);
 	}
 

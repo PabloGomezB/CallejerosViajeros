@@ -176,7 +176,7 @@ window.onload = function () {
                                 icon: "error",
                             });
                         } else {
-                            console.log(respuesta.data);
+                            // console.log(respuesta.data);
                             logeado = true;
                             username = respuesta.data.email;
                             if (respuesta.data.isAdmin == 1) {
@@ -456,11 +456,13 @@ window.onload = function () {
                     }
                 });
             })
+            document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<button id="newExp">Nova Experiencia</button>`);
         }
         else{
             let sidebarNormalUser =
                 `<button>Rol user: ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
+            document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<button id="newExp">Nova Experiencia</button>`);
         }
     }
 }
