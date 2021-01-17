@@ -1,6 +1,6 @@
 var moduleNewExperiencia = (function (){
 
-    function crearExperiencia(){
+    function crearExperiencia(username){
         moduleExperiencia.extraerCategorias().then((respuesta) => {
             let categorias = JSON.parse(respuesta.data);
             console.log(categorias);
