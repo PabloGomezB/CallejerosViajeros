@@ -45,6 +45,33 @@ class Experiencia extends DBAbstractModel {
 		return json_encode($experiencias);
 	}
 
+	public function mostrarEsbozos(){
+		$experiencias = array();
+		$this->query = "SELECT * FROM  Experiencia WHERE estat='esborrany';";
+		$this->get_results_from_query();
+		for ($i = 0; $i < count($this->rows); $i++) {
+			$idCat = $this->rows[$i]["idCat"];
+			$exp = array(
+				"idExp" => $this->rows[$i]["idExp"],
+				'titol' => $this->rows[$i]["titol"],
+				'data' =>  $this->rows[$i]["data"],
+				'text' => $this->rows[$i]["text"],
+				'imatge' => $this->rows[$i]["imatge"],
+				'coordenades' => $this->rows[$i]["coordenades"],
+				'likes' => $this->rows[$i]["likes"],
+				'dislikes' => $this->rows[$i]["dislikes"],
+				'estat' => $this->rows[$i]["estat"],
+				'idCat' => $this->rows[$i]["idCat"],
+				'username' => $this->rows[$i]["username"],
+				'reportat' => $this->rows[$i]["reportat"],
+				'nomCategoria' => $this->getNomCategoria($idCat)
+			);
+
+			array_push($experiencias, $exp);
+		}
+		return json_encode($experiencias);
+	}
+
 	public function getNomCategoria($idCat) {
 		$this->query = "SELECT nom FROM Categoria WHERE idCat = $idCat;";
 		$this->get_results_from_query();
@@ -54,6 +81,26 @@ class Experiencia extends DBAbstractModel {
 	public function updateLikes($idExp, $likes, $dislikes) {
 		$this->query = "UPDATE Experiencia SET likes='$likes', dislikes= '$dislikes'
         WHERE idExp='$idExp'";
+		$this->execute_single_query();
+		if ($this->queryExitosa == 0) {
+			return "FAIL";
+		} else {
+			return "OK";
+		}
+	}
+
+	public function rebutjarExperiencia($idExp) {
+		$this->query = "UPDATE Experiencia SET estat='rebutjada' WHERE idExp='$idExp'";
+		$this->execute_single_query();
+		if ($this->queryExitosa == 0) {
+			return "FAIL";
+		} else {
+			return "OK";
+		}
+	}
+
+	public function updateEstado($idExp){
+		$this->query = "UPDATE Experiencia SET estat='publicada' WHERE idExp='$idExp'";
 		$this->execute_single_query();
 		if ($this->queryExitosa == 0) {
 			return "FAIL";

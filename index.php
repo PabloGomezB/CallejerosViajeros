@@ -90,7 +90,7 @@ print_r($_SESSION);
         </div>
 
         <div id="modalAdminCat"></div>
-
+        <div id="modalAdminExp"></div>
         <div id="modalAdminUser"></div>
         
         <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 200)-->
