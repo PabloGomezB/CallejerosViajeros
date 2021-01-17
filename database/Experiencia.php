@@ -8,7 +8,7 @@ class Experiencia extends DBAbstractModel {
 	private $likes;
 	private $dislikes;
 
-	private $num_experiencias_por_pagina = 3;
+	private $num_experiencias_por_pagina = 4;
 
 	function __construct() {
 		$this->db_name = "a16miqboipos_pr";

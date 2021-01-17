@@ -8,7 +8,6 @@
     <title>Index</title>
     <script src="./js/index.js"></script>
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="./css/footer.css" />
 </head>
 
 <body>
@@ -97,21 +96,20 @@
     </div>
 
 
+    <!-- Divisor -->
+    <div class="divisor row p-4 px-3 mb-3 d-flex justify-content-between">
+        <div>
+            <span class="mr-5 font-weight-bold">¿Preparado para tu aventura?</span>
+            <span class="d-none d-md-inline-block">Miles de experiencias y millones de buenos recuerdos</span>
+        </div>
+        <div>
+            <span class="d-none d-sm-inline-block">ÚNETE AHORA</span>
+        </div>
+    </div>
+    <!-- End Divisor -->
 
     <!-- Start footer -->
-    <footer class="container-fluid mt-3 footer">
-        <!-- Divisor -->
-        <div class="divisor row p-4 px-3 mb-3 d-flex justify-content-between">
-            <div>
-                <span class="mr-5 font-weight-bold">¿Preparado para tu aventura?</span>
-                <span class="d-none d-md-inline-block">Miles de experiencias y millones de buenos recuerdos</span>
-            </div>
-            <div>
-                <span class="d-none d-sm-inline-block">ÚNETE AHORA</span>
-            </div>
-        </div>
-        <!-- End Divisor -->
-
+    <footer class="container-fluid footer">
         <!-- Upper Container -->
         <div class="container-fluid px-0">
             <div class="row">

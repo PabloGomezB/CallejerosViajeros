@@ -18,7 +18,7 @@ var moduleNewExperiencia = (function (){
                 <input type="text" name="titolExp" id="titolExp"><br>
 
                 <label for="textExp">Text:</label>
-                <textarea id="textExp" name="textExp" rows="4" cols="50"></textarea><br>
+                <textarea id="textExp" name="textExp" rows="4" cols="20" style="margin-left:40px"></textarea><br>
 
                 <label for="latitud">Latitud entre -90 i 90: </label>
                 <input type="number" id="latitudExp" name="latitud" min="-90" max="90"><br><br>
@@ -76,13 +76,9 @@ var moduleNewExperiencia = (function (){
                         experiencia.forEach(element => {
                             console.log(element);
                         });
-                        // AQUI SE DEBERÍA INTERAR TODO CON UN FOREACH SOBRE categorias (mismo sistema que en la linea 45)
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////
-                        //PABLO tooo tuyoooo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        // console.log(expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], username));
+                        
                         let newExp = expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], username);
-                        // console.log(newExp);
+                        
                         document.getElementById("formNewExp").style.display = "none";
                         document.getElementById("newExp").disabled = false;
 
@@ -94,14 +90,15 @@ var moduleNewExperiencia = (function (){
                                     coordenades: newExp["coordenades"],
                                     categoria: newExp["categoria"],
                                     username: newExp["username"]
-
                                 }
                             })
                             .then(function (respuesta) {
-                                console.log(respuesta);
                                 moduleExperiencia.extraerExperiencias();
-
-
+                                Swal.fire({
+                                    title: "¡Bien!",
+                                    html: "Has creado una experiencia!<br>Puedes editarla siempre que quieras</br>",
+                                    icon: "success",
+                                });
                             })
                             .catch(function (error) {
                                 console.log(error);
