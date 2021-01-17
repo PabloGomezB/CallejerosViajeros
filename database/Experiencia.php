@@ -18,15 +18,70 @@ class Experiencia extends DBAbstractModel {
 		// unset ($this);
 	}
 
-	public function getTotalExperiences(){
-		$this->query = 'SELECT COUNT(*) as total_experiencias FROM Experiencia';
+
+
+	public function getExperiencias($categoria) {
+
+		// $numTotalExperiencias = $this->getTotalExperiences($categoria);
+
+		$experiencias = array();
+
+		if($categoria!="Todas"){
+			$this->query = "SELECT * FROM Experiencia WHERE idCat = (SELECT idCat FROM Categoria WHERE nom = '$categoria') LIMIT 0, ".$this->num_experiencias_por_pagina;
+		}
+		else{
+			$this->query = 'SELECT * FROM Experiencia LIMIT 0, '.$this->num_experiencias_por_pagina;
+		}
+
+
+		$this->get_results_from_query();
+		for ($i = 0; $i < count($this->rows); $i++) {
+
+			$idCat = $this->rows[$i]["idCat"];
+
+			$exp = array(
+				"idExp" => $this->rows[$i]["idExp"],
+				'titol' => $this->rows[$i]["titol"],
+				'data' =>  $this->rows[$i]["data"],
+				'text' => $this->rows[$i]["text"],
+				'imatge' => $this->rows[$i]["imatge"],
+				'coordenades' => $this->rows[$i]["coordenades"],
+				'likes' => $this->rows[$i]["likes"],
+				'dislikes' => $this->rows[$i]["dislikes"],
+				'estat' => $this->rows[$i]["estat"],
+				'idCat' => $this->rows[$i]["idCat"],
+				'username' => $this->rows[$i]["username"],
+				'reportat' => $this->rows[$i]["reportat"],
+				'nomCategoria' => $this->getNomCategoria($idCat)
+			);
+
+			array_push($experiencias, $exp);
+		}
+
+		return json_encode($experiencias);
+	}
+
+
+
+	public function getTotalExperiences($categoria){
+
+		if($categoria!="Todas"){
+			$this->query = "SELECT COUNT(*) as total_experiencias FROM Experiencia WHERE idCat = (SELECT idCat FROM Categoria WHERE nom = '$categoria')";
+		}
+		else{
+			$this->query = 'SELECT COUNT(*) as total_experiencias FROM Experiencia';
+		}
+		
 		$this->get_results_from_query();
 		return $this->rows[0]["total_experiencias"];
 	}
 
-	public function setNavegadorPaginas($numTotalExperiencias){
+
+
+
+	public function setNavegadorPaginas($categoria){
 		$navegador = "";
-	
+		$numTotalExperiencias = $this->getTotalExperiences($categoria);
 		$num_paginas = ceil($numTotalExperiencias / $this->num_experiencias_por_pagina);
 
 		if ($num_paginas > 1) {
@@ -88,14 +143,21 @@ class Experiencia extends DBAbstractModel {
 	}
 
 
-	public function muestraOtraPagina($page){
+	public function muestraOtraPagina($page, $categoria){
 		$experiencias = array();
-
+		
 		$rowsPerPage = $this->num_experiencias_por_pagina;
 		$offset = ($page - 1) * $rowsPerPage;
 		sleep(1);
+
+		if($categoria!="Todas"){
+			$this->query = "SELECT * FROM Experiencia WHERE idCat = (SELECT idCat FROM Categoria WHERE nom = '$categoria') LIMIT ".$offset.", ".$rowsPerPage;
+		}
+		else{
+			$this->query = 'SELECT * FROM Experiencia LIMIT '.$offset.', '.$rowsPerPage;
+		}
 		
-		$this->query = 'SELECT * FROM Experiencia LIMIT '.$offset.', '.$rowsPerPage;
+		
 		$this->get_results_from_query();
 
 		for ($i = 0; $i < count($this->rows); $i++) {
@@ -120,7 +182,7 @@ class Experiencia extends DBAbstractModel {
 
 			array_push($experiencias, $exp);
 		}
-		return $experiencias;
+		return json_encode($experiencias);
 	}
 
 

@@ -9,8 +9,11 @@ var moduleExperiencia = (function () {
         if (categoria == null) {
             categoria = "Todas";
         }
-        axios.get("./database/experiencias/extraerExperiencias.php")
-            .then(function (respuesta) {
+        axios.get("./database/experiencias/extraerExperiencias.php", {
+            params: {
+                categoria: categoria
+            }
+            }).then(function (respuesta) {
                 // console.log(respuesta);
                 let baseDades = JSON.parse(respuesta.data);
                 
@@ -53,7 +56,8 @@ var moduleExperiencia = (function () {
                     // Añadir el nav para las paginas además de su listener
                     axios.get("./database/experiencias/extraerExperiencias.php", {
                         params: {
-                            homePage: "true"
+                            setNavegador: "true",
+                            setNavegadorCategoria: categoria
                         }
                     })
                     .then(function(respuesta) {
@@ -546,17 +550,20 @@ var moduleExperiencia = (function () {
 
             axios.get("./database/experiencias/extraerExperiencias.php", {
                 params: {
-                    page: page
+                    page: page,
+                    pageCategoria: categoria
                 }
             })
             .then(function (respuesta) {
                 // console.log(respuesta.data);
                 document.getElementById("contenedorExperiencias").innerHTML = "";
+                console.log(respuesta.data);
 
-                experienciasLimpias = respuesta.data.toString().split(`]"`);
-                experienciasLimpias[0] += `]`;
-                let nextExperiencias = JSON.parse(experienciasLimpias[0]);
+                // experienciasLimpias = respuesta.data.toString().split(`]"`);
+                // experienciasLimpias[0] += `]`;
+                // let nextExperiencias = JSON.parse(experienciasLimpias[0]);
 
+                let nextExperiencias = JSON.parse(respuesta.data);
                 
                 printExperiencies(nextExperiencias, isAdmin, username, categoria);
                 
