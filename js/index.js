@@ -468,7 +468,7 @@ window.onload = function () {
         // Nova Experiencia
         document.getElementById("newExp").addEventListener('click', function (e) {
             document.getElementById("newExp").disabled = true;
-            moduleNewExperiencia.crearExperiencia(username);
+            moduleNewExperiencia.crearExperiencia(username, isAdmin);
         });
 
     }

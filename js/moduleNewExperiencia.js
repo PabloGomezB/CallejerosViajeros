@@ -1,6 +1,6 @@
 var moduleNewExperiencia = (function (){
 
-    function crearExperiencia(username){
+    function crearExperiencia(username,isAdmin){
         moduleExperiencia.extraerCategorias().then((respuesta) => {
             let categorias = JSON.parse(respuesta.data);
             console.log(categorias);
@@ -93,7 +93,7 @@ var moduleNewExperiencia = (function (){
                                 }
                             })
                             .then(function (respuesta) {
-                                moduleExperiencia.extraerExperiencias();
+                                moduleExperiencia.extraerExperiencias(isAdmin,username);
                                 Swal.fire({
                                     title: "¡Bien!",
                                     html: "Has creado una experiencia!<br>Puedes editarla siempre que quieras</br>",

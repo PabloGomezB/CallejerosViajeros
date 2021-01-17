@@ -252,6 +252,9 @@ var moduleExperiencia = (function () {
                                 <div id="modal-footer" class="modal-footer">
                                     <button id="reportar${idCard}" class="btn btn-warning reportar">Reportar</button>`
                     if (isAdmin || (username == infoSelectedExp.username)) {
+                        console.log(username)
+                        console.log(infoSelectedExp.username)
+                        console.log(isAdmin)
                         modal += `<button id="eliminar${idCard}" class="btn btn-danger eliminar">Eliminar</button>
                                       <button id="editar${idCard}" class="btn btn-primary editar">Editar</button>`;
                     }
