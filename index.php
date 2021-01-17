@@ -79,7 +79,7 @@ print_r($_SESSION);
         <!-- End sidebar -->
 
         <!-- Page content -->
-        <div id="content">
+        <div id="content" class="container-fluid">
             
             <h1 id="enunciat">Vacances</h1>
             

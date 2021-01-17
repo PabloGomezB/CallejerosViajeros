@@ -40,7 +40,7 @@ class Experiencia extends DBAbstractModel {
 				if ($i == 1) {
 					$class_active = 'active';
 				}
-				$navegador .= '<li class="page-item '.$class_active.'"><a class="page-link" href="#" data="'.$i.'">'.$i.'</a></li>';
+				$navegador .= '<li class="page-item '.$class_active.'"><a class="page-link" data="'.$i.'">'.$i.'</a></li>';
 			}
 
 			$navegador .= '</ul>';
