@@ -464,6 +464,13 @@ window.onload = function () {
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
             document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<button id="newExp">Nova Experiencia</button>`);
         }
+        // JORDI
+        // Nova Experiencia
+        document.getElementById("newExp").addEventListener('click', function (e) {
+            document.getElementById("newExp").disabled = true;
+            moduleNewExperiencia.crearExperiencia(username);
+        });
+
     }
 }
 

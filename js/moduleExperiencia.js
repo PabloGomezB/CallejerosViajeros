@@ -177,17 +177,9 @@ var moduleExperiencia = (function () {
 
         listenerDropdownCategorias(isAdmin, username, categoria);
         // listenerModificarUsuario(username);
+    
+
         
-        
-        // JORDI
-        // Nova Experiencia
-        document.getElementById("newExp").addEventListener('click', function (e) {
-            document.getElementById("newExp").disabled = true;
-            moduleNewExperiencia.crearExperiencia(username);
-        });
-
-
-
         /////////////////////////////////////////////////////////////////
         //   AÑADE LISTENERS A LAS CARDS Y CREA SU RESPECTIVO MODAL    //
         /////////////////////////////////////////////////////////////////
