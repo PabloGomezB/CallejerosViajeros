@@ -112,18 +112,24 @@ window.onload = function () {
     //////////////////////////////////////////////////////////////////////////////////
     // ANTES DE HACER LOGIN
     // AXIOS para mostrar los titulos de las ultimas experiencias
-    axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraerExperiencias.php", {})
-        .then(function (respuesta) {
+    axios.get("./database/experiencias/extraerExperiencias.php", {
+        params: {
+            categoria: "Todas"
+        }
+        }).then(function (respuesta) {
             let baseDades = JSON.parse(respuesta.data);
+            
             let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
 
+            // esto ya no es necesario porque se obtienen 4 experiencias
             let maxBaseDades = parseInt(baseDades.length);
             if (maxBaseDades < 5) {
                 maxBaseDades = maxBaseDades - 5;
             }
-
+            
             let top = 0;
-            for (let i = parseInt(baseDades.length) - 1; top < 5; i--) {
+            for (let i = parseInt(baseDades.length) - 1; top < 4; i--) {
+
                 let element = baseDades[i]["titol"];
                 htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
                 htmlLastExperiences += `<p>${element}</p>`;
@@ -286,7 +292,7 @@ window.onload = function () {
                 `<button id="categoriaAdmin">Categorias</button>` + `<br>`;
             sidebar.insertAdjacentHTML("beforeend", categoriaAdmin);
             document.getElementById("categoriaAdmin").addEventListener('click', function(){
-                axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
+                axios.get("./database/categoria/categoria.php",{
                 })
                 .then(function (respuesta){
                     let categorias = JSON.parse(respuesta.data);
@@ -320,7 +326,7 @@ window.onload = function () {
                     document.getElementById("crearCategory").addEventListener('click', function (){
                         nuevaCategoria = document.getElementById("nuevaCategoria").value;
                         console.log(nuevaCategoria);
-                        axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/categoria/crearCategoria.php",{
+                        axios.get("./database/categoria/crearCategoria.php",{
                             params: {
                                 nom: nuevaCategoria
                             }
@@ -333,7 +339,7 @@ window.onload = function () {
                 `<button id="expAdmin">Experiencias</button>` + `<br>`;
             sidebar.insertAdjacentHTML("beforeend", experienciasAdmin);
             document.getElementById("expAdmin").addEventListener('click', function(){
-                 axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/experiencias/mostrarExperiencias.php",{
+                 axios.get("./database/experiencias/mostrarExperiencias.php",{
                  })
                  .then(function(respuesta){
                      console.log(respuesta.data);
@@ -372,7 +378,7 @@ window.onload = function () {
                     for(i=0;i<botonesEliminar.length;i++){
                         botonesEliminar[i].addEventListener('click', function(e){
                             let seleccionado = e.target.getAttribute("nombre");
-                            axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/experiencias/eliminarExperiencia.php",{
+                            axios.get("./database/experiencias/eliminarExperiencia.php",{
                                 params: {
                                         idCard: seleccionado
                                 }
@@ -388,7 +394,7 @@ window.onload = function () {
                         botonesPublicar[i].addEventListener('click', function(e){
                             let seleccionado = e.target.getAttribute("nombre");
                             console.log(seleccionado)
-                            axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/experiencias/updateEstado.php",{
+                            axios.get("./database/experiencias/updateEstado.php",{
                                 params: {
                                         idExp: seleccionado
                                 }
@@ -407,7 +413,7 @@ window.onload = function () {
             `<button id="usersAdmin">Usuarios</button>`;
             sidebar.insertAdjacentHTML("beforeend", usuarisAdmin);
             document.getElementById("usersAdmin").addEventListener('click', function(){
-                axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/usuari/mostrarUsuarios.php",{
+                axios.get("./database/usuari/mostrarUsuarios.php",{
                 })
                 .then(function (respuesta){
                     let usuarios = respuesta.data;
