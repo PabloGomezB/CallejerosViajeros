@@ -386,12 +386,13 @@ window.onload = function () {
                 }
                 });
             })
-            
+            document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<button id="newExp">Nova Experiencia</button>`);
         }
         else{
             let sidebarNormalUser =
                 `<button>Rol user: ${username}</button>`;
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
+            document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<button id="newExp">Nova Experiencia</button>`);
         }
     }
 }

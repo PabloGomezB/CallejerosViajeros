@@ -181,10 +181,10 @@ var moduleExperiencia = (function () {
         
         // JORDI
         // Nova Experiencia
-        // document.getElementById("newExp").addEventListener('click', function (e) {
-        //     document.getElementById("newExp").disabled = true;
-        //     moduleNewExperiencia.crearExperiencia(username);
-        // });
+        document.getElementById("newExp").addEventListener('click', function (e) {
+            document.getElementById("newExp").disabled = true;
+            moduleNewExperiencia.crearExperiencia(username);
+        });
 
 
 
