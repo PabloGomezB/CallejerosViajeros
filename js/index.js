@@ -344,17 +344,7 @@ window.onload = function () {
                  .then(function(respuesta){
                      console.log(respuesta.data);
                      let experiencias = JSON.parse(respuesta.data);
-                     let htmlmodal = `<div id="modalExp" class="modal" tabindex="-1" role="dialog">
-                     <div class="modal-dialog" role="document">
-                         <div class="modal-content">
-                         <div class="modal-header">
-                             <h5 class="modal-title">Experiencias</h5>
-                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                             </button>
-                         </div>
-                         <div class="modal-body">
-                             <table>`;
+                     let htmlmodal = `<table>`;
                              for(i=0;i<experiencias.length;i++){
                                  htmlmodal += `<tr>
                                  <td id="${experiencias[i].idExp}">${experiencias[i].titol}</td>
@@ -362,12 +352,30 @@ window.onload = function () {
                                  <td><button class="btnPublicarExp" nombre="${experiencias[i].idExp}">Publicar</td>
                                  </tr>`;
                              }
-                             htmlmodal += `</table>
-                             </div>
-                             </div>
-                        </div>
-                        </div>`;
-                        document.getElementById("modalAdminExp").innerHTML = htmlmodal;
+                             htmlmodal += `</table>`;
+                        document.getElementById("esbozos").innerHTML = htmlmodal;
+                        
+                        axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/experiencias/mostrarReportadas.php",{
+                        })
+                            .then(function(respuesta){
+                                console.log(respuesta.data);
+                                let expreportadas = JSON.parse(respuesta.data);
+                                let reportadashtml = `<table>`;
+                                for(i=0;i<expreportadas.length;i++){
+                                    console.log(expreportadas[i].titol);
+                                    reportadashtml += `<tr>
+                                    <td id="${expreportadas[i].idExp}">${expreportadas[i].titol}</td>
+                                    <td><button class="btnQuitarReporte" nombre="${expreportadas[i].idExp}">Quitar Reporte</td>
+                                    <td><button class="btnRebutjarExp" nombre="${expreportadas[i].idExp}">Eliminar Experiencia</td>
+                                    </tr>`;
+                                }
+                                reportadashtml += `</table>`;
+                                console.log(reportadashtml);
+                                document.getElementById("reportadas").innerHTML = reportadashtml;
+                            })
+                            .catch(function(error){
+                                console.log(error);
+                            })
                         $("#modalExp").modal();
                  })
                  .catch(function (error){
@@ -388,7 +396,6 @@ window.onload = function () {
                             })
                         })
                     }
-
                     botonesPublicar = document.getElementsByClassName("btnPublicarExp");
                     for(i=0;i<botonesPublicar.length;i++){
                         botonesPublicar[i].addEventListener('click', function(e){
@@ -404,6 +411,21 @@ window.onload = function () {
                             })
                             .catch(function(error){
                                 console.log(error);
+                            })
+                        })
+                    }
+                    botonesReporte = document.getElementsByClassName("btnQuitarReporte");
+                    for(i=0;i<botonesReporte.length;i++){
+                        botonesReporte[i].addEventListener('click', function (e) {
+                            let seleccionado = e.target.getAttribute("nombre");
+                            console.log(seleccionado);
+                            axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/experiencias/updateReporte.php",{
+                                params: {
+                                    idCard: seleccionado
+                                }
+                            })
+                            .then(function(){
+                                e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
                             })
                         })
                     }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +36,7 @@
         <nav id="sidebar" class="active">
             <!-- Border -->
             <div class="borderAssets">
-                <img class="pulpito" src="./img/sidebar/plane.gif" alt="cute pulpito" style="top:20px;"> 
+                <img class="pulpito" src="./img/sidebar/plane.gif" alt="cute pulpito" style="top:20px;">
                 <span id="borderText" class="borderText">Login / registro</span>
                 <img class="pulpito" src="./img/sidebar/plane.gif" alt="cute pulpito" style="top:470px;">
             </div>
@@ -46,7 +47,8 @@
                 <!-- Login -->
                 <ul class="list-unstyled components">
                     <li class="active">
-                        <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle sidebar-header" style="border-radius: 0px 999px 0px 0px;">Login</a>
+                        <a id="dropDownLogin" href="#desplegableLogin" data-toggle="collapse" aria-expanded="true"
+                            class="dropdown-toggle sidebar-header" style="border-radius: 0px 999px 0px 0px;">Login</a>
                         <ul class="collapse list-unstyled" id="desplegableLogin">
                             <li>
                                 <?php include("includes/sidebarLogin.php") ?>
@@ -59,7 +61,8 @@
                 <!-- Register -->
                 <ul class="list-unstyled components">
                     <li class="active">
-                        <a id="dropDownRegistro" href="#desplegableRegistro" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-header">Registro</a>
+                        <a id="dropDownRegistro" href="#desplegableRegistro" data-toggle="collapse"
+                            aria-expanded="false" class="dropdown-toggle sidebar-header">Registro</a>
                         <ul class="collapse list-unstyled" id="desplegableRegistro">
                             <li>
                                 <?php include("includes/sidebarRegister.php") ?>
@@ -75,9 +78,9 @@
 
         <!-- Page content -->
         <div id="content" class="container-fluid">
-            
+
             <h1 id="enunciat">Vacances</h1>
-            
+
             <div id="panell" style="display: none;">
                 <h5 id="benvinguda"></h5>
             </div>
@@ -85,14 +88,47 @@
         </div>
 
         <div id="modalAdminCat"></div>
-        <div id="modalAdminExp"></div>
+        <div id="modalAdminExp">
+            <div id="modalExp" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Experiencias</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#esbozos"
+                                        role="tab" aria-controls="home" aria-selected="true">Esbozos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#reportadas" role="tab"
+                                        aria-controls="profile" aria-selected="false">Reportadas</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="esbozos" role="tabpanel" aria-labelledby="home-tab">
+                                
+                                </div>
+                                <div class="tab-pane fade" id="reportadas" role="tabpanel" aria-labelledby="profile-tab">
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="modalAdminUser"></div>
-        
+
         <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 200)-->
         <div id="divModal"></div>
         <!-- Este modal es la confirmacion de cuando el user va a eliminar una experiencia -->
         <div id="divModalConfirm"></div>
-        
+
     </div>
 
 
