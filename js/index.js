@@ -154,7 +154,7 @@ window.onload = function () {
                 icon: "error",
             });
         } else {
-            axios.get('http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/usuari/login.php', {
+            axios.get('./database/usuari/login.php', {
                     params: {
                         email: document.getElementById("email").value,
                         pass: document.getElementById("passLogin").value
@@ -172,7 +172,7 @@ window.onload = function () {
                         if (respuesta.data.email == null) {
                             Swal.fire({
                                 title: "¡VAYA!",
-                                html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>email undefined",
+                                html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)",
                                 icon: "error",
                             });
                         } else {
@@ -214,7 +214,7 @@ window.onload = function () {
                 icon: "error",
             });
         } else {
-            axios.get('http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/usuari/register.php', {
+            axios.get('./database/usuari/register.php', {
                     params: {
                         nom: document.getElementById("nom").value,
                         cognom: document.getElementById("cognom").value,

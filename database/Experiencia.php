@@ -19,10 +19,7 @@ class Experiencia extends DBAbstractModel {
 	}
 
 
-
 	public function getExperiencias($categoria) {
-
-		// $numTotalExperiencias = $this->getTotalExperiences($categoria);
 
 		$experiencias = array();
 
@@ -77,8 +74,6 @@ class Experiencia extends DBAbstractModel {
 	}
 
 
-
-
 	public function setNavegadorPaginas($categoria){
 		$navegador = "";
 		$numTotalExperiencias = $this->getTotalExperiences($categoria);
@@ -106,6 +101,7 @@ class Experiencia extends DBAbstractModel {
 		return $navegador;
 	}
 
+	/*
 	public function muestraExperienciasPaginadas($numTotalExperiencias){
 		$experiencias = array();
 
@@ -141,7 +137,7 @@ class Experiencia extends DBAbstractModel {
 
 		return json_encode($experiencias);
 	}
-
+*/
 
 	public function muestraOtraPagina($page, $categoria){
 		$experiencias = array();
@@ -185,7 +181,7 @@ class Experiencia extends DBAbstractModel {
 		return json_encode($experiencias);
 	}
 
-
+/*
 	public function mostrarTot() {
 		$experiencias = array();
 		$this->query = "SELECT * FROM  Experiencia;";
@@ -215,7 +211,7 @@ class Experiencia extends DBAbstractModel {
 
 		return json_encode($experiencias);
 	}
-
+*/
 	public function mostrarEsbozos(){
 		$experiencias = array();
 		$this->query = "SELECT * FROM  Experiencia WHERE estat='esborrany';";

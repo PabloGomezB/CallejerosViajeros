@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 require_once('DBAbstractModel.php');
 
 class Usuario extends DBAbstractModel {
@@ -45,12 +45,12 @@ class Usuario extends DBAbstractModel {
 		$this->query = "INSERT INTO Usuari (nom, cognom, username, password)
 						VALUES ('$nom','$cognom','$username','$pass')";
 		$this->execute_single_query();
-		// if($this->queryExitosa == true){
-		// 	return $this->doLogin($username, $pass);
-		// }
-		// else{
+		if($this->queryExitosa == true){
+			return $this->doLogin($username, $pass);
+		}
+		else{
 			return json_encode(array('status' => 'FAIL', 'email' => $username));
-		// }
+		}
 	}
 
 	public function informacionUsuario($username) {

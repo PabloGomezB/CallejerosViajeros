@@ -1,7 +1,3 @@
-<?php session_start();
-$_SESSION['username']="df";
-print_r($_SESSION);
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -247,16 +243,6 @@ print_r($_SESSION);
         <!-- End Lower Container -->
     </footer>
     <!-- End footer -->
-
-
-
-    <?php
-print_r($_SESSION);
-if(!isset($_SESSION["username"])){
-    echo "TONTOOOO";
-}
-else{echo "REGISTRADOOOOO :D";};
-?>
 
     <!-- End full page content -->
     <script src="./js/moduleExperiencia.js"></script>
