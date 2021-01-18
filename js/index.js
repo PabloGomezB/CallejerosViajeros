@@ -364,7 +364,7 @@ window.onload = function () {
         }
 
         addButtonNuevaExperiencia();
-        listenerModificarUsuario();
+        addButtonOpcionesUsuario();
         addButtonLogout();
     }
 
