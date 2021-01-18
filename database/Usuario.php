@@ -25,15 +25,15 @@ class Usuario extends DBAbstractModel {
 	}
 
 	public function doLogin($userEmail = "", $pass) {
-		if ($userEmail != "") {
-			$this->query = "SELECT *
-                    FROM Usuari
-                    WHERE username='$userEmail' AND password='$pass'";
-			$this->get_results_from_query();
-		}
-		// Any register selected
+		
+		$this->query = "SELECT * FROM Usuari WHERE username='$userEmail' AND password='$pass'";
+		$this->get_results_from_query();
+
+
 		if (count($this->rows) == 1) {
-			$response = array('status' => 'OK', 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'isAdmin' => $this->rows[0]["isAdmin"]);
+			$response = array('status' => 'OK', 'nom' => $this->rows[0]["nom"], 'cognom' => $this->rows[0]["cognom"], 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'isAdmin' => $this->rows[0]["isAdmin"]);
+			$_SESSION['nom']=$this->rows[0]["nom"];
+			$_SESSION['cognom']=$this->rows[0]["cognom"];
 			$_SESSION['username']=$this->rows[0]["username"];
 			$_SESSION['password']=$this->rows[0]["password"];
 			$_SESSION['isAdmin']=$this->rows[0]["isAdmin"];
@@ -54,7 +54,7 @@ class Usuario extends DBAbstractModel {
 			return json_encode(array('status' => 'FAIL', 'email' => $username));
 		}
 	}
-
+/*
 	public function informacionUsuario($username) {
 		$this->query = "SELECT *
 						FROM Usuari
@@ -71,7 +71,7 @@ class Usuario extends DBAbstractModel {
 
 		return json_encode($infoUsuario);
 	}
-
+*/
 	public function mostrarUsuario() {
         $this->query = "SELECT *
                         FROM Usuari";
