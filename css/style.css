@@ -125,9 +125,9 @@ p{
 }
 
 .card-experiencia:hover{
-    -webkit-transform:scale(1.1); /*Webkit: Scale up image to 1.2x original size*/
-    -moz-transform:scale(1.1); /*Mozilla scale version*/
-    -o-transform:scale(1.1); /*Opera scale version*/
+    -webkit-transform:scale(1); /*Webkit: Scale up image to 1.2x original size*/
+    -moz-transform:scale(1); /*Mozilla scale version*/
+    -o-transform:scale(1); /*Opera scale version*/
     border-radius: 5px;
     box-shadow:0px 0px 30px black; /*CSS3 shadow: 30px blurred shadow all around image*/
     -webkit-box-shadow:0px 0px 30px black; /*Safari shadow version*/
