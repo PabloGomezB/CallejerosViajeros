@@ -3,6 +3,9 @@
 }
 
 .wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
     display: flex;
     width: 100%;
     align-items: stretch;

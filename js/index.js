@@ -313,6 +313,7 @@ window.onload = function () {
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar() {
 
+        $('.wrapper').css("position", "unset");
         // Esconder el sidebar y añadir el border
         // $('#sidebar').toggleClass('active');
         $('#sidebar').css("border-right", "100px solid #04aef0");
