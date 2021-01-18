@@ -329,10 +329,10 @@ var moduleExperiencia = (function () {
                             let newTexto = document.getElementById(`texto${idCard}`).innerHTML;
                             let newSrc = document.getElementById(`img${idCard}`).src;
                             // Obtener solo el nombre de la imagen, no todo el src (el nombre se encuentra despues del ultimo "/")
-                            let n = newSrc.lastIndexOf('/');
-                            let newImg = newSrc.substring(n + 1);
+                            // let n = newSrc.lastIndexOf('/');
+                            // let newImg = newSrc.substring(n + 1);
 
-                            updateExperiencia(idCard, newTitulo, newFecha, newTexto, newImg, isAdmin, username, categoria);
+                            updateExperiencia(idCard, newTitulo, newFecha, newTexto, newSrc, isAdmin, username, categoria);
                             updateModalView(idCard);
                         });
                     });
