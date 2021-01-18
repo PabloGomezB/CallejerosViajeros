@@ -211,7 +211,6 @@ window.onload = function () {
                         }
                     })
                     .then(function (respuesta) {
-                        console.log(respuesta.data);
                         if (respuesta.data.status == "FAIL") {
                             Swal.fire({
                                 title: "¿Tienes cuenta?",
