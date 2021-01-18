@@ -499,6 +499,7 @@ window.onload = function () {
                         })
                         .then(function(){
                             e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+                            moduleExperiencia.extraerExperiencias(isAdmin, username);
                         })
                         .catch(function(error){
                             console.log(error);
