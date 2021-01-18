@@ -636,6 +636,11 @@ function addButtonModificarUsuario(){
                             html: "<b>Nombre: </b>"+document.getElementById("nombre").value+"<br><b>Apellido: </b>"+document.getElementById("apellido").value+"<br><b>Contraseña: </b>"+ document.getElementById("contraseña").value,
                             icon: "success",
                         });
+
+                        nom = document.getElementById("nombre").value;
+                        cognom = document.getElementById("apellido").value;
+                        password = document.getElementById("contraseña").value;
+
                     }
                 })
                 .catch(function (error) {
