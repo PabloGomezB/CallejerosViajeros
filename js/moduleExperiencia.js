@@ -630,7 +630,7 @@ var moduleExperiencia = (function () {
         if (experiencia != null) {
             card +=
                 `<div id="${experiencia.idExp}" class="card">
-                    <img src="./img/experiencias/${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
+                    <img src="${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
                     <div class="card-body">
                         <h5 class="card-title">${experiencia.titol}</h5>
                         <p class="card-data">${experiencia.data}</p>
@@ -644,7 +644,7 @@ var moduleExperiencia = (function () {
                     card +=
                         `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
                             <div id="${element.idExp}" class="card">
-                                <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
+                                <img src="${element.imatge}" class="card-img-top" alt="${element.imatge}">
                                 <div class="card-body">
                                     <h5 class="card-title">${element.titol}</h5>
                                     <p class="card-data">${element.data}</p>
@@ -657,6 +657,7 @@ var moduleExperiencia = (function () {
 
         return card;
     }
+    //Jordi borra ./img/experiencias/ a img src
 
     // Funcion creada para mostrar las experiencias mucho mas vistosas utilizando las clases de boostrap
     // Es llamada cuando se contruye la vista de las experiencias segun su categoria
