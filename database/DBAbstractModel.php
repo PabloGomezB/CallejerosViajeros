@@ -1,5 +1,4 @@
 <?php
-
 abstract class DBAbstractModel {
 
 	private static $db_host = "labs.iam.cat";

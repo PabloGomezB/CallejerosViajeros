@@ -4,6 +4,6 @@ header('Content-Type: text/html; charset-utf-8');
 require_once('../Experiencia.php');
 
 $exp = new Experiencia ();
-$experiencias = $exp->mostrarTot();
-echo json_encode($experiencias);
+$response = $exp->updateEstado($_REQUEST['idExp']);
+echo $response;
 ?>

@@ -1,22 +1,3 @@
-/*
-PREGUNTAR AL PROFE:
-
-Como hacer para que el codigo js no se ejecute sin haber obtenido la respuesta de un axios
-Ejemplo: Cuando despues de mandar like pones el spiner y el setTimeout para que le de tiempo
-    El timeout es generico de 2 segundos... Si en dos segundos no ha hecho el axios
-    entonces no tendrá nueva info que mostrar
-
-    Hay alguna manera de obtener un return de un axios¿?
-    Ejemplo:
-        let categorias = moduleCategoria.extraerCategorias();
-        categorias sera null!!!
-
-    async/await¿?¿?
-*/
-
-
-
-
 var moduleExperiencia = (function () {
 
     // Esta es la funcion "madre" de todas las demas.
@@ -24,86 +5,104 @@ var moduleExperiencia = (function () {
     // Esta funcion se encarga de obtener todas las experiencias de la BD y pasarlas a printExperiencies()
     // printExperiencies() es la encargada de printarlas y añadir todos los listeners correspondientes
     // ademas de crear el modal para la experiencia que el user haya seleccionado
-    function extraerExperiencias(isAdmin, username, categoria){
-        if (categoria == null){
+    function extraerExperiencias(isAdmin, username, categoria) {
+        if (categoria == null) {
             categoria = "Todas";
         }
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/extraer.php",{
-        })
-        .then(function (respuesta){
-            let baseDades = JSON.parse(respuesta.data);
+        axios.get("./database/experiencias/extraerExperiencias.php", {
+            params: {
+                categoria: categoria
+            }
+            }).then(function (respuesta) {
+                // console.log(respuesta);
+                let baseDades = JSON.parse(respuesta.data);
+                
+                // let baseDades = respuesta.data;
 
-            let desplegableBuscador = "null";
-            // Este axios es obligatorio para obtener las categorias y mostrarlas en el desplegable
-            // No he podido hacerlo de otro modo asincrono llamando a la funcion let categorias = moduleCategoria.extraerCategorias("null", true);
-            // ya que el codigo seguia ejecutandose y no daba tiempo a obtener las categorias
-            ////////////////////////////////////////////////////
-            axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
-            })
-            .then(function (response){
-                let categorias = JSON.parse(response.data);
+                // console.log(baseDades);
 
-                desplegableBuscador = `
-                <div class="desplegableBuscador">
-                    <h2 id="titolExperiencies">Experiencias</h2>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" style="width:200px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ${categoria}
-                        </button>
-                        <div class="dropdown-menu" style="width:200px;" aria-labelledby="dropdownMenuButton">
-                            <button id="Todas" class="dropdown-item btn-dropdown-categoria">Todas</button>`;
-                        categorias.forEach(categoria => {
-                            desplegableBuscador += `<button id="${categoria.nom}" class="dropdown-item btn-dropdown-categoria">${categoria.nom}</button>`;
-                        })
-                        desplegableBuscador+=`
+                let desplegableBuscador = "null";
+                // Este axios es obligatorio para obtener las categorias y mostrarlas en el desplegable
+                extraerCategorias().then(function (response) {
+                    let categorias = JSON.parse(response.data);
+
+                    desplegableBuscador = `
+                    <div id="desplegableBuscador" class="desplegableBuscador">
+                        <h2 id="titolExperiencies">Experiencias</h2>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" style="width:200px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ${categoria}
+                            </button>
+                            <div class="dropdown-menu" style="width:200px;" aria-labelledby="dropdownMenuButton">
+                                <button id="Todas" class="dropdown-item btn-dropdown-categoria">Todas</button>`;
+                            categorias.forEach(categoria => {
+                                desplegableBuscador += `<button id="${categoria.nom}" class="dropdown-item btn-dropdown-categoria">${categoria.nom}</button>`;
+                            })
+                            desplegableBuscador += `
+                            </div>
                         </div>
                     </div>
-                </div>`;
+                    <div class="content-row">
+                        <div id="contenedorExperiencias" class="row">`;
+                    document.getElementById("content").innerHTML = desplegableBuscador;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+
+                    printExperiencies(baseDades, isAdmin, username, categoria);
+
+                    // Añadir el nav para las paginas además de su listener
+                    axios.get("./database/experiencias/extraerExperiencias.php", {
+                        params: {
+                            setNavegador: "true",
+                            setNavegadorCategoria: categoria
+                        }
+                    })
+                    .then(function(respuesta) {
+                        document.getElementById("contenedorExperiencias").insertAdjacentHTML("afterend",respuesta.data);
+                        cambiarDePagina(isAdmin, username, categoria);
+                    });
+                    
+                });
+            // Fin segundo axios
+
             })
             .catch(function (error) {
                 console.log(error);
             })
             .then(function () {
                 // always executed
-                printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria);
             });
-            // Fin segundo axios
-
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
     }
 
-    function printExperiencies(baseDades, desplegableBuscador, isAdmin, username, categoria) {
+    function extraerCategorias(){
+        return axios.get("./database/categoria/categoria.php");
+    }
 
-        document.getElementById("content").innerHTML="";
-        let htmlExperiences = desplegableBuscador;
+    function printExperiencies(baseDades, isAdmin, username, categoria) {
+
+        let htmlExperiences = "";
         let numExperiencias = 0;
         let card;
 
-        htmlExperiences += `
-            <div class="content-row tarjeta">
-                <div class="row">`;
         // IF: Entra cuando se muestran todas las experiencias
-        if (categoria == null || categoria == "Todas"){
+        if (categoria == null || categoria == "Todas") {
             card = setCard(baseDades, null);
-            if (card != "" || card != null){
+            if (card != "" || card != null) {
                 htmlExperiences += card;
                 numExperiencias++;
             }
-        // ELSE: Entra cuando se filtra por categorias
-        // forEach para imprimir las cards de una en una segun si forma parte de la categoria o no
-        }else{
+            // ELSE: Entra cuando se filtra por categorias
+            // forEach para imprimir las cards de una en una segun si forma parte de la categoria o no
+        } else {
             let cards = [];
             baseDades.forEach(element => {
-                if (element.estat == 'publicada'){
+                if (element.estat == 'publicada') {
                     if (element.nomCategoria == categoria) {
                         card = setCard(baseDades, element);
-                        if (card != "" || card != null){
+                        if (card != "" || card != null) {
                             cards.push(card);
                             existeExperiencia = true;
                             numExperiencias++;
@@ -112,147 +111,80 @@ var moduleExperiencia = (function () {
                 }
             });
             // setEstructuraCards es una funcion utilizada para crear un vista adecuada para cada categoria
-            if (numExperiencias > 0){
+            if (numExperiencias > 0) {
                 htmlExperiences += setEstructuraCards(numExperiencias, cards, card);
-            }
-            else{
+            } else {
                 htmlExperiences += "NO EXISTEN EXPERIENCIAS";
+                console.log(baseDades)
             }
         }
 
         htmlExperiences +=
-                `</div>
-            <div>`;
-        htmlExperiences += '<button id="newExp">Nova Experiencia</button>';
-
-
-        htmlExperiences += `
-        <div id="formModUsu"> 
-            <div>
-                <label for="">Nombre: </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="" id="nombre">
-                <br>
-                <label for="">Apellido: </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="" id="apellido">
-                <br>
-                <label for="">Contraseña: </label>
-                &nbsp;
-                <input type="text" name="" id="contraseña">
-                <br><br>
-                <button id="modificarUsu">Modificar Usurio</button>
-            </div>
-        </div>
-        `;
-
-        axios.get("./database/usuari/infoUsuario.php",{
-            params: {
-                username: username
-            }
-        })
-        .then(function (respuesta){
-            // console.log(respuesta);
-            if (respuesta.data.status=="FAIL") {
-                alert("ERROR, TE HAS EQUIVODADO");
-            } else {
-                console.log(respuesta.data);
-                document.getElementById("nombre").value = respuesta.data["nombre"];
-                document.getElementById("apellido").value = respuesta.data["cognom"];
-                document.getElementById("contraseña").value = respuesta.data["password"];
-                // $("#nombre").value = respuesta.data["nombre"];
-                // $("#apellido").value = respuesta.data["cognom"];
-                // $("#contraseña").value = respuesta.data["password"];
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
-
-        document.getElementById("content").innerHTML=htmlExperiences;
-
-        document.getElementById("modificarUsu").addEventListener("click", function(){
-            console.log("CLICK");
-            axios.get("./database/usuari/updateInfoUsuario.php",{
-                params: {
-                    username: username,
-                    nombre: document.getElementById("nombre").value,
-                    apellido: document.getElementById("apellido").value,
-                    password: document.getElementById("contraseña").value
-                }
-            })
-            .then(function (respuesta){
-                console.log(respuesta);
-                if (respuesta.data.status=="FAIL") {
-                    alert("ERROR, TE HAS EQUIVODADO");
-                } else {
-
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
-    })
-
-
-
-        axios.get("./database/usuari/infoUsuario.php",{
-                        params: {
-                            username: username
-                        }
-                    })
-                    .then(function (respuesta){
-                        // console.log(respuesta);
-                        if (respuesta.data.status=="FAIL") {
-                            alert("ERROR, TE HAS EQUIVODADO");
-                        } else {
-                            console.log(respuesta.data);
-                            document.getElementById("nombre").value = respuesta.data["nombre"];
-                            document.getElementById("apellido").value = respuesta.data["cognom"];
-                            document.getElementById("contraseña").value = respuesta.data["password"];
-                            // $("#nombre").value = respuesta.data["nombre"];
-                            // $("#apellido").value = respuesta.data["cognom"];
-                            // $("#contraseña").value = respuesta.data["password"];
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                    .then(function () {
-                        // always executed
-                    });
-
-
-        /////////////////////////////////////////////////////////////////
-        //        LISTENERS A CADA CATEGORIA DEL DROPDOWN MENU         //
-        /////////////////////////////////////////////////////////////////
-        document.querySelectorAll(".btn-dropdown-categoria").forEach(dropDownItem => {
-            dropDownItem.addEventListener("click", function(e) {
-                // console.log(dropDownItem.id);
-                let categoria = dropDownItem.id;
-                $("*").css("pointer-events","none");
-                $("*").css("cursor","not-allowed");
-                document.getElementById("content").innerHTML=`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
-                setTimeout(function(){
-                    $("*").css("pointer-events","auto");
-                    $("*").css("cursor","default");
-                    extraerExperiencias(isAdmin, username, categoria);
-                }, 2000);
-            })
-        });
+                            `<!-- final contenedor experiencias -->
+                            </div>
+                        <div>`;
         
+        // htmlExperiences += `<button id="newExp">Nova Experiencia</button>`;
 
+        // htmlExperiences += `
+        // <div id="formModUsu"> 
+        //     <div>
+        //         <label for="">Nombre: </label>
+        //         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        //         <input type="text" name="" id="nombre">
+        //         <br>
+        //         <label for="">Apellido: </label>
+        //         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        //         <input type="text" name="" id="apellido">
+        //         <br>
+        //         <label for="">Contraseña: </label>
+        //         &nbsp;
+        //         <input type="text" name="" id="contraseña">
+        //         <br><br>
+        //         <button id="modificarUsu">Modificar Usurio</button>
+        //     </div>
+        // </div>
+        // `;
+
+        // axios.get("./database/usuari/infoUsuario.php", {
+        //         params: {
+        //             username: username
+        //         }
+        //     })
+        //     .then(function (respuesta) {
+        //         // console.log(respuesta);
+        //         if (respuesta.data.status == "FAIL") {
+        //             alert("ERROR, TE HAS EQUIVODADO");
+        //         } else {
+        //             // console.log(respuesta.data);
+        //             document.getElementById("nombre").value = respuesta.data["nombre"];
+        //             document.getElementById("apellido").value = respuesta.data["cognom"];
+        //             document.getElementById("contraseña").value = respuesta.data["password"];
+        //             // $("#nombre").value = respuesta.data["nombre"];
+        //             // $("#apellido").value = respuesta.data["cognom"];
+        //             // $("#contraseña").value = respuesta.data["password"];
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     })
+        //     .then(function () {
+        //         // always executed
+        //     });
+
+        // document.getElementById("content").insertAdjacentHTML("beforeend",htmlExperiences);
+        document.getElementById("contenedorExperiencias").innerHTML = htmlExperiences;
+
+        listenerDropdownCategorias(isAdmin, username, categoria);
+        // listenerModificarUsuario(username);
+    
+
+        
         /////////////////////////////////////////////////////////////////
         //   AÑADE LISTENERS A LAS CARDS Y CREA SU RESPECTIVO MODAL    //
         /////////////////////////////////////////////////////////////////
         document.querySelectorAll(".card").forEach(card => {
-            card.addEventListener("click", function(e) {
+            card.addEventListener("click", function (e) {
                 // Crear modal dinamicamente
                 let idCard = card.getAttribute("id");
                 let infoSelectedExp;
@@ -261,16 +193,16 @@ var moduleExperiencia = (function () {
                 idExperienciaSeleccionada = idCard;
 
                 baseDades.forEach(experiencia => {
-                    if(experiencia.idExp == idCard){
+                    if (experiencia.idExp == idCard) {
                         existe = true;
                         infoSelectedExp = experiencia;
                         mapa = `<iframe src="http://maps.google.com/maps?q=${infoSelectedExp.coordenades}&t=k&z=7&output=embed&v=satellite" width="400px" height="400px" frameborder="0" style="border:0"></iframe>`
                         return;
                     }
-                    
+
                 });
 
-                if (existe === true){
+                if (existe === true) {
 
                     // Funcion para que aparezca el popover de google maps (todo boostrap)
                     // Mediante jQuery se consigue que aparezca el popover haciendo hover sobre el boton y se mantenga abierto en caso de explorar por el mapa
@@ -278,28 +210,28 @@ var moduleExperiencia = (function () {
                     // El set timeout es necesario para que el mapa se mantenga abierto al quitar el hover del boton
                     $(function () {
                         $('[data-toggle="popover"]').popover({
-                            html: true,
-                            trigger: "manual"
-                        })
-                        .on("mouseenter", function () {
-                            let _this = this;
-                            $(this).popover("show");
-                            $(".popover").on("mouseleave", function () {
-                                $(_this).popover('hide');
+                                html: true,
+                                trigger: "manual"
+                            })
+                            .on("mouseenter", function () {
+                                let _this = this;
+                                $(this).popover("show");
+                                $(".popover").on("mouseleave", function () {
+                                    $(_this).popover('hide');
+                                });
+                            })
+                            .on("mouseleave", function () {
+                                let _this = this;
+                                setTimeout(function () {
+                                    if (!$(".popover:hover").length) {
+                                        $(_this).popover("hide");
+                                    }
+                                }, 200);
                             });
-                        })
-                        .on("mouseleave", function () {
-                            let _this = this;
-                            setTimeout(function () {
-                                if (!$(".popover:hover").length) {
-                                    $(_this).popover("hide");
-                                }
-                            }, 200);
-                        });
                     })
 
                     let modal =
-                    `<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        `<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div id="modal-content" class="modal-content">
                                 <div class="modal-header" style="display:block">
@@ -319,11 +251,14 @@ var moduleExperiencia = (function () {
                                 </div>
                                 <div id="modal-footer" class="modal-footer">
                                     <button id="reportar${idCard}" class="btn btn-warning reportar">Reportar</button>`
-                    if (isAdmin || (username == infoSelectedExp.username)){
-                            modal += `<button id="eliminar${idCard}" class="btn btn-danger eliminar">Eliminar</button>
+                    if (isAdmin == true || (username == infoSelectedExp.username)) {
+                        console.log(isAdmin);
+                        console.log(username);
+                        console.log(infoSelectedExp.username);
+                        modal += `<button id="eliminar${idCard}" class="btn btn-danger eliminar">Eliminar</button>
                                       <button id="editar${idCard}" class="btn btn-primary editar">Editar</button>`;
                     }
-                            modal += `<div class="btn-popover" style="display:block">
+                    modal += `<div class="btn-popover" style="display:block">
                                         <a tabindex="0" class="btn" role="button" data-toggle="popover" title="Google Maps" data-container=".btn-popover" data-content='${mapa}'>Google Maps
                                             <i class="fas fa-map-marker-alt"></i>
                                         </a>
@@ -342,19 +277,19 @@ var moduleExperiencia = (function () {
                     /////////////////////////////////////////////////////////////////
 
                     // LIKE
-                    document.getElementById(`like${idCard}`).addEventListener("click", function(e){
-                        let likes = parseInt(infoSelectedExp.likes)+1;
+                    document.getElementById(`like${idCard}`).addEventListener("click", function (e) {
+                        let likes = parseInt(infoSelectedExp.likes) + 1;
                         let dislikes = parseInt(infoSelectedExp.dislikes);
-                        
+
                         updateLikes(idCard, likes, dislikes, isAdmin, username, categoria);
                         updateModalView(idCard);
                     });
 
                     // DISLIKE
-                    document.getElementById(`dislike${idCard}`).addEventListener("click", function(e){
+                    document.getElementById(`dislike${idCard}`).addEventListener("click", function (e) {
                         let likes = parseInt(infoSelectedExp.likes);
-                        let dislikes = parseInt(infoSelectedExp.dislikes)+1;
-                        
+                        let dislikes = parseInt(infoSelectedExp.dislikes) + 1;
+
                         updateLikes(idCard, likes, dislikes, isAdmin, username, categoria);
                         updateModalView(idCard);
                     });
@@ -363,16 +298,16 @@ var moduleExperiencia = (function () {
                     // Marca como editables el titulo, la fecha y el texto
                     // Habilita la posibilidad de escribir en negrita e italica
                     // Guarda todos los cambios y muestra la experiencia actualizada
-                    document.getElementById(`editar${idCard}`).addEventListener("click", function(e){
+                    document.getElementById(`editar${idCard}`).addEventListener("click", function (e) {
                         document.getElementById(`editar${idCard}`).disabled = true;
-                        
+
                         document.getElementById(`titulo${idCard}`).contentEditable = true;
                         document.getElementById(`fecha${idCard}`).contentEditable = true;
-                        
+
                         let textoExperiencia = document.getElementById(`texto${idCard}`);
                         textoExperiencia.contentEditable = true;
                         textoExperiencia.focus();
-                        
+
                         let btnsModificarTexto = `<div style="display:flex;margin-left:auto;margin-right:auto;margin-top:5px;">
                             <button id="bold" class="btn formatTextBtn" style="margin-right:100px;"><i class="fas fa-bold"></i></button>
                             <button id="italic" class="btn formatTextBtn"><i class="fas fa-italic"></i></button>
@@ -381,33 +316,33 @@ var moduleExperiencia = (function () {
 
                         document.getElementById("modal-body").insertAdjacentHTML("beforebegin", btnsModificarTexto);
 
-                        document.getElementById("bold").addEventListener("click", function(e){
+                        document.getElementById("bold").addEventListener("click", function (e) {
                             document.getElementById("bold").classList.toggle("formatTextBtn-focus");
                             document.execCommand('bold');
                             textoExperiencia.focus();
                         });
-                        document.getElementById("italic").addEventListener("click", function(e){
+                        document.getElementById("italic").addEventListener("click", function (e) {
                             document.getElementById("italic").classList.toggle("formatTextBtn-focus");
                             document.execCommand('italic');
                             textoExperiencia.focus();
                         });
-                        document.getElementById("save").addEventListener("click", function(e){
+                        document.getElementById("save").addEventListener("click", function (e) {
                             let newTitulo = document.getElementById(`titulo${idCard}`).textContent;
                             let newFecha = document.getElementById(`fecha${idCard}`).textContent;
                             let newTexto = document.getElementById(`texto${idCard}`).innerHTML;
                             let newSrc = document.getElementById(`img${idCard}`).src;
                             // Obtener solo el nombre de la imagen, no todo el src (el nombre se encuentra despues del ultimo "/")
-                            let n = newSrc.lastIndexOf('/');
-                            let newImg = newSrc.substring(n + 1);
+                            // let n = newSrc.lastIndexOf('/');
+                            // let newImg = newSrc.substring(n + 1);
 
-                            updateExperiencia(idCard,newTitulo,newFecha,newTexto,newImg, isAdmin, username, categoria);
+                            updateExperiencia(idCard, newTitulo, newFecha, newTexto, newSrc, isAdmin, username, categoria);
                             updateModalView(idCard);
                         });
                     });
 
                     // ELIMINAR
-                    document.getElementById(`eliminar${idCard}`).addEventListener("click", function(e){
-                        let modalConfirmDialog =`
+                    document.getElementById(`eliminar${idCard}`).addEventListener("click", function (e) {
+                        let modalConfirmDialog = `
                         <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
@@ -449,14 +384,13 @@ var moduleExperiencia = (function () {
                     });
 
                     // REPORTAR
-                    document.getElementById(`reportar${idCard}`).addEventListener("click", function(e){
-                        reportarExperiencia (idCard,isAdmin,username,categoria);
+                    document.getElementById(`reportar${idCard}`).addEventListener("click", function (e) {
+                        reportarExperiencia(idCard, isAdmin, username, categoria);
                     })
-                }
-                else{
+                } else {
                     Swal.fire({
                         title: "¡VAYA!",
-                        html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Código de error:<br>infoSelectedExp is: "+infoSelectedExp,
+                        html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Código de error:<br>infoSelectedExp is: " + infoSelectedExp,
                         icon: "error",
                     });
                 }
@@ -474,28 +408,27 @@ var moduleExperiencia = (function () {
         - isAdmin/username: Necesarias para volver actualizar la vista segun el usuario y si es admin o no.
         - categoria: Necesaria para seguir mostrando la vista de la categoria que estaba seleccionada (si es null muestra todas)
     */
-    function updateLikes (idUsu, likes, dislikes, isAdmin, username, categoria) {
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateLikes.php",{
-            params: {
-                idUsu: idUsu,
-                likes: likes,
-                dislikes: dislikes
-            }
-        })
-        .then(function (respuesta){
-            console.log(respuesta);
-            if (respuesta.data=="FAIL") {
-                alert("ERROR, TE HAS EQUIVODADO");
-            } else {
-                extraerExperiencias(isAdmin, username, categoria);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
+    function updateLikes(idUsu, likes, dislikes, isAdmin, username, categoria) {
+        axios.get("./database/experiencias/updateLikes.php", {
+                params: {
+                    idUsu: idUsu,
+                    likes: likes,
+                    dislikes: dislikes
+                }
+            })
+            .then(function (respuesta) {
+                if (respuesta.data == "FAIL") {
+                    alert("ERROR, TE HAS EQUIVODADO");
+                } else {
+                    extraerExperiencias(isAdmin, username, categoria);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -508,31 +441,31 @@ var moduleExperiencia = (function () {
         - isAdmin/username: Necesarias para volver actualizar la vista segun el usuario y si es admin o no.
         - categoria: Necesaria para seguir mostrando la vista de la categoria que estaba seleccionada (si es null muestra todas)
     */
-    function updateExperiencia (idCard,newTitulo,newFecha,newTexto,newImg, isAdmin,username, categoria) {
+    function updateExperiencia(idCard, newTitulo, newFecha, newTexto, newImg, isAdmin, username, categoria) {
 
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/updateExperiencia.php",{
-            params: {
-                idCard: idCard,
-                newTitulo: newTitulo,
-                newFecha: newFecha,
-                newTexto: newTexto,
-                newImg: newImg
-            }
-        })
-        .then(function (respuesta){
-            console.log("RESPUESTA UPDATE: "+respuesta.data);
-            if (respuesta.data=="FAIL") { // DA FAIL Y NO SE PORQUEEE QUE ESTA PASANDOOOOOOOOOO DA FAIL PERO LO GUARDA QUE LOCURA ES ESTAAAAAAAAAA. un pablo desesperado :)
-                alert("ERROR, TE HAS EQUIVODADO");
-            } else {
-                extraerExperiencias(isAdmin, username, categoria);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
+        axios.get("./database/experiencias/updateExperiencia.php", {
+                params: {
+                    idCard: idCard,
+                    newTitulo: newTitulo,
+                    newFecha: newFecha,
+                    newTexto: newTexto,
+                    newImg: newImg
+                }
+            })
+            .then(function (respuesta) {
+                console.log("RESPUESTA UPDATE: " + respuesta.data);
+                if (respuesta.data == "FAIL") { // DA FAIL Y NO SE PORQUEEE QUE ESTA PASANDOOOOOOOOOO DA FAIL PERO LO GUARDA QUE LOCURA ES ESTAAAAAAAAAA. un pablo desesperado :)
+                    alert("ERROR, TE HAS EQUIVODADO");
+                } else {
+                    extraerExperiencias(isAdmin, username, categoria);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -544,26 +477,26 @@ var moduleExperiencia = (function () {
         - isAdmin/username: Necesarias para volver actualizar la vista segun el usuario y si es admin o no.
         - categoria: Necesaria para seguir mostrando la vista de la categoria que estaba seleccionada (si es null muestra todas)
     */
-    function eliminarExperiencia(idCard,isAdmin,username,categoria) {
+    function eliminarExperiencia(idCard, isAdmin, username, categoria) {
 
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/eliminarExperiencia.php",{
-            params: {
-                idCard: idCard
-            }
-        })
-        .then(function (respuesta){
-            if (respuesta.data=="FAIL") {
-                alert("ERROR, TE HAS EQUIVODADO");
-            } else {
-                extraerExperiencias(isAdmin,username,categoria);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
+        axios.get("./database/experiencias/eliminarExperiencia.php", {
+                params: {
+                    idCard: idCard
+                }
+            })
+            .then(function (respuesta) {
+                if (respuesta.data == "FAIL") {
+                    alert("ERROR, TE HAS EQUIVODADO");
+                } else {
+                    extraerExperiencias(isAdmin, username, categoria);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -575,50 +508,110 @@ var moduleExperiencia = (function () {
         - isAdmin/username: Necesarias para volver actualizar la vista segun el usuario y si es admin o no.
         - categoria: Necesaria para seguir mostrando la vista de la categoria que estaba seleccionada (si es null muestra todas)
     */
-    function reportarExperiencia (idCard,isAdmin,username,categoria) {
+    function reportarExperiencia(idCard, isAdmin, username, categoria) {
 
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/experiencias/reportarExperiencia.php",{
-            params: {
-                idCard: idCard
-            }
-        })
-        .then(function (respuesta){
-            if (respuesta.data=="FAIL") {
-                alert("ERROR, TE HAS EQUIVODADO");
-            } else {
-                extraerExperiencias(isAdmin,username,categoria);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
+        axios.get("./database/experiencias/reportarExperiencia.php", {
+                params: {
+                    idCard: idCard
+                }
+            })
+            .then(function (respuesta) {
+                if (respuesta.data == "FAIL") {
+                    alert("ERROR, TE HAS EQUIVODADO");
+                } else {
+                    extraerExperiencias(isAdmin, username, categoria);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
     }
+
+
+    // Esta funcion lanza un axios para gestionar todo el tema del paginado
+    function cambiarDePagina(isAdmin, username, categoria){
+        $('.pagination li a').on('click', function(){
+            
+            // document.getElementById("content").innerHTML = `<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+            // document.getElementById("desplegableBuscador").insertAdjacentHTML("afterend",`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`);
+            // $('#contenedorExperiencias').fadeOut(1000);
+            $('#contenedorExperiencias').animate({ opacity: 0 });
+
+            let page = $(this).attr('data');
+
+            axios.get("./database/experiencias/extraerExperiencias.php", {
+                params: {
+                    page: page,
+                    pageCategoria: categoria
+                }
+            })
+            .then(function (respuesta) {
+                // console.log(respuesta.data);
+                document.getElementById("contenedorExperiencias").innerHTML = "";
+                console.log(respuesta.data);
+
+                // experienciasLimpias = respuesta.data.toString().split(`]"`);
+                // experienciasLimpias[0] += `]`;
+                // let nextExperiencias = JSON.parse(experienciasLimpias[0]);
+
+                let nextExperiencias = JSON.parse(respuesta.data);
+                
+                printExperiencies(nextExperiencias, isAdmin, username, categoria);
+                
+                // $('#contenedorExperiencias').fadeIn(1000);
+                $('#contenedorExperiencias').animate({ opacity: 1 })
+
+                $('.pagination li').removeClass('active');
+                $('.pagination li a[data="'+page+'"]').parent().addClass('active');
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+
+        });      
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
-    function anadirExp (novaExp) {
-        axios.get("./database/experiencias/anadirExp.php",{
-            params: {
-                titol: novaExp["titol"],
-                text: novaExp["text"],
-                imatge: novaExp["imatge"],
-                coordenades: novaExp["coordenades"],
-                idCat: $nuevaExp["idCat"],
-                username: $nuevaExp["username"]
-            }
-        })
-        .then(function (respuesta){
-            // console.log("RESPUESTA REPORTAREXP: "+respuesta.data);
-            if (respuesta.data=="FAIL") {
-                alert("ERROR, TE HAS EQUIVODADO");
-            } else {
-                extraerExperiencias();
-            }
-        })
+    function anadirExp(novaExp, isAdmin, username, categoria) {
+        axios.get("./database/experiencias/anadirExp.php", {
+                params: {
+                    titol: novaExp["titol"],
+                    text: novaExp["text"],
+                    imatge: novaExp["imatge"],
+                    coordenades: novaExp["coordenades"],
+                    idCat: $nuevaExp["idCat"],
+                    username: $nuevaExp["username"]
+                }
+            })
+            .then(function (respuesta) {
+                // console.log("RESPUESTA REPORTAREXP: "+respuesta.data);
+                if (respuesta.data == "FAIL") {
+                    alert("ERROR, TE HAS EQUIVODADO");
+                } else {
+                    extraerExperiencias(isAdmin, username, categoria);
+                }
+            })
     }
 
     // Funcion para construir las cards de cada experiencia
@@ -630,13 +623,13 @@ var moduleExperiencia = (function () {
         - baseDades: contiene TODAS las experiencias de la base de datos en formato Array
         - experiencia: array asociativo unicamente con una experiencia, ya filtrada por categoria 
     */
-    function setCard(baseDades, experiencia){
+    function setCard(baseDades, experiencia) {
         let card = "";
         // Si experiencia NO es null quiere decir que el user ha filtrado por categoria, se van construyendo una a una
-        if (experiencia != null){
+        if (experiencia != null) {
             card +=
                 `<div id="${experiencia.idExp}" class="card">
-                    <img src="./img/experiencias/${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
+                    <img src="${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
                     <div class="card-body">
                         <h5 class="card-title">${experiencia.titol}</h5>
                         <p class="card-data">${experiencia.data}</p>
@@ -644,13 +637,13 @@ var moduleExperiencia = (function () {
                 </div>`
         }
         // Si experiencia ES null quiere decir que el user no quiere filtrar. Se construyen todas aqui mediante forEach
-        else{
+        else {
             baseDades.forEach(element => {
-                if (element.estat == 'publicada'){
+                if (element.estat == 'publicada') {
                     card +=
                         `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
                             <div id="${element.idExp}" class="card">
-                                <img src="./img/experiencias/${element.imatge}" class="card-img-top" alt="${element.imatge}">
+                                <img src="${element.imatge}" class="card-img-top" alt="${element.imatge}">
                                 <div class="card-body">
                                     <h5 class="card-title">${element.titol}</h5>
                                     <p class="card-data">${element.data}</p>
@@ -660,9 +653,10 @@ var moduleExperiencia = (function () {
                 }
             });
         }
-        
+
         return card;
     }
+    //Jordi borra ./img/experiencias/ a img src
 
     // Funcion creada para mostrar las experiencias mucho mas vistosas utilizando las clases de boostrap
     // Es llamada cuando se contruye la vista de las experiencias segun su categoria
@@ -674,27 +668,24 @@ var moduleExperiencia = (function () {
         - card: info de una unica experiencia, no se le asignan clases.
             Esto ocurre cuando en la categoria seleccionada no hay mas que una experiencia.
     */
-    function setEstructuraCards(numExperiencias, cards, card){
+    function setEstructuraCards(numExperiencias, cards, card) {
 
         let classesBoostrap;
-        if (numExperiencias == 1){
+        if (numExperiencias == 1) {
             return `<div class="card-experiencia">` + card + `</div>`;
-        }
-        else if (numExperiencias == 2){
+        } else if (numExperiencias == 2) {
             classesBoostrap = `col-sm-12 col-md-12 col-lg-6`;
             return aux(cards, classesBoostrap);
-        }
-        else if (numExperiencias == 3){
+        } else if (numExperiencias == 3) {
             classesBoostrap = `col-sm-12 col-md-6 col-lg-4`;
             return aux(cards, classesBoostrap);
-        }
-        else{
+        } else {
             classesBoostrap = `col-sm-12 col-md-6 col-lg-4 col-xl-3`;
             return aux(cards, classesBoostrap);
         }
 
         // Esta funcion es para ahorrar codigo unicamente
-        function aux(){
+        function aux() {
             let finalCard = "";
             cards.forEach(cardEx => {
                 finalCard += `<div class="${classesBoostrap} card-experiencia">`;
@@ -710,14 +701,14 @@ var moduleExperiencia = (function () {
     // Funcionamiento: impides al usuario hacer clicks para que cierre el modal, insertas el gif de loading, setTimeout para asegurarnos de que se haya modificado
     // la info en la DB y el axios haya obtenido la info actualizada, reseteas los clicks, cierras el modal viejo y simulas click sobre
     // la experiencia previamente abierta para volverla a abrir automaticamente.
-    function updateModalView(idCard){
-        $("*").css("pointer-events","none");
-        $("*").css("cursor","not-allowed");
-        document.getElementById("modal-footer").innerHTML=`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+    function updateModalView(idCard) {
+        $("*").css("pointer-events", "none");
+        $("*").css("cursor", "not-allowed");
+        document.getElementById("modal-footer").innerHTML = `<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
 
-        setTimeout(function(){
-            $("*").css("pointer-events","auto");
-            $("*").css("cursor","default");
+        setTimeout(function () {
+            $("*").css("pointer-events", "auto");
+            $("*").css("cursor", "default");
             // Eliminamos el "fade" que hace el modal al fondo, lo escondemos, lo eliminamos del DOM y llamamos al modal de nuevo
             $("#modal").removeClass('fade').modal('hide');
             $('#modal').remove();
@@ -726,70 +717,87 @@ var moduleExperiencia = (function () {
     }
 
 
-    // Esta funcion era de prueba para obtener las categorias y consruir el desplegable
-    // El problema es que el codigo seguia ejecutandose desde donde se llamase esta funcion y por lo tanto
-    // se construir la pagina sin las categorias (en la pagina en vez de printar el desplegable, printaba NULL)
-    // Para solucionarlo (si puede ser temporalmente) lo he metido todo en un segundo axios al principio del todo dentro del primer axios
-    function setBuscadorExperiencias(){
-
-        // El proximo comentario explica como deberia ser, no se ha hecho asi porque no se como se puede
-        // parar la ejecucion del codigo hasta que no termine esta funcion
-            // En extraerCategorias hay un control para saber si esta funcion ha sido llamada desde aqui o desde el propio module
-            // De esta manera evitamos ejecutar la funcion que contiene extraerCategorias y obtenemos las categorias que es lo unico que nos interesa
-            // Se ha decidido hacer así para reutilizar codigo y no implementar aqui un nuevo axios que busque las categorias
-            // let categorias = moduleCategoria.extraerCategorias("null", true);
-            // return categorias;
-
-        /* EL SIGUIENTE CODIGO FUNCIONA PERO POR ALGUNA RAZON EL moduleCategoria no hace el return. No devuelve nada
-        var categorias;
-        async function firstFunction(){
-            categorias = moduleCategoria.extraerCategorias("null", true);
-            return categorias;
-        };
-
-        async function secondFunction(){
-            await firstFunction();
-            console.log(categorias);
-        };
-        firstFunction();
-        secondFunction();
-        */
+    /////////////////////////////////////////////////////////////////
+    //        LISTENERS A CADA CATEGORIA DEL DROPDOWN MENU         //
+    /////////////////////////////////////////////////////////////////
+    function listenerDropdownCategorias(isAdmin, username, categoria){
         
-    /*
-        var desplegable = "null";
-        
-        axios.get("http://labs.iam.cat/~a18pabgombra/CallejerosViajeros/database/categoria/categoria.php",{
-        })
-        .then(function (respuesta){
-            let categorias = JSON.parse(respuesta.data);
-
-            let htmlBuscador = `
-            <div style="display:flex;justify-content:space-between;">
-                <h2 id="titolExperiencies">Experiencias</h2>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categoria
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">`;
-                    categorias.forEach(categoria => {
-                        htmlBuscador += `<button class="dropdown-item">${categoria.nom}</button>;`
-                    })
-                    htmlBuscador+=`
-                    </div>
-                </div>
-            </div>`;
-            
-            desplegable = htmlBuscador;
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-            console.log(desplegable);
-            return desplegable;
+        document.querySelectorAll(".btn-dropdown-categoria").forEach(dropDownItem => {
+            dropDownItem.addEventListener("click", function (e) {
+                // console.log(dropDownItem.id);
+                let categoria = dropDownItem.id;
+                $("*").css("pointer-events", "none");
+                $("*").css("cursor", "not-allowed");
+                document.getElementById("content").innerHTML = `<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
+                setTimeout(function () {
+                    $("*").css("pointer-events", "auto");
+                    $("*").css("cursor", "default");
+                    extraerExperiencias(isAdmin, username, categoria);
+                }, 2000);
+            })
         });
-        */
+    }
+
+    function listenerModificarUsuario(username){
+
+        axios.get("./database/usuari/infoUsuario.php", {
+            params: {
+                username: username
+            }
+            })
+            .then(function (respuesta) {
+                // console.log(respuesta);
+                if (respuesta.data.status == "FAIL") {
+                    alert("ERROR, TE HAS EQUIVODADO");
+                } else {
+                    // console.log(respuesta.data);
+                    document.getElementById("nombre").value = respuesta.data["nombre"];
+                    document.getElementById("apellido").value = respuesta.data["cognom"];
+                    document.getElementById("contraseña").value = respuesta.data["password"];
+                    // $("#nombre").value = respuesta.data["nombre"];
+                    // $("#apellido").value = respuesta.data["cognom"];
+                    // $("#contraseña").value = respuesta.data["password"];
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+        });
+
+
+
+
+        document.getElementById("modificarUsu").addEventListener("click", function () {
+            console.log("CLICK");
+            axios.get("./database/usuari/updateInfoUsuario.php", {
+                    params: {
+                        username: username,
+                        nombre: document.getElementById("nombre").value,
+                        apellido: document.getElementById("apellido").value,
+                        password: document.getElementById("contraseña").value
+                    }
+                })
+                .then(function (respuesta) {
+                    console.log(respuesta);
+                    if (respuesta.data.status == "FAIL") {
+                        alert("ERROR, TE HAS EQUIVODADO");
+                    } else {
+                        Swal.fire({
+                            title: "Modificaste Tus Datos De Usuario a:",
+                            text: "   Nombre: "+document.getElementById("nombre").value+"   Apellido: "+document.getElementById("apellido").value+"   Contraseña: "+ document.getElementById("contraseña").value,
+                            icon: "error",
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+        });
     }
 
 
@@ -797,8 +805,9 @@ var moduleExperiencia = (function () {
 
     return {
         extraerExperiencias: extraerExperiencias,
+        extraerCategorias: extraerCategorias,
         // Esta ananirExp es necesaria aqui¿?
-        anadirExp  : anadirExp 
+        anadirExp: anadirExp
     };
 
 })();

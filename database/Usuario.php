@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once('DBAbstractModel.php');
 
 class Usuario extends DBAbstractModel {
@@ -33,9 +33,10 @@ class Usuario extends DBAbstractModel {
 		}
 		// Any register selected
 		if (count($this->rows) == 1) {
-			// session_start();
-			// $_SESSION['email']=$this->rows[0]['username'];
 			$response = array('status' => 'OK', 'email' => $this->rows[0]["username"], 'password' => $this->rows[0]["password"], 'isAdmin' => $this->rows[0]["isAdmin"]);
+			$_SESSION['username']=$this->rows[0]["username"];
+			$_SESSION['password']=$this->rows[0]["password"];
+			$_SESSION['isAdmin']=$this->rows[0]["isAdmin"];
 			return json_encode($response);
 		} else {
 			return json_encode(array('status' => 'FAIL'));
@@ -71,6 +72,28 @@ class Usuario extends DBAbstractModel {
 		return json_encode($infoUsuario);
 	}
 
+	public function mostrarUsuario() {
+        $this->query = "SELECT *
+                        FROM Usuari";
+		$this->get_results_from_query();
+		$todosUsuarios = array();
+		for($i = 0; $i < count($this->rows); $i++){
+			$username = $this->rows[$i]["username"];
+			$usuari = array(
+				"username" => $username
+			);
+			array_push($todosUsuarios, $usuari);
+		}
+		return json_encode($todosUsuarios);
+	}
+	
+	public function deleteUser($username) {
+		$this->query = "DELETE FROM Usuari WHERE username ='$username'";
+		$this->execute_single_query($this->query);
+	}
+
+
+	
 	public function updateInformacionUsuario($username, $nombre, $apellido, $password) {
 		$this->query = "UPDATE Usuari 
 						SET nom='$nombre', cognom= '$apellido', password='$password' 
@@ -82,12 +105,6 @@ class Usuario extends DBAbstractModel {
 			return "OK";
 		}
 	}
-
-
-
-
-
-
 
 	public function mostrarTot() {
 		$this->query = "SELECT * FROM  contactes;";
@@ -113,19 +130,6 @@ class Usuario extends DBAbstractModel {
 			$this->get_results_from_query();
 		}
 	}
-
-	public function mostrarUsuario() {
-        $this->query = "SELECT *
-                        FROM Usuari";
-        $this->get_results_from_query();
-		for($i = 0; $i < count($this->rows); $i++){
-			echo "<br><br>";
-			echo "Nom: ".$this->rows[$i]["nom"] . "<br>";
-			echo "Cognom: ".$this->rows[$i]["cognom"]."<br>";
-			echo "Username: ".$this->rows[$i]["username"]."<br>";
-		}
-
-    }
 
 	public function insert($userData = array()) {
 		/*CREO QUE HABRA DE CREAR LA FUNCION array_key_exists*/
