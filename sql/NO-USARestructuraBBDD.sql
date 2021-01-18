@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 15-12-2020 a las 12:05:06
+-- Tiempo de generación: 18-01-2021 a las 19:45:53
 -- Versión del servidor: 10.1.47-MariaDB-0+deb9u1
 -- Versión de PHP: 7.4.12
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `a16miqboipos_pr`
 --
-CREATE DATABASE IF NOT EXISTS `a16miqboipos_pr` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `a16miqboipos_pr`;
 
 -- --------------------------------------------------------
 
@@ -42,15 +40,15 @@ CREATE TABLE `Categoria` (
 CREATE TABLE `Experiencia` (
   `idExp` int(11) NOT NULL,
   `titol` varchar(200) NOT NULL,
-  `data` varchar(30) NOT NULL,
-  `text` varchar(300) NOT NULL,
+  `data` date NOT NULL,
+  `text` mediumtext NOT NULL,
   `imatge` varchar(50) NOT NULL,
   `coordenades` varchar(100) NOT NULL,
   `likes` int(11) NOT NULL,
   `dislikes` int(11) NOT NULL,
   `estat` enum('publicada','rebutjada','esborrany') NOT NULL,
   `idCat` int(11) NOT NULL,
-  `idUsu` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
   `reportat` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -61,11 +59,11 @@ CREATE TABLE `Experiencia` (
 --
 
 CREATE TABLE `Usuari` (
-  `idUsu` int(11) NOT NULL,
   `nom` varchar(50) NOT NULL,
   `cognom` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(100) NOT NULL,
+  `isAdmin` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -84,13 +82,13 @@ ALTER TABLE `Categoria`
 ALTER TABLE `Experiencia`
   ADD PRIMARY KEY (`idExp`),
   ADD KEY `idCat` (`idCat`),
-  ADD KEY `idUsu` (`idUsu`);
+  ADD KEY `username` (`username`);
 
 --
 -- Indices de la tabla `Usuari`
 --
 ALTER TABLE `Usuari`
-  ADD PRIMARY KEY (`idUsu`);
+  ADD PRIMARY KEY (`username`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -100,17 +98,12 @@ ALTER TABLE `Usuari`
 -- AUTO_INCREMENT de la tabla `Categoria`
 --
 ALTER TABLE `Categoria`
-  MODIFY `idCat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idCat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT de la tabla `Experiencia`
 --
 ALTER TABLE `Experiencia`
-  MODIFY `idExp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
---
--- AUTO_INCREMENT de la tabla `Usuari`
---
-ALTER TABLE `Usuari`
-  MODIFY `idUsu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idExp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 --
 -- Restricciones para tablas volcadas
 --
@@ -120,7 +113,7 @@ ALTER TABLE `Usuari`
 --
 ALTER TABLE `Experiencia`
   ADD CONSTRAINT `Experiencia_ibfk_1` FOREIGN KEY (`idCat`) REFERENCES `Categoria` (`idCat`),
-  ADD CONSTRAINT `Experiencia_ibfk_2` FOREIGN KEY (`idUsu`) REFERENCES `Usuari` (`idUsu`);
+  ADD CONSTRAINT `Experiencia_ibfk_2` FOREIGN KEY (`username`) REFERENCES `Usuari` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
