@@ -364,7 +364,7 @@ window.onload = function () {
         }
 
         addButtonNuevaExperiencia();
-        listenerModificarUsuario();
+        addButtonModificarUsuario();
         addButtonLogout();
     }
 
@@ -580,13 +580,13 @@ window.onload = function () {
     }
 
     // Modificar Datos del Usuario
-function addButtonOpcionesUsuario(){     
+function addButtonModificarUsuario(){     
     
     let buttonModificarUsu = `<button id="buttonModificarUsu">Modificar Usuario</button>` + `<br>`;
     sidebar.insertAdjacentHTML("beforeend", buttonModificarUsu);
     document.getElementById("buttonModificarUsu").addEventListener('click', function(){
         let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Opciones de Usuario</h5>
