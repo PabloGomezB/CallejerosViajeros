@@ -374,7 +374,7 @@ window.onload = function () {
     *****************************************************************************************************************************************/
 
     function addButtonCategorias(){
-        let categoriaAdmin = `<button id="categoriaAdmin">Categorias</button>` + `<br>`;
+        let categoriaAdmin = `<br><button id="categoriaAdmin" class="btn btn-light botones">Categorias</button>`;
         sidebar.insertAdjacentHTML("beforeend", categoriaAdmin);
         document.getElementById("categoriaAdmin").addEventListener('click', function(){
             axios.get("./database/categoria/categoria.php",{
@@ -391,7 +391,7 @@ window.onload = function () {
                         </button>
                     </div>
                     <div class="modal-body">
-                    <input type="text" id="nuevaCategoria"></input><button id="crearCategory" data-dismiss="modal">Crear</button><br>`;
+                    <input type="text" id="nuevaCategoria"></input><button id="crearCategory" data-dismiss="modal" class="btn btn-primary botones">Crear</button><br>`;
 
                     categorias.forEach(categoria => {
                         htmlmodal += `<label>${categoria.nom}</label><br>`;
@@ -422,7 +422,7 @@ window.onload = function () {
 
     function addButtonExperiencias(){
         let experienciasAdmin =
-        `<button id="expAdmin">Experiencias</button>` + `<br>`;
+        `<br><br><button id="expAdmin" class="btn btn-light botones">Experiencias</button>`;
         sidebar.insertAdjacentHTML("beforeend", experienciasAdmin);
         document.getElementById("expAdmin").addEventListener('click', function(){
             axios.get("./database/experiencias/mostrarExperiencias.php",{
@@ -433,8 +433,8 @@ window.onload = function () {
                         for(i=0;i<experiencias.length;i++){
                             htmlmodal += `<tr>
                             <td id="${experiencias[i].idExp}">${experiencias[i].titol}</td>
-                            <td><button class="btnRebutjarExp" nombre="${experiencias[i].idExp}">Rechazar</td>
-                            <td><button class="btnPublicarExp" nombre="${experiencias[i].idExp}">Publicar</td>
+                            <td><button class="botonesbar btnRebutjarExp btn btn-primary" nombre="${experiencias[i].idExp}">Rechazar</td>
+                            <td><button class="botonesbar btnPublicarExp btn btn-primary" nombre="${experiencias[i].idExp}">Publicar</td>
                             </tr>`;
                         }
                         htmlmodal += `</table>`;
@@ -448,8 +448,8 @@ window.onload = function () {
                             for(i=0;i<expreportadas.length;i++){
                                 reportadashtml += `<tr>
                                 <td id="${expreportadas[i].idExp}">${expreportadas[i].titol}</td>
-                                <td><button class="btnQuitarReporte" nombre="${expreportadas[i].idExp}">Quitar Reporte</td>
-                                <td><button class="btnRebutjarExp" nombre="${expreportadas[i].idExp}">Eliminar Experiencia</td>
+                                <td><button class="btnQuitarReporte btn btn-primary botones" nombre="${expreportadas[i].idExp}">Quitar Reporte</td>
+                                <td><button class="btnRebutjarExp btn btn-primary botones" nombre="${expreportadas[i].idExp}">Eliminar Experiencia</td>
                                 </tr>`;
                             }
                             reportadashtml += `</table>`;
@@ -513,7 +513,7 @@ window.onload = function () {
 
     function addButtonUsuarios(){
         let usuarisAdmin =
-        `<button id="usersAdmin">Usuarios</button>`;
+        `<br><br><button id="usersAdmin" class="btn btn-light botones">Usuarios</button>`;
         sidebar.insertAdjacentHTML("beforeend", usuarisAdmin);
         document.getElementById("usersAdmin").addEventListener('click', function(){
             axios.get("./database/usuari/mostrarUsuarios.php",{
@@ -534,7 +534,7 @@ window.onload = function () {
                     for(i=0; i<usuarios.length; i++){
                         htmlmodal += `<tr>
                         <td id="${usuarios[i].username}">${usuarios[i].username}</td>
-                        <td><button class="btnEliminarUser" nombre="${usuarios[i].username}">Darse de baja</button></td>
+                        <td><button class="btnEliminarUser btn btn-primary botonesUsuarios" nombre="${usuarios[i].username}">Darse de baja</button></td>
                         </tr>`;
                     }
                     htmlmodal += `</table>
@@ -572,16 +572,16 @@ window.onload = function () {
     *****************************************************************************************************************************************/
     // Nova Experiencia
     function addButtonNuevaExperiencia(){
-        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<br><button id="newExp" class="btn btn-primary">New Experiencia</button>`);
+        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<br><button id="newExp" class="btn btn-light botones">New Experiencia</button>`);
         document.getElementById("newExp").addEventListener('click', function (e) {
-        moduleNewExperiencia.crearExperiencia(username, isAdmin);
+            moduleNewExperiencia.crearExperiencia(username, isAdmin);
         });
     }
 
     // Modificar Datos del Usuario
 function addButtonModificarUsuario(){     
     
-    let buttonModificarUsu = `<br><button id="buttonModificarUsu" class="btn btn-primary botones">Modificar Usuario</button>` + `<br>`;
+    let buttonModificarUsu = `<br><br><button id="buttonModificarUsu" class="btn btn-light botones">Modificar Usuario</button>`;
     sidebar.insertAdjacentHTML("beforeend", buttonModificarUsu);
     document.getElementById("buttonModificarUsu").addEventListener('click', function(){
         let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
@@ -654,7 +654,7 @@ function addButtonModificarUsuario(){
 
     //LOGOUT
     function addButtonLogout(){
-        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<br><br><button id="logout" class="btn btn-primary">LOGOUT</button>`);
+        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<br><br><button id="logout" class="btn btn-light botones">LOGOUT</button>`);
         document.getElementById("logout").addEventListener('click',function(e){
             axios.get('./database/usuari/logout.php')
             .then(function (respuesta) {
