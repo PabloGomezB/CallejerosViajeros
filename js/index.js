@@ -4,272 +4,321 @@ window.onload = function () {
     var username = "";
     var isAdmin = false;
 
-    // Funcion para gestionar el comportamiento y la vista del sidebar
-    $("#dropDownLogin").click();
-    $('#sidebarCollapse').on('click', function () {
-        
-        if ($('#sidebar').hasClass("active")) {
-            if(username == null || username == ""){
-                document.getElementById("email").focus();
-            }
-            // add fade-out para el texto de border antes del login
-            $('.borderAssets').removeClass('fade-in');
-            $('.borderAssets').addClass('fade-out');
 
-            // "animacion" para quitar el border cada vez que se esconde el sidebar
-            setTimeout(function () {$('#sidebar').css("border-right", "90px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "80px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "70px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "60px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "50px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "40px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "30px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "20px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "10px solid #04aef0");}, 100);
-            setTimeout(function () {$('#sidebar').css("border-right", "0px solid #04aef0");}, 100);
-
-            // setTimeout para ocultar el texto para que el cursor no lo detecte y se pueda hacer click en los inputs
-            // 400 de tiempo porque tarda 0.3s en hacer el efecto de fade-out, sino se iría de golpe antes de que termine la animacion
-            setTimeout(function () {
-                $('.borderText').css("display", "none");
-            }, 400);
-        } else {
-            // add fade-in para el texto de border antes del login
-            $('.borderAssets').removeClass('fade-out');
-            $('.borderAssets').addClass('fade-in');
-            setTimeout(function () {
-                $('.borderText').css("display", "initial");
-            }, 100);
-
-            // se restablece el border del sidebar cuando se esconde
-            $('#sidebar').css("border-right", "100px solid #04aef0");
+    axios.get('./database/usuari/isLogged.php')
+    .then(function (respuesta) {
+        setSidebar();
+        if(respuesta.data != ""){
+            logeado = true;
+            username = respuesta.data.username;
+            isAdmin = respuesta.data.isAdmin;
+            transformarSidebar();
+            moduleExperiencia.extraerExperiencias(isAdmin, username);
         }
-        $('#sidebar').toggleClass('active');
+        else{
+            logeado = false;
+            setFormsFeatures();
+            muestraTituloExperiencias();
+            setListenerLogin();
+            setListenerRegistro();
+        }
+    })
+    .catch(function (error) {
+        Swal.fire({
+            title: "¡VAYA!",
+            html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)",
+            icon: "error",
+        });
+        console.log(error);
+    })
+    .then(function () {
+        //
     });
 
 
-    // Esta funcion resetea los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
-    document.querySelectorAll(".dropdown-toggle").forEach(dropDownItem => {
-        dropDownItem.addEventListener("click", function () {
-            $("#dropDownRegistro").click();
-            $("#dropDownLogin").click();
 
-            if ($("#dropDownLogin").attr('aria-expanded') == 'true') {
-                reset("#formRegistro");
-                document.getElementById("email").focus();
-            } else {
-                reset("#formLogin");
-                document.getElementById("nom").focus();
-            }
-        })
+    function setSidebar(){
+        // Funcion para gestionar el comportamiento y la vista del sidebar
+        $('.borderAssets').css("display","block");
 
-        function reset(id) {
-            let form = document.querySelector(id);
-            form.querySelectorAll("input.form-control").forEach(input => {
-                input.value = ``;
-            })
-            form.querySelector(".checkboxPass").checked = false;
-        }
-    });
+        $('.borderAssets').removeClass('fade-out');
+        $('.borderAssets').addClass('fade-in');
 
-    // Aqui se añade la funcionalidad de enviar los formularios presionando ENTER en cada uno de los campos existentes
-    let formLogin = document.querySelector("#formLogin");
-    submitOnEnter(formLogin, "login");
-
-    let formRegistro = document.querySelector("#formRegistro");
-    submitOnEnter(formRegistro, "register");
-
-    function submitOnEnter(form, btnId) {
-        form.querySelectorAll("input.form-control").forEach(input => {
-            input.addEventListener("keyup", function (event) {
-                if (event.key === "Enter") {
-                    document.getElementById(btnId).click();
+        $("#dropDownLogin").click();
+        $('#sidebarCollapse').on('click', function () {
+            
+            if ($('#sidebar').hasClass("active")) {
+                if(logeado == false){
+                    document.getElementById("email").focus();
                 }
+                // add fade-out para el texto de border antes del login
+                $('.borderAssets').removeClass('fade-in');
+                $('.borderAssets').addClass('fade-out');
+
+                // "animacion" para quitar el border cada vez que se esconde el sidebar
+                setTimeout(function () {$('#sidebar').css("border-right", "90px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "80px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "70px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "60px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "50px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "40px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "30px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "20px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "10px solid #04aef0");}, 100);
+                setTimeout(function () {$('#sidebar').css("border-right", "0px solid #04aef0");}, 100);
+
+                // setTimeout para ocultar el texto para que el cursor no lo detecte y se pueda hacer click en los inputs
+                // 400 de tiempo porque tarda 0.3s en hacer el efecto de fade-out, sino se iría de golpe antes de que termine la animacion
+                setTimeout(function () {
+                    $('.borderText').css("display", "none");
+                }, 400);
+            } else {
+                // add fade-in para el texto de border antes del login
+                $('.borderAssets').removeClass('fade-out');
+                $('.borderAssets').addClass('fade-in');
+                setTimeout(function () {
+                    $('.borderText').css("display", "initial");
+                }, 100);
+
+                // se restablece el border del sidebar cuando se esconde
+                $('#sidebar').css("border-right", "100px solid #04aef0");
+            }
+            $('#sidebar').toggleClass('active');
+        });
+    }
+
+    function setFormsFeatures(){
+        // Esta funcion resetea los campos de los formularios además de esconderlos en caso de hacer click en uno u otro
+        document.querySelectorAll(".dropdown-toggle").forEach(dropDownItem => {
+            dropDownItem.addEventListener("click", function () {
+                $("#dropDownRegistro").click();
+                $("#dropDownLogin").click();
+
+                if ($("#dropDownLogin").attr('aria-expanded') == 'true') {
+                    reset("#formRegistro");
+                    document.getElementById("email").focus();
+                } else {
+                    reset("#formLogin");
+                    document.getElementById("nom").focus();
+                }
+            })
+
+            function reset(id) {
+                let form = document.querySelector(id);
+                form.querySelectorAll("input.form-control").forEach(input => {
+                    input.value = ``;
+                })
+                form.querySelector(".checkboxPass").checked = false;
+            }
+        });
+
+        // Aqui se añade la funcionalidad de enviar los formularios presionando ENTER en cada uno de los campos existentes
+        let formLogin = document.querySelector("#formLogin");
+        submitOnEnter(formLogin, "login");
+
+        let formRegistro = document.querySelector("#formRegistro");
+        submitOnEnter(formRegistro, "register");
+
+        function submitOnEnter(form, btnId) {
+            form.querySelectorAll("input.form-control").forEach(input => {
+                input.addEventListener("keyup", function (event) {
+                    if (event.key === "Enter") {
+                        document.getElementById(btnId).click();
+                    }
+                })
+            })
+        }
+
+        // Muestra las contraseñas de los formularios y marca los checkbox
+        document.querySelectorAll(".checkEyePass").forEach(spanCheckBox => {
+            spanCheckBox.addEventListener("click", function () {
+                document.querySelectorAll(".passwd").forEach(inputPass => {
+                    if (inputPass.type === "password") {
+                        document.querySelectorAll(".checkboxPass").forEach(checkbox => {
+                            checkbox.checked = true
+                        });
+                        inputPass.type = "text";
+                    } else {
+                        document.querySelectorAll(".checkboxPass").forEach(checkbox => {
+                            checkbox.checked = false
+                        });
+                        inputPass.type = "password";
+                    }
+                })
             })
         })
     }
 
-    // Muestra las contraseñas de los formularios y marca los checkbox
-    document.querySelectorAll(".checkEyePass").forEach(spanCheckBox => {
-        spanCheckBox.addEventListener("click", function () {
-            document.querySelectorAll(".passwd").forEach(inputPass => {
-                if (inputPass.type === "password") {
-                    document.querySelectorAll(".checkboxPass").forEach(checkbox => {
-                        checkbox.checked = true
-                    });
-                    inputPass.type = "text";
-                } else {
-                    document.querySelectorAll(".checkboxPass").forEach(checkbox => {
-                        checkbox.checked = false
-                    });
-                    inputPass.type = "password";
-                }
-            })
-        })
-    })
-
-    //////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////
+    
     // ANTES DE HACER LOGIN
     // AXIOS para mostrar los titulos de las ultimas experiencias
-    axios.get("./database/experiencias/extraerExperiencias.php", {
-        params: {
-            categoria: "Todas"
-        }
-        }).then(function (respuesta) {
-            let baseDades = JSON.parse(respuesta.data);
-            
-            let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
-
-            // esto ya no es necesario porque se obtienen 4 experiencias
-            let maxBaseDades = parseInt(baseDades.length);
-            if (maxBaseDades < 5) {
-                maxBaseDades = maxBaseDades - 5;
+    function muestraTituloExperiencias(){
+        axios.get("./database/experiencias/extraerExperiencias.php", {
+            params: {
+                categoria: "Todas"
             }
-            
-            let top = 0;
-            for (let i = parseInt(baseDades.length) - 1; top < 4; i--) {
+            }).then(function (respuesta) {
+                let baseDades = JSON.parse(respuesta.data);
+                
+                let htmlLastExperiences = `<div id="ultimesExperiencies" class="titolExperiencia"><h2>Ultimes Experiencies</h2>`;
 
-                let element = baseDades[i]["titol"];
-                htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
-                htmlLastExperiences += `<p>${element}</p>`;
+                // esto ya no es necesario porque se obtienen 4 experiencias
+                let maxBaseDades = parseInt(baseDades.length);
+                if (maxBaseDades < 5) {
+                    maxBaseDades = maxBaseDades - 5;
+                }
+                
+                let top = 0;
+                for (let i = parseInt(baseDades.length) - 1; top < 4; i--) {
+
+                    let element = baseDades[i]["titol"];
+                    htmlLastExperiences += `<div id="experiencia${i}" class="pExperiences">`;
+                    htmlLastExperiences += `<p>${element}</p>`;
+                    htmlLastExperiences += '</div>';
+                    top++;
+                }
+
                 htmlLastExperiences += '</div>';
-                top++;
-            }
+                // injectar despres del primer div
+                document.getElementById('enunciat').innerHTML="Experiencias";
+                document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlLastExperiences);
 
-            htmlLastExperiences += '</div>';
-            // injectar despres del primer div
-            document.getElementById('enunciat').insertAdjacentHTML('afterEnd', htmlLastExperiences);
-
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
         });
+    }
 
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
     // LOGIN
-    document.getElementById("login").addEventListener("click", function () {
-        if (document.getElementById("email").value === "" || document.getElementById("passLogin").value === "") {
-            Swal.fire({
-                title: "¡ERROR!",
-                text: "Has dejado campos vacíos...",
-                icon: "error",
-            });
-        } else {
-            axios.get('./database/usuari/login.php', {
-                    params: {
-                        email: document.getElementById("email").value,
-                        pass: document.getElementById("passLogin").value
-                    }
-                })
-                .then(function (respuesta) {
-                    if (respuesta.data.status == "FAIL") {
-                        Swal.fire({
-                            title: "¿Tienes cuenta?",
-                            text: "El usuario y/o contraseña no coinciden",
-                            icon: "error",
-                        });
-                    } else {
-                        // puede ser null si axios funciona bien pero algo falla en login.php
-                        if (respuesta.data.email == null) {
+    function setListenerLogin(){
+        document.getElementById("login").addEventListener("click", function () {
+            if (document.getElementById("email").value === "" || document.getElementById("passLogin").value === "") {
+                Swal.fire({
+                    title: "¡ERROR!",
+                    text: "Has dejado campos vacíos...",
+                    icon: "error",
+                });
+            } else {
+                axios.get('./database/usuari/login.php', {
+                        params: {
+                            email: document.getElementById("email").value,
+                            pass: document.getElementById("passLogin").value
+                        }
+                    })
+                    .then(function (respuesta) {
+                        if (respuesta.data.status == "FAIL") {
                             Swal.fire({
-                                title: "¡VAYA!",
-                                html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)",
+                                title: "¿Tienes cuenta?",
+                                text: "El usuario y/o contraseña no coinciden",
                                 icon: "error",
                             });
                         } else {
-                            // console.log(respuesta.data);
-                            logeado = true;
-                            username = respuesta.data.email;
-                            if (respuesta.data.isAdmin == 1) {
-                                isAdmin = true;
-                            }
-                            transformarSidebar();
-                            moduleExperiencia.extraerExperiencias(isAdmin, username);
+                            // puede ser null si axios funciona bien pero algo falla en login.php
+                            if (respuesta.data.email == null) {
+                                Swal.fire({
+                                    title: "¡VAYA!",
+                                    html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)",
+                                    icon: "error",
+                                });
+                            } else {
+                                // console.log(respuesta.data);
+                                logeado = true;
+                                username = respuesta.data.email;
+                                if (respuesta.data.isAdmin == 1) {
+                                    isAdmin = true;
+                                }
+                                $('#sidebar').toggleClass('active');
+                                transformarSidebar();
+                                moduleExperiencia.extraerExperiencias(isAdmin, username);
 
+                            }
                         }
-                    }
-                })
-                .catch(function (error) {
-                    Swal.fire({
-                        title: "¡VAYA!",
-                        html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>" + error,
-                        icon: "error",
+                    })
+                    .catch(function (error) {
+                        Swal.fire({
+                            title: "¡VAYA!",
+                            html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>" + error,
+                            icon: "error",
+                        });
+                        console.log(error);
+                    })
+                    .then(function () {
+                        //
                     });
-                    console.log(error);
-                })
-                .then(function () {
-                    //
-                });
-        }
-    })
+            }
+        })
+    }
 
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
     // REGISTER
-    document.getElementById("register").addEventListener("click", function () {
-        if (document.getElementById("nom").value === "" || document.getElementById("cognom").value === "" ||
-            document.getElementById("username").value === "" || document.getElementById("passRegister").value === "") {
-            Swal.fire({
-                title: "¡ERROR!",
-                text: "Has dejado campos vacíos...",
-                icon: "error",
-            });
-        } else {
-            axios.get('./database/usuari/register.php', {
-                    params: {
-                        nom: document.getElementById("nom").value,
-                        cognom: document.getElementById("cognom").value,
-                        username: document.getElementById("username").value,
-                        pass: document.getElementById("passRegister").value
-                    }
-                })
-                .then(function (respuesta2) {
-                    if (respuesta2.data.status == "FAIL") {
+    function setListenerRegistro(){
+        document.getElementById("register").addEventListener("click", function () {
+            if (document.getElementById("nom").value === "" || document.getElementById("cognom").value === "" ||
+                document.getElementById("username").value === "" || document.getElementById("passRegister").value === "") {
+                Swal.fire({
+                    title: "¡ERROR!",
+                    text: "Has dejado campos vacíos...",
+                    icon: "error",
+                });
+            } else {
+                axios.get('./database/usuari/register.php', {
+                        params: {
+                            nom: document.getElementById("nom").value,
+                            cognom: document.getElementById("cognom").value,
+                            username: document.getElementById("username").value,
+                            pass: document.getElementById("passRegister").value
+                        }
+                    })
+                    .then(function (respuesta2) {
+                        if (respuesta2.data.status == "FAIL") {
+                            Swal.fire({
+                                title: "Ups..",
+                                html: `Ya existe un usuario con este mismo correo
+                                    <br>[${respuesta2.data.email}]<br>
+                                    Inténtelo de nuevo con otro distinto`,
+                                icon: "error",
+                            });
+                        } else {
+                            // PRINT VISTA DE LOGEADO
+                            logeado = true;
+                            username = respuesta2.data.email;
+                            $('#sidebar').toggleClass('active');
+                            transformarSidebar();
+                            moduleExperiencia.extraerExperiencias(isAdmin, username);
+                        }
+                    })
+                    .catch(function (error) {
                         Swal.fire({
-                            title: "Ups..",
-                            html: `Ya existe un usuario con este mismo correo
-                                <br>[${respuesta2.data.email}]<br>
-                                Inténtelo de nuevo con otro distinto`,
+                            title: "¡VAYA!",
+                            html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>" + error,
                             icon: "error",
                         });
-                    } else {
-                        // PRINT VISTA DE LOGEADO
-                        logeado = true;
-                        username = respuesta2.data.email;
-                        transformarSidebar();
-                        moduleExperiencia.extraerExperiencias(isAdmin, username);
-                    }
-                })
-                .catch(function (error) {
-                    Swal.fire({
-                        title: "¡VAYA!",
-                        html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>" + error,
-                        icon: "error",
+                        console.log(error);
+                    })
+                    .then(function () {
+                        //
                     });
-                    console.log(error);
-                })
-                .then(function () {
-                    //
-                });
-        }
+            }
 
-    })
+        })
+    }
 
     // Funcion para cambiar el contenido del sidebar una vez el usuario se hay logeado
     function transformarSidebar() {
 
         // Esconder el sidebar y añadir el border
-        $('#sidebar').toggleClass('active');
+        // $('#sidebar').toggleClass('active');
         $('#sidebar').css("border-right", "100px solid #04aef0");
 
         // Obtenemos el div que contiene los formularios para sobreescribirlo
         let sidebar = document.getElementById("formsIndex");
-        sidebar.innerHTML = `<button style="margin-top:50px;" onClick="window.location.reload();">LOGOUT</button>`;
+        sidebar.innerHTML = `<button id="logout" style="margin-top:50px;">LOGOUT</button>`;
 
         $('.borderAssets').removeClass('fade-out');
         $('.borderAssets').addClass('fade-in');
@@ -355,7 +404,7 @@ window.onload = function () {
                              htmlmodal += `</table>`;
                         document.getElementById("esbozos").innerHTML = htmlmodal;
                         
-                        axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/experiencias/mostrarReportadas.php",{
+                        axios.get("./database/experiencias/mostrarReportadas.php",{
                         })
                             .then(function(respuesta){
                                 console.log(respuesta.data);
@@ -419,7 +468,7 @@ window.onload = function () {
                         botonesReporte[i].addEventListener('click', function (e) {
                             let seleccionado = e.target.getAttribute("nombre");
                             console.log(seleccionado);
-                            axios.get("http://labs.iam.cat/~a16miqboipos/CallejerosViajeros/database/experiencias/updateReporte.php",{
+                            axios.get("./database/experiencias/updateReporte.php",{
                                 params: {
                                     idCard: seleccionado
                                 }
@@ -492,7 +541,29 @@ window.onload = function () {
             sidebar.insertAdjacentHTML("beforeend", sidebarNormalUser);
             document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<button id="newExp">Nova Experiencia</button>`);
         }
-        // JORDI
+        
+        //LOGOUT
+        document.getElementById("logout").addEventListener('click',function(e){
+            axios.get('./database/usuari/logout.php')
+            .then(function (respuesta) {
+                console.log(respuesta.data);
+                if(respuesta.data == "OK"){
+                    window.location.reload();
+                }
+            })
+            .catch(function (error) {
+                Swal.fire({
+                    title: "¡VAYA!",
+                    html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)",
+                    icon: "error",
+                });
+                console.log(error);
+            })
+            .then(function () {
+                //
+            });
+        })
+
         // Nova Experiencia
         document.getElementById("newExp").addEventListener('click', function (e) {
             document.getElementById("newExp").disabled = true;
