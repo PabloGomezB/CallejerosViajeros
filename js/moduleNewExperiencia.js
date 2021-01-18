@@ -3,7 +3,6 @@ var moduleNewExperiencia = (function (){
     function crearExperiencia(username,isAdmin){
         moduleExperiencia.extraerCategorias().then((respuesta) => {
             let categorias = JSON.parse(respuesta.data);
-            console.log(categorias);
 
             // el parametro categorias tiene TODAS las categorias
             // faltaría hacer aqui un forEach exactament igual que el de moduleExperencias linea 33
@@ -30,7 +29,6 @@ var moduleNewExperiencia = (function (){
 
             // ForEach para crear los radio buttons según todas las categorias que existan en la base de datos
             categorias.forEach(categoria => {
-                // console.log(categoria.nom);
                 if (`r${categoria.idCat}` == 'r1') {
                     crearFormNovaExperiencia +=
                         `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
@@ -54,10 +52,8 @@ var moduleNewExperiencia = (function (){
 
             document.querySelectorAll(".labelNewExp").forEach(labelNewExp => {
                 labelNewExp.addEventListener("click", function (e) {
-                    // console.log(e.target.innerText);
                     let radios = $('input[type=radio]');
                     for (let index = 0; index < radios.length; index++) {
-                        // console.log(radios[index].value);
                         if (e.target.innerText == radios[index].value) {
                             radios[index].checked = "checked";
                         }
@@ -74,7 +70,6 @@ var moduleNewExperiencia = (function (){
                     if (validateForm(categorias)) {
                         let experiencia = validateForm(categorias);
                         experiencia.forEach(element => {
-                            console.log(element);
                         });
                         
                         let newExp = expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], username);

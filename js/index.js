@@ -38,7 +38,6 @@ window.onload = function () {
             html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)",
             icon: "error",
         });
-        console.log(error);
     })
     .then(function () {
         //
@@ -197,7 +196,6 @@ window.onload = function () {
 
             })
             .catch(function (error) {
-                console.log(error);
             })
             .then(function () {
                 // always executed
@@ -258,7 +256,6 @@ window.onload = function () {
                             html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)<br><br>Mensaje:<br>" + error,
                             icon: "error",
                         });
-                        console.log(error);
                     })
                     .then(function () {
                         //
@@ -408,12 +405,10 @@ window.onload = function () {
                 $("#modalCategoria").modal();
             })
             .catch(function (error) {
-                console.log(error);
             })
             .then(function () {
                 document.getElementById("crearCategory").addEventListener('click', function (){
                     nuevaCategoria = document.getElementById("nuevaCategoria").value;
-                    console.log(nuevaCategoria);
                     axios.get("./database/categoria/crearCategoria.php",{
                         params: {
                             nom: nuevaCategoria
@@ -433,7 +428,6 @@ window.onload = function () {
             axios.get("./database/experiencias/mostrarExperiencias.php",{
             })
             .then(function(respuesta){
-                console.log(respuesta.data);
                 let experiencias = JSON.parse(respuesta.data);
                 let htmlmodal = `<table>`;
                         for(i=0;i<experiencias.length;i++){
@@ -449,11 +443,9 @@ window.onload = function () {
                     axios.get("./database/experiencias/mostrarReportadas.php",{
                     })
                         .then(function(respuesta){
-                            console.log(respuesta.data);
                             let expreportadas = JSON.parse(respuesta.data);
                             let reportadashtml = `<table>`;
                             for(i=0;i<expreportadas.length;i++){
-                                console.log(expreportadas[i].titol);
                                 reportadashtml += `<tr>
                                 <td id="${expreportadas[i].idExp}">${expreportadas[i].titol}</td>
                                 <td><button class="btnQuitarReporte" nombre="${expreportadas[i].idExp}">Quitar Reporte</td>
@@ -461,16 +453,13 @@ window.onload = function () {
                                 </tr>`;
                             }
                             reportadashtml += `</table>`;
-                            console.log(reportadashtml);
                             document.getElementById("reportadas").innerHTML = reportadashtml;
                         })
-                        .catch(function(error){
-                            console.log(error);
+                        .catch(function(){
                         })
                     $("#modalExp").modal();
             })
-            .catch(function (error){
-                console.log(error);
+            .catch(function (){
             })
             .then(function (){
                 botonesEliminar = document.getElementsByClassName("btnRebutjarExp");
@@ -491,7 +480,6 @@ window.onload = function () {
                 for(i=0;i<botonesPublicar.length;i++){
                     botonesPublicar[i].addEventListener('click', function(e){
                         let seleccionado = e.target.getAttribute("nombre");
-                        console.log(seleccionado)
                         axios.get("./database/experiencias/updateEstado.php",{
                             params: {
                                     idExp: seleccionado
@@ -501,8 +489,7 @@ window.onload = function () {
                             e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
                             moduleExperiencia.extraerExperiencias(isAdmin, username);
                         })
-                        .catch(function(error){
-                            console.log(error);
+                        .catch(function(){
                         })
                     })
                 }
@@ -510,7 +497,6 @@ window.onload = function () {
                 for(i=0;i<botonesReporte.length;i++){
                     botonesReporte[i].addEventListener('click', function (e) {
                         let seleccionado = e.target.getAttribute("nombre");
-                        console.log(seleccionado);
                         axios.get("./database/experiencias/updateReporte.php",{
                             params: {
                                 idCard: seleccionado
@@ -559,8 +545,7 @@ window.onload = function () {
                 document.getElementById("modalAdminUser").innerHTML = htmlmodal;
                 $("#modalUser").modal();
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(function () {
             })
             .then(function () {
                 botonesEliminar = document.getElementsByClassName("btnEliminarUser");
@@ -594,36 +579,45 @@ window.onload = function () {
         });
     }
 
-    function listenerModificarUsuario(){
-
-        let htmlModificarUsuario = `
-        <div id="formModUsu"> 
+    // Modificar Datos del Usuario
+function addButtonOpcionesUsuario(){     
+    
+    let buttonModificarUsu = `<button id="buttonModificarUsu">Modificar Usuario</button>` + `<br>`;
+    sidebar.insertAdjacentHTML("beforeend", buttonModificarUsu);
+    document.getElementById("buttonModificarUsu").addEventListener('click', function(){
+        let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Opciones de Usuario</h5>
+            </div>
+            <div class="modal-body">
             <div>
-                <label for="">Nombre: </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="" id="nombre">
-                <br>
-                <label for="">Apellido: </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="" id="apellido">
-                <br>
-                <label for="">Contraseña: </label>
-                &nbsp;
-                <input type="text" name="" id="contraseña">
-                <br><br>
-                <button id="modificarUsu">Modificar Usuario</button>
+                    <label for="">Nombre: </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="" id="nombre">
+                    <br>
+                    <label for="">Apellido: </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="" id="apellido">
+                    <br>
+                    <label for="">Contraseña: </label>
+                    &nbsp;
+                    <input type="text" name="" id="contraseña">
+                    <br><br>
+                    <button id="modificarUsu">Modificar Usuario</button>
+            </div>
             </div>
         </div>
-        `;
-
-        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",htmlModificarUsuario);
+        </div>`;
+        document.getElementById("modalAdminCat").innerHTML = htmlmodal;
+        $("#modalCategoria").modal();
 
         document.getElementById("nombre").value = nom;
         document.getElementById("apellido").value = cognom;
         document.getElementById("contraseña").value = password;
 
         document.getElementById("modificarUsu").addEventListener("click", function () {
-            console.log("CLICK");
             axios.get("./database/usuari/updateInfoUsuario.php", {
                     params: {
                         username: username,
@@ -633,7 +627,7 @@ window.onload = function () {
                     }
                 })
                 .then(function (respuesta) {
-                    console.log(respuesta);
+                    // console.log(respuesta);
                     if (respuesta.data.status == "FAIL") {
                         alert("ERROR, TE HAS EQUIVODADO");
                     } else {
@@ -651,7 +645,8 @@ window.onload = function () {
                     // always executed
                 });
         });
-    }
+    })
+}
 
     //LOGOUT
     function addButtonLogout(){
@@ -659,7 +654,6 @@ window.onload = function () {
         document.getElementById("logout").addEventListener('click',function(e){
             axios.get('./database/usuari/logout.php')
             .then(function (respuesta) {
-                console.log(respuesta.data);
                 if(respuesta.data == "OK"){
                     window.location.reload();
                 }
@@ -670,7 +664,6 @@ window.onload = function () {
                     html: "Ha ocurrido un error inesperado<br>Contacte con Administrador :)",
                     icon: "error",
                 });
-                console.log(error);
             })
             .then(function () {
                 //
