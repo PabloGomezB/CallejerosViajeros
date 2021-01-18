@@ -12,6 +12,7 @@ window.onload = function () {
             logeado = true;
             username = respuesta.data.username;
             isAdmin = respuesta.data.isAdmin;
+            console.log(respuesta.data)
             transformarSidebar();
             moduleExperiencia.extraerExperiencias(isAdmin, username);
         }
