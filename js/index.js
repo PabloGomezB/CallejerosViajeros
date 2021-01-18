@@ -427,6 +427,37 @@ window.onload = function () {
                             .catch(function(error){
                                 console.log(error);
                             })
+                            .then(function (){
+                                botonesEliminar = document.getElementsByClassName("btnRebutjarExp");
+                                for(i=0;i<botonesEliminar.length;i++){
+                                    botonesEliminar[i].addEventListener('click', function(e){
+                                        let seleccionado = e.target.getAttribute("nombre");
+                                        axios.get("./database/experiencias/eliminarExperiencia.php",{
+                                            params: {
+                                                    idCard: seleccionado
+                                            }
+                                        })
+                                        .then(function(){
+                                            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+                                        })
+                                    })
+                                }
+                                botonesReporte = document.getElementsByClassName("btnQuitarReporte");
+                                for(i=0;i<botonesReporte.length;i++){
+                                    botonesReporte[i].addEventListener('click', function (e) {
+                                        let seleccionado = e.target.getAttribute("nombre");
+                                        console.log(seleccionado);
+                                        axios.get("./database/experiencias/updateReporte.php",{
+                                            params: {
+                                                idCard: seleccionado
+                                            }
+                                        })
+                                        .then(function(){
+                                            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+                                        })
+                                    })
+                                }
+                            });
                         $("#modalExp").modal();
                  })
                  .catch(function (error){
@@ -462,21 +493,6 @@ window.onload = function () {
                             })
                             .catch(function(error){
                                 console.log(error);
-                            })
-                        })
-                    }
-                    botonesReporte = document.getElementsByClassName("btnQuitarReporte");
-                    for(i=0;i<botonesReporte.length;i++){
-                        botonesReporte[i].addEventListener('click', function (e) {
-                            let seleccionado = e.target.getAttribute("nombre");
-                            console.log(seleccionado);
-                            axios.get("./database/experiencias/updateReporte.php",{
-                                params: {
-                                    idCard: seleccionado
-                                }
-                            })
-                            .then(function(){
-                                e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
                             })
                         })
                     }
