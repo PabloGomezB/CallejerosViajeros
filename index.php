@@ -85,7 +85,40 @@
         </div>
 
         <div id="modalAdminCat"></div>
-        <div id="modalAdminExp"></div>
+        <div id="modalAdminExp">
+            <div id="modalExp" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Experiencias</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#esbozos"
+                                        role="tab" aria-controls="home" aria-selected="true">Esbozos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#reportadas" role="tab"
+                                        aria-controls="profile" aria-selected="false">Reportadas</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="esbozos" role="tabpanel" aria-labelledby="home-tab">
+                                
+                                </div>
+                                <div class="tab-pane fade" id="reportadas" role="tabpanel" aria-labelledby="profile-tab">
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="modalAdminUser"></div>
         
         <!-- En este div se añade el modal que se crea dinamicamente para cada experiencia (moduleExperiencia: 200)-->
