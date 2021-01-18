@@ -572,9 +572,38 @@ window.onload = function () {
     *****************************************************************************************************************************************/
     // Nova Experiencia
     function addButtonNuevaExperiencia(){
-        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<button id="newExp">Nova Experiencia</button>`);
+        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<br><button id="newExp" class="btn btn-primary">Nueva Experiencia</button>`);
         document.getElementById("newExp").addEventListener('click', function (e) {
-            document.getElementById("newExp").disabled = true;
+            // let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
+            // <div class="modal-dialog modal-dialog-centered" role="document">
+            //     <div class="modal-content">
+            //     <div class="modal-header">
+            //         <h5 class="modal-title">Opciones de Usuario</h5>
+            //     </div>
+            //     <div class="modal-body">
+            //     <div>
+            //             <label for="">Nombre: </label>
+            //             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            //             <input type="text" name="" id="nombre">
+            //             <br>
+            //             <label for="">Apellido: </label>
+            //             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            //             <input type="text" name="" id="apellido">
+            //             <br>
+            //             <label for="">Contraseña: </label>
+            //             &nbsp;
+            //             <input type="text" name="" id="contraseña">
+            //             <br><br>
+            //             <button id="modificarUsu" class="btn btn-primary">Modificar Usuario</button>
+            //     </div>
+            //     </div>
+            // </div>
+            // </div>`;
+            // document.getElementById("modalAdminCat").innerHTML = htmlmodal;
+            // $("#modalCategoria").modal();
+
+
+            // document.getElementById("newExp").disabled = true;
             moduleNewExperiencia.crearExperiencia(username, isAdmin);
         });
     }
@@ -582,7 +611,7 @@ window.onload = function () {
     // Modificar Datos del Usuario
 function addButtonModificarUsuario(){     
     
-    let buttonModificarUsu = `<button id="buttonModificarUsu">Modificar Usuario</button>` + `<br>`;
+    let buttonModificarUsu = `<br><button id="buttonModificarUsu" class="btn btn-primary botones">Modificar Usuario</button>` + `<br>`;
     sidebar.insertAdjacentHTML("beforeend", buttonModificarUsu);
     document.getElementById("buttonModificarUsu").addEventListener('click', function(){
         let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
@@ -605,7 +634,7 @@ function addButtonModificarUsuario(){
                     &nbsp;
                     <input type="text" name="" id="contraseña">
                     <br><br>
-                    <button id="modificarUsu">Modificar Usuario</button>
+                    <button id="modificarUsu" class="btn btn-primary">Modificar Usuario</button>
             </div>
             </div>
         </div>
@@ -655,7 +684,7 @@ function addButtonModificarUsuario(){
 
     //LOGOUT
     function addButtonLogout(){
-        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<button id="logout">LOGOUT</button>`);
+        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",`<br><br><button id="logout" class="btn btn-primary">LOGOUT</button>`);
         document.getElementById("logout").addEventListener('click',function(e){
             axios.get('./database/usuari/logout.php')
             .then(function (respuesta) {

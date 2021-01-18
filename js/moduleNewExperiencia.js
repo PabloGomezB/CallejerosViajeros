@@ -4,107 +4,154 @@ var moduleNewExperiencia = (function (){
         moduleExperiencia.extraerCategorias().then((respuesta) => {
             let categorias = JSON.parse(respuesta.data);
 
+            let crearFormNovaExperiencia = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nueva Experiencia</h5>
+                </div>
+                <div class="modal-body">
+                <div>
+
+                    <label for="titolExp">Titulo: </label>
+                    <input type="text" name="titolExp" id="titolExp"><br>
+    
+                    <label for="textExp">Descripcion:</label>
+                    <textarea id="textExp" name="textExp" rows="4" cols="20" style="margin-left:40px"></textarea><br>
+    
+                    <label for="latitud">Latitud entre -90 i 90: </label>
+                    <input type="number" id="latitudExp" name="latitud" min="-90" max="90"><br><br>
+    
+                    <label for="longitud">Longitud entre -180 i 180: </label>
+                    <input type="number" id="longitudExp" name="longitud" min="-180" max="180"><br><br>
+    
+                <div id="categoriaExp">`;
+    
+                // ForEach para crear los radio buttons según todas las categorias que existan en la base de datos
+                categorias.forEach(categoria => {
+                    if (`r${categoria.idCat}` == 'r1') {
+                        crearFormNovaExperiencia +=
+                            `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
+                            <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
+    
+                    } else {
+                        crearFormNovaExperiencia +=
+                            `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}">
+                            <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
+                    }
+                })
+                crearFormNovaExperiencia +=
+                    `</div>
+                    <button id="btnCrearExp">Crear Nueva Experiencia</button>
+                </div>
+                </div>
+                </div>
+            </div>
+            </div>`;
+            document.getElementById("modalAdminCat").innerHTML = crearFormNovaExperiencia;
+            $("#modalCategoria").modal();
+
             // el parametro categorias tiene TODAS las categorias
             // faltaría hacer aqui un forEach exactament igual que el de moduleExperencias linea 33
 
             // faltan coordenadas y username
-            let crearFormNovaExperiencia =
-            `
-            <div id="formNewExp">
-                <h2>Nova Experiencia</h2>
+            // let crearFormNovaExperiencia =
+            // `
+            // <div id="formNewExp">
+            //     <h2>Nova Experiencia</h2>
 
-                <label for="titolExp">Titol: </label>
-                <input type="text" name="titolExp" id="titolExp"><br>
+            //     <label for="titolExp">Titol: </label>
+            //     <input type="text" name="titolExp" id="titolExp"><br>
 
-                <label for="textExp">Text:</label>
-                <textarea id="textExp" name="textExp" rows="4" cols="20" style="margin-left:40px"></textarea><br>
+            //     <label for="textExp">Text:</label>
+            //     <textarea id="textExp" name="textExp" rows="4" cols="20" style="margin-left:40px"></textarea><br>
 
-                <label for="latitud">Latitud entre -90 i 90: </label>
-                <input type="number" id="latitudExp" name="latitud" min="-90" max="90"><br><br>
+            //     <label for="latitud">Latitud entre -90 i 90: </label>
+            //     <input type="number" id="latitudExp" name="latitud" min="-90" max="90"><br><br>
 
-                <label for="longitud">Longitud entre -180 i 180: </label>
-                <input type="number" id="longitudExp" name="longitud" min="-180" max="180"><br><br>
+            //     <label for="longitud">Longitud entre -180 i 180: </label>
+            //     <input type="number" id="longitudExp" name="longitud" min="-180" max="180"><br><br>
 
-            <div id="categoriaExp">`;
+            // <div id="categoriaExp">`;
 
-            // ForEach para crear los radio buttons según todas las categorias que existan en la base de datos
-            categorias.forEach(categoria => {
-                if (`r${categoria.idCat}` == 'r1') {
-                    crearFormNovaExperiencia +=
-                        `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
-                        <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
+            // // ForEach para crear los radio buttons según todas las categorias que existan en la base de datos
+            // categorias.forEach(categoria => {
+            //     if (`r${categoria.idCat}` == 'r1') {
+            //         crearFormNovaExperiencia +=
+            //             `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}" checked="checked">
+            //             <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
 
-                } else {
-                    crearFormNovaExperiencia +=
-                        `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}">
-                        <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
-                }
-            })
-            crearFormNovaExperiencia +=
-                `</div>
-                <button id="btnCrearExp">Crear</button>
-            </div>
-            `;
+            //     } else {
+            //         crearFormNovaExperiencia +=
+            //             `<input type="radio" id="r${categoria.idCat}" name="categoriaExp" value="${categoria.nom}">
+            //             <label for="${categoria.nom}labelNewExp" class="labelNewExp">${categoria.nom}</label><br>`;
+            //     }
+            // })
+            // crearFormNovaExperiencia +=
+            //     `</div>
+            //     <button id="btnCrearExp">Crear</button>
+            // </div>
+            // `;
 
-            document.getElementById('newExp').insertAdjacentHTML('afterEnd', crearFormNovaExperiencia);
+            // document.getElementById('newExp').insertAdjacentHTML('afterEnd', crearFormNovaExperiencia);
 
 
 
-            document.querySelectorAll(".labelNewExp").forEach(labelNewExp => {
-                labelNewExp.addEventListener("click", function (e) {
-                    let radios = $('input[type=radio]');
-                    for (let index = 0; index < radios.length; index++) {
-                        if (e.target.innerText == radios[index].value) {
-                            radios[index].checked = "checked";
-                        }
+            // document.querySelectorAll(".labelNewExp").forEach(labelNewExp => {
+            //     labelNewExp.addEventListener("click", function (e) {
+            //         let radios = $('input[type=radio]');
+            //         for (let index = 0; index < radios.length; index++) {
+            //             if (e.target.innerText == radios[index].value) {
+            //                 radios[index].checked = "checked";
+            //             }
 
-                    }
-                })
-            });
+            //         }
+            //     })
+            // });
 
 
 
             // Crear Nova Experiencia
-            document.addEventListener('click', function (e) {
-                if (e.target && e.target.id == 'btnCrearExp') {
-                    if (validateForm(categorias)) {
-                        let experiencia = validateForm(categorias);
-                        experiencia.forEach(element => {
-                        });
+            // document.addEventListener('click', function (e) {
+            //     if (e.target && e.target.id == 'btnCrearExp') {
+            //         if (validateForm(categorias)) {
+            //             let experiencia = validateForm(categorias);
+            //             experiencia.forEach(element => {
+            //             });
                         
-                        let newExp = expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], username);
+            //             let newExp = expToJson(experiencia[0], experiencia[1], experiencia[2], experiencia[3], experiencia[4], username);
                         
-                        document.getElementById("formNewExp").style.display = "none";
-                        document.getElementById("newExp").disabled = false;
+            //             document.getElementById("formNewExp").style.display = "none";
+            //             document.getElementById("newExp").disabled = false;
 
-                        axios.get("./database/experiencias/anadirExp.php", {
-                                params: {
-                                    titol: newExp["titol"],
-                                    text: newExp["text"],
-                                    imatge: newExp["imatge"],
-                                    coordenades: newExp["coordenades"],
-                                    categoria: newExp["categoria"],
-                                    username: newExp["username"]
-                                }
-                            })
-                            .then(function (respuesta) {
-                                moduleExperiencia.extraerExperiencias(isAdmin,username);
-                                Swal.fire({
-                                    title: "¡Bien!",
-                                    html: "Has creado una experiencia!<br>Puedes editarla siempre que quieras</br>",
-                                    icon: "success",
-                                });
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            })
-                            .then(function () {
+            //             axios.get("./database/experiencias/anadirExp.php", {
+            //                     params: {
+            //                         titol: newExp["titol"],
+            //                         text: newExp["text"],
+            //                         imatge: newExp["imatge"],
+            //                         coordenades: newExp["coordenades"],
+            //                         categoria: newExp["categoria"],
+            //                         username: newExp["username"]
+            //                     }
+            //                 })
+            //                 .then(function (respuesta) {
+            //                     moduleExperiencia.extraerExperiencias(isAdmin,username);
+            //                     Swal.fire({
+            //                         title: "¡Bien!",
+            //                         html: "Has creado una experiencia!<br>Puedes editarla siempre que quieras</br>",
+            //                         icon: "success",
+            //                     });
+            //                 })
+            //                 .catch(function (error) {
+            //                     console.log(error);
+            //                 })
+            //                 .then(function () {
 
-                        });
+            //             });
 
-                    }
-                }
-            });
+            //         }
+            //     }
+            // });
 
 
         });
