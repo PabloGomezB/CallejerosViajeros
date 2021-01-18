@@ -14,13 +14,9 @@ var moduleExperiencia = (function () {
                 categoria: categoria
             }
             }).then(function (respuesta) {
-                // console.log(respuesta);
                 let baseDades = JSON.parse(respuesta.data);
                 
                 // let baseDades = respuesta.data;
-
-                // console.log(baseDades);
-
                 let desplegableBuscador = "null";
                 // Este axios es obligatorio para obtener las categorias y mostrarlas en el desplegable
                 extraerCategorias().then(function (response) {
@@ -115,7 +111,6 @@ var moduleExperiencia = (function () {
                 htmlExperiences += setEstructuraCards(numExperiencias, cards, card);
             } else {
                 htmlExperiences += "NO EXISTEN EXPERIENCIAS";
-                console.log(baseDades)
             }
         }
 
@@ -202,9 +197,6 @@ var moduleExperiencia = (function () {
                                 <div id="modal-footer" class="modal-footer">
                                     <button id="reportar${idCard}" class="btn btn-warning reportar">Reportar</button>`
                     if (isAdmin == true || (username == infoSelectedExp.username)) {
-                        console.log(isAdmin);
-                        console.log(username);
-                        console.log(infoSelectedExp.username);
                         modal += `<button id="eliminar${idCard}" class="btn btn-danger eliminar">Eliminar</button>
                                       <button id="editar${idCard}" class="btn btn-primary editar">Editar</button>`;
                     }
@@ -403,7 +395,6 @@ var moduleExperiencia = (function () {
                 }
             })
             .then(function (respuesta) {
-                console.log("RESPUESTA UPDATE: " + respuesta.data);
                 if (respuesta.data == "FAIL") { // DA FAIL Y NO SE PORQUEEE QUE ESTA PASANDOOOOOOOOOO DA FAIL PERO LO GUARDA QUE LOCURA ES ESTAAAAAAAAAA. un pablo desesperado :)
                     alert("ERROR, TE HAS EQUIVODADO");
                 } else {
@@ -499,7 +490,6 @@ var moduleExperiencia = (function () {
                 }
             })
             .then(function (respuesta) {
-                // console.log(respuesta.data);
                 document.getElementById("contenedorExperiencias").innerHTML = "";
 
                 // experienciasLimpias = respuesta.data.toString().split(`]"`);
@@ -554,7 +544,6 @@ var moduleExperiencia = (function () {
                 }
             })
             .then(function (respuesta) {
-                // console.log("RESPUESTA REPORTAREXP: "+respuesta.data);
                 if (respuesta.data == "FAIL") {
                     alert("ERROR, TE HAS EQUIVODADO");
                 } else {
@@ -673,7 +662,6 @@ var moduleExperiencia = (function () {
         
         document.querySelectorAll(".btn-dropdown-categoria").forEach(dropDownItem => {
             dropDownItem.addEventListener("click", function (e) {
-                // console.log(dropDownItem.id);
                 let categoria = dropDownItem.id;
                 $("*").css("pointer-events", "none");
                 $("*").css("cursor", "not-allowed");
@@ -691,7 +679,6 @@ var moduleExperiencia = (function () {
     return {
         extraerExperiencias: extraerExperiencias,
         extraerCategorias: extraerCategorias,
-        // Esta ananirExp es necesaria aqui¿?
         anadirExp: anadirExp
     };
 
