@@ -286,7 +286,7 @@ var moduleExperiencia = (function () {
                     document.getElementById(`eliminar${idCard}`).addEventListener("click", function (e) {
                         let modalConfirmDialog = `
                         <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title" style="margin-left:auto;margin-right:auto;" id="myModalLabel">¿Eliminar?</h4>
@@ -395,7 +395,8 @@ var moduleExperiencia = (function () {
                 }
             })
             .then(function (respuesta) {
-                if (respuesta.data == "FAIL") { // DA FAIL Y NO SE PORQUEEE QUE ESTA PASANDOOOOOOOOOO DA FAIL PERO LO GUARDA QUE LOCURA ES ESTAAAAAAAAAA. un pablo desesperado :)
+                console.log("RESPUESTA UPDATE: " + respuesta.data);
+                if (respuesta.data == "FAIL") {
                     alert("ERROR, TE HAS EQUIVODADO");
                 } else {
                     extraerExperiencias(isAdmin, username, categoria);
@@ -476,9 +477,6 @@ var moduleExperiencia = (function () {
     function cambiarDePagina(isAdmin, username, categoria){
         $('.pagination li a').on('click', function(){
             
-            // document.getElementById("content").innerHTML = `<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`;
-            // document.getElementById("desplegableBuscador").insertAdjacentHTML("afterend",`<img src="./img/loading.gif" alt="Loading..." width="50px" style="margin-left:auto;margin-right:auto"></img>`);
-            // $('#contenedorExperiencias').fadeOut(1000);
             $('#contenedorExperiencias').animate({ opacity: 0 });
 
             let page = $(this).attr('data');
@@ -490,17 +488,13 @@ var moduleExperiencia = (function () {
                 }
             })
             .then(function (respuesta) {
-                document.getElementById("contenedorExperiencias").innerHTML = "";
 
-                // experienciasLimpias = respuesta.data.toString().split(`]"`);
-                // experienciasLimpias[0] += `]`;
-                // let nextExperiencias = JSON.parse(experienciasLimpias[0]);
+                document.getElementById("contenedorExperiencias").innerHTML = "";
 
                 let nextExperiencias = JSON.parse(respuesta.data);
                 
                 printExperiencies(nextExperiencias, isAdmin, username, categoria);
                 
-                // $('#contenedorExperiencias').fadeIn(1000);
                 $('#contenedorExperiencias').animate({ opacity: 1 })
 
                 $('.pagination li').removeClass('active');
@@ -515,18 +509,6 @@ var moduleExperiencia = (function () {
 
         });      
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
