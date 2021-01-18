@@ -274,9 +274,10 @@
         <!-- End Lower Container -->
     </footer>
     <!-- End footer -->
-    <input id="sortpicture" type="file" accept="image/png, image/jpg" name="sortpic" />
-    <button id="upload">Upload</button>
-    <script>
+    
+    <!-- <input id="sortpicture" type="file" accept="image/png, image/jpg" name="sortpic" />
+    <button id="upload">Upload</button> -->
+    <!-- <script>
         $('#upload').on('click', function() {
             var file_data = $('#sortpicture').prop('files')[0];   
             var form_data = new FormData();                  
@@ -296,7 +297,7 @@
                 }
             });
         });
-    </script>
+    </script> -->
 
     <!-- End full page content -->
     <script src="./js/moduleExperiencia.js"></script>
