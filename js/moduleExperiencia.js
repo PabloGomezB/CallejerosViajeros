@@ -234,7 +234,7 @@ var moduleExperiencia = (function () {
                         alert(form_data);                             
                         $.ajax({
                             // url: 'http://labs.iam.cat/~a18jorgornei/upload.php', // point to server-side PHP script
-                            url: 'upload.php', // point to server-side PHP script 
+                            url: '../upload.php', // point to server-side PHP script 
                             dataType: 'text',  // what to expect back from the PHP script, if anything
                             cache: false,
                             contentType: false,
