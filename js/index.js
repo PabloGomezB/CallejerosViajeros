@@ -579,29 +579,39 @@ window.onload = function () {
         });
     }
 
-    function listenerModificarUsuario(){
-
-        let htmlModificarUsuario = `
-        <div id="formModUsu"> 
+    // Modificar Datos del Usuario
+function addButtonOpcionesUsuario(){     
+    
+    let buttonModificarUsu = `<button id="buttonModificarUsu">Modificar Usuario</button>` + `<br>`;
+    sidebar.insertAdjacentHTML("beforeend", buttonModificarUsu);
+    document.getElementById("buttonModificarUsu").addEventListener('click', function(){
+        let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Opciones de Usuario</h5>
+            </div>
+            <div class="modal-body">
             <div>
-                <label for="">Nombre: </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="" id="nombre">
-                <br>
-                <label for="">Apellido: </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="" id="apellido">
-                <br>
-                <label for="">Contraseña: </label>
-                &nbsp;
-                <input type="text" name="" id="contraseña">
-                <br><br>
-                <button id="modificarUsu">Modificar Usuario</button>
+                    <label for="">Nombre: </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="" id="nombre">
+                    <br>
+                    <label for="">Apellido: </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="" id="apellido">
+                    <br>
+                    <label for="">Contraseña: </label>
+                    &nbsp;
+                    <input type="text" name="" id="contraseña">
+                    <br><br>
+                    <button id="modificarUsu">Modificar Usuario</button>
+            </div>
             </div>
         </div>
-        `;
-
-        document.getElementById("formsIndex").insertAdjacentHTML("beforeend",htmlModificarUsuario);
+        </div>`;
+        document.getElementById("modalAdminCat").innerHTML = htmlmodal;
+        $("#modalCategoria").modal();
 
         document.getElementById("nombre").value = nom;
         document.getElementById("apellido").value = cognom;
@@ -617,6 +627,7 @@ window.onload = function () {
                     }
                 })
                 .then(function (respuesta) {
+                    // console.log(respuesta);
                     if (respuesta.data.status == "FAIL") {
                         alert("ERROR, TE HAS EQUIVODADO");
                     } else {
@@ -627,13 +638,15 @@ window.onload = function () {
                         });
                     }
                 })
-                .catch(function () {
+                .catch(function (error) {
+                    console.log(error);
                 })
                 .then(function () {
                     // always executed
                 });
         });
-    }
+    })
+}
 
     //LOGOUT
     function addButtonLogout(){
