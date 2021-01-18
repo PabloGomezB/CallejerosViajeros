@@ -101,43 +101,6 @@ class Experiencia extends DBAbstractModel {
 		return $navegador;
 	}
 
-	/*
-	public function muestraExperienciasPaginadas($numTotalExperiencias){
-		$experiencias = array();
-
-		if($numTotalExperiencias > 0){
-
-			$this->query = 'SELECT * FROM Experiencia LIMIT 0, '.$this->num_experiencias_por_pagina;
-
-			$this->get_results_from_query();
-			for ($i = 0; $i < count($this->rows); $i++) {
-
-				$idCat = $this->rows[$i]["idCat"];
-
-				$exp = array(
-					"idExp" => $this->rows[$i]["idExp"],
-					'titol' => $this->rows[$i]["titol"],
-					'data' =>  $this->rows[$i]["data"],
-					'text' => $this->rows[$i]["text"],
-					'imatge' => $this->rows[$i]["imatge"],
-					'coordenades' => $this->rows[$i]["coordenades"],
-					'likes' => $this->rows[$i]["likes"],
-					'dislikes' => $this->rows[$i]["dislikes"],
-					'estat' => $this->rows[$i]["estat"],
-					'idCat' => $this->rows[$i]["idCat"],
-					'username' => $this->rows[$i]["username"],
-					'reportat' => $this->rows[$i]["reportat"],
-					'nomCategoria' => $this->getNomCategoria($idCat)
-				);
-
-				array_push($experiencias, $exp);
-			}
-
-		}
-
-		return json_encode($experiencias);
-	}
-*/
 
 	public function muestraOtraPagina($page, $categoria){
 		$experiencias = array();
@@ -181,37 +144,7 @@ class Experiencia extends DBAbstractModel {
 		return json_encode($experiencias);
 	}
 
-/*
-	public function mostrarTot() {
-		$experiencias = array();
-		$this->query = "SELECT * FROM  Experiencia;";
-		$this->get_results_from_query();
-		for ($i = 0; $i < count($this->rows); $i++) {
 
-			$idCat = $this->rows[$i]["idCat"];
-
-			$exp = array(
-				"idExp" => $this->rows[$i]["idExp"],
-				'titol' => $this->rows[$i]["titol"],
-				'data' =>  $this->rows[$i]["data"],
-				'text' => $this->rows[$i]["text"],
-				'imatge' => $this->rows[$i]["imatge"],
-				'coordenades' => $this->rows[$i]["coordenades"],
-				'likes' => $this->rows[$i]["likes"],
-				'dislikes' => $this->rows[$i]["dislikes"],
-				'estat' => $this->rows[$i]["estat"],
-				'idCat' => $this->rows[$i]["idCat"],
-				'username' => $this->rows[$i]["username"],
-				'reportat' => $this->rows[$i]["reportat"],
-				'nomCategoria' => $this->getNomCategoria($idCat)
-			);
-
-			array_push($experiencias, $exp);
-		}
-
-		return json_encode($experiencias);
-	}
-*/
 	public function mostrarEsbozos(){
 		$experiencias = array();
 		$this->query = "SELECT * FROM  Experiencia WHERE estat='esborrany';";
