@@ -159,7 +159,8 @@ var moduleNewExperiencia = (function (){
             }
         })
 
-        let imatge = "https://picsum.photos/400/300";
+        // let imatge = "https://picsum.photos/400/300";
+        let imatge = "default.jpg";
 
         if (titol == "") {
             alert("Cal omplir el Titol");

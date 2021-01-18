@@ -274,6 +274,29 @@
         <!-- End Lower Container -->
     </footer>
     <!-- End footer -->
+    <input id="sortpicture" type="file" accept="image/png, image/jpg" name="sortpic" />
+    <button id="upload">Upload</button>
+    <script>
+        $('#upload').on('click', function() {
+            var file_data = $('#sortpicture').prop('files')[0];   
+            var form_data = new FormData();                  
+            form_data.append('file', file_data);
+            alert(form_data);                             
+            $.ajax({
+                // url: 'http://labs.iam.cat/~a18jorgornei/upload.php', // point to server-side PHP script
+                url: 'upload.php', // point to server-side PHP script 
+                dataType: 'text',  // what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,                         
+                type: 'post',
+                success: function(php_script_response){
+                    alert(php_script_response); // display response from the PHP script, if any
+                }
+            });
+        });
+    </script>
 
     <!-- End full page content -->
     <script src="./js/moduleExperiencia.js"></script>
