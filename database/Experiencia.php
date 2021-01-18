@@ -285,7 +285,7 @@ class Experiencia extends DBAbstractModel {
 		// $idCat = $nuevaExp["categoria"];
 		// $username = $nuevaExp["username"];
 
-		$this->query = "INSERT INTO Experiencia (titol, data, text, imatge, coordenades, likes, dislikes, estat, idCat, username, reportat) VALUES ('$titol', CURDATE(), '$text', '$imatge', '$coordenades', 0, 0, 'publicada', $idCat, '$username', false)";
+		$this->query = "INSERT INTO Experiencia (titol, data, text, imatge, coordenades, likes, dislikes, estat, idCat, username, reportat) VALUES ('$titol', CURDATE(), '$text', '$imatge', '$coordenades', 0, 0, 'esborrany', $idCat, '$username', false)";
 		$this->execute_single_query($this->query);
 		return "ALGO" . $imatge;
 	}
