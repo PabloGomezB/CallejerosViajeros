@@ -185,7 +185,7 @@ var moduleExperiencia = (function () {
                                         <p id="fecha${idCard}" style="color:grey">${infoSelectedExp.data}</p>
                                         <p id="nomCategoria${idCard}" style="color:grey;">${infoSelectedExp.nomCategoria}</p>
                                     </div>
-                                    <img id="img${idCard}" src="./img/experiencias/${infoSelectedExp.imatge}" class="modal-img" alt="${infoSelectedExp.imatge}">
+                                    <img id="img${idCard}" src="./img/experiencias/uploads/${infoSelectedExp.imatge}" class="modal-img" alt="${infoSelectedExp.imatge}">
                                     <div class="box_likes-dislikes">
                                         <button id="dislike${idCard}" class="btn"><li class="fa fa-thumbs-down" style="color:red"></li><span style="margin-left:5px;">${infoSelectedExp.dislikes}</span></button>
                                         <button id="like${idCard}" class="btn"><li class="fa fa-thumbs-up" style="color:green"></li><span style="margin-left:5px;">${infoSelectedExp.likes}</span></button>
@@ -206,13 +206,43 @@ var moduleExperiencia = (function () {
                                         </a>
                                     </div>
                                 </div>
+                                <div id="uploadImg" style="display:block">
+                            </div>
                             </div>
                         </div>
                     </div>`
+
+                    
+                    
+                
+
+
                     aux_modal = modal;
                     document.getElementById("divModal").innerHTML = modal;
                     $('#modal').modal();
 
+
+
+
+                    // $('#upload').on('click', function() {
+                    //     var file_data = $('#sortpicture').prop('files')[0];   
+                    //     var form_data = new FormData();                  
+                    //     form_data.append('file', file_data);
+                    //     alert(form_data);                             
+                    //     $.ajax({
+                    //         // url: 'http://labs.iam.cat/~a18jorgornei/upload.php', // point to server-side PHP script
+                    //         url: './upload.php', // point to server-side PHP script 
+                    //         dataType: 'text',  // what to expect back from the PHP script, if anything
+                    //         cache: false,
+                    //         contentType: false,
+                    //         processData: false,
+                    //         data: form_data,                         
+                    //         type: 'post',
+                    //         success: function(php_script_response){
+                    //             alert(php_script_response); // display response from the PHP script, if any
+                    //         }
+                    //     });
+                    // });
 
                     /////////////////////////////////////////////////////////////////
                     //             LISTENERS (like/dislike/editar...)              //
@@ -236,6 +266,7 @@ var moduleExperiencia = (function () {
                         updateModalView(idCard);
                     });
 
+
                     // EDITAR
                     // Marca como editables el titulo, la fecha y el texto
                     // Habilita la posibilidad de escribir en negrita e italica
@@ -258,6 +289,12 @@ var moduleExperiencia = (function () {
 
                         document.getElementById("modal-body").insertAdjacentHTML("beforebegin", btnsModificarTexto);
 
+                        let uploadImg = `<input id="sortpicture" type="file" accept="image/png, image/jpg" name="sortpic"/>
+                        <button id="upload">Upload</button>`;
+                        document.getElementById("uploadImg").innerHTML = uploadImg;
+                        addListenerUploadPhoto();
+
+
                         document.getElementById("bold").addEventListener("click", function (e) {
                             document.getElementById("bold").classList.toggle("formatTextBtn-focus");
                             document.execCommand('bold');
@@ -274,13 +311,41 @@ var moduleExperiencia = (function () {
                             let newTexto = document.getElementById(`texto${idCard}`).innerHTML;
                             let newSrc = document.getElementById(`img${idCard}`).src;
                             // Obtener solo el nombre de la imagen, no todo el src (el nombre se encuentra despues del ultimo "/")
-                            // let n = newSrc.lastIndexOf('/');
-                            // let newImg = newSrc.substring(n + 1);
+                            let n = newSrc.lastIndexOf('/');
+                            let newImg = newSrc.substring(n + 1);
 
-                            updateExperiencia(idCard, newTitulo, newFecha, newTexto, newSrc, isAdmin, username, categoria);
+                            updateExperiencia(idCard, newTitulo, newFecha, newTexto, newImg, isAdmin, username, categoria);
                             updateModalView(idCard);
                         });
                     });
+
+
+                    function addListenerUploadPhoto(){
+                        document.getElementById(`upload`).addEventListener("click", function (e) {
+                            var file_data = $('#sortpicture').prop('files')[0];   
+                            var form_data = new FormData();                  
+                            form_data.append('file', file_data);
+                            // alert(form_data);                             
+                            $.ajax({
+                                // url: 'http://labs.iam.cat/~a18jorgornei/upload.php', // point to server-side PHP script
+                                url: './upload.php', // point to server-side PHP script 
+                                dataType: 'text',  // what to expect back from the PHP script, if anything
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                data: form_data,                         
+                                type: 'post',
+                                success: function(php_script_response){
+                                    // alert(php_script_response);
+                                    console.log(php_script_response)
+                                    document.getElementById(`img${idCard}`).src = `./img/experiencias/uploads/${php_script_response}`;
+                                }
+                            });
+                        
+                        });
+                    }
+                    
+
 
                     // ELIMINAR
                     document.getElementById(`eliminar${idCard}`).addEventListener("click", function (e) {
@@ -549,7 +614,7 @@ var moduleExperiencia = (function () {
         if (experiencia != null) {
             card +=
                 `<div id="${experiencia.idExp}" class="card">
-                    <img src="${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
+                    <img src="./img/experiencias/uploads/${experiencia.imatge}" class="card-img-top" alt="${experiencia.imatge}">
                     <div class="card-body">
                         <h5 class="card-title">${experiencia.titol}</h5>
                         <p class="card-data">${experiencia.data}</p>
@@ -563,7 +628,7 @@ var moduleExperiencia = (function () {
                     card +=
                         `<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 card-experiencia">
                             <div id="${element.idExp}" class="card">
-                                <img src="${element.imatge}" class="card-img-top" alt="${element.imatge}">
+                                <img src="./img/experiencias/uploads/${element.imatge}" class="card-img-top" alt="${element.imatge}">
                                 <div class="card-body">
                                     <h5 class="card-title">${element.titol}</h5>
                                     <p class="card-data">${element.data}</p>
