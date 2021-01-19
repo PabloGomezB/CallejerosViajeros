@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 18-01-2021 a las 19:45:53
+-- Tiempo de generación: 19-01-2021 a las 11:56:31
 -- Versión del servidor: 10.1.47-MariaDB-0+deb9u1
 -- Versión de PHP: 7.4.12
 
@@ -98,12 +98,12 @@ ALTER TABLE `Usuari`
 -- AUTO_INCREMENT de la tabla `Categoria`
 --
 ALTER TABLE `Categoria`
-  MODIFY `idCat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idCat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT de la tabla `Experiencia`
 --
 ALTER TABLE `Experiencia`
-  MODIFY `idExp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `idExp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 --
 -- Restricciones para tablas volcadas
 --
