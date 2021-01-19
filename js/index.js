@@ -513,7 +513,7 @@ window.onload = function () {
 
     function addButtonUsuarios(){
         let usuarisAdmin =
-        `<br><br><button id="usersAdmin" class="btn btn-light botones">Usuarios</button>`;
+        `<br><br><button id="usersAdmin" class="btn btn-light botones">Usuarios</button><br>`;
         sidebar.insertAdjacentHTML("beforeend", usuarisAdmin);
         document.getElementById("usersAdmin").addEventListener('click', function(){
             axios.get("./database/usuari/mostrarUsuarios.php",{
@@ -581,7 +581,7 @@ window.onload = function () {
     // Modificar Datos del Usuario
 function addButtonModificarUsuario(){     
     
-    let buttonModificarUsu = `<br><br><button id="buttonModificarUsu" class="btn btn-light botones">Modificar Usuario</button>`;
+    let buttonModificarUsu = `<br><button id="buttonModificarUsu" class="btn btn-light botones">Modificar Usuario</button>`;
     sidebar.insertAdjacentHTML("beforeend", buttonModificarUsu);
     document.getElementById("buttonModificarUsu").addEventListener('click', function(){
         let htmlmodal = `<div id="modalCategoria" class="modal" tabindex="-1" role="dialog">

@@ -16,7 +16,7 @@
 
 .pulpito{
     width: 100px;
-    left: 146px;
+    left: 155px;
     position: absolute;
 }
 
@@ -85,7 +85,7 @@
     /*
     El margen negativo tiene que ser proporcional a los px del borde
     */
-    margin-left: -150px;
+    margin-left: -160px;
 }
 
 a[data-toggle="collapse"] {
