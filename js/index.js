@@ -457,58 +457,66 @@ window.onload = function () {
                         })
                         .catch(function(){
                         })
+                        .then(function(){
+                            botonesAdminPanel();
+                        })
                     $("#modalExp").modal();
             })
             .catch(function (){
             })
             .then(function (){
-                botonesEliminar = document.getElementsByClassName("btnRebutjarExp");
-                for(i=0;i<botonesEliminar.length;i++){
-                    botonesEliminar[i].addEventListener('click', function(e){
-                        let seleccionado = e.target.getAttribute("nombre");
-                        axios.get("./database/experiencias/eliminarExperiencia.php",{
-                            params: {
-                                    idCard: seleccionado
-                            }
-                        })
-                        .then(function(){
-                            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
-                        })
-                    })
-                }
-                botonesPublicar = document.getElementsByClassName("btnPublicarExp");
-                for(i=0;i<botonesPublicar.length;i++){
-                    botonesPublicar[i].addEventListener('click', function(e){
-                        let seleccionado = e.target.getAttribute("nombre");
-                        axios.get("./database/experiencias/updateEstado.php",{
-                            params: {
-                                    idExp: seleccionado
-                            }
-                        })
-                        .then(function(){
-                            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
-                            moduleExperiencia.extraerExperiencias(isAdmin, username);
-                        })
-                        .catch(function(){
-                        })
-                    })
-                }
-                botonesReporte = document.getElementsByClassName("btnQuitarReporte");
-                for(i=0;i<botonesReporte.length;i++){
-                    botonesReporte[i].addEventListener('click', function (e) {
-                        let seleccionado = e.target.getAttribute("nombre");
-                        axios.get("./database/experiencias/updateReporte.php",{
-                            params: {
-                                idCard: seleccionado
-                            }
-                        })
-                        .then(function(){
-                            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
-                        })
-                    })
-                }
+                botonesAdminPanel();
             });
         })
+    }
+
+    function botonesAdminPanel(){
+        botonesEliminar = document.getElementsByClassName("btnRebutjarExp");
+        for(i=0;i<botonesEliminar.length;i++){
+            botonesEliminar[i].addEventListener('click', function(e){
+                let seleccionado = e.target.getAttribute("nombre");
+                axios.get("./database/experiencias/eliminarExperiencia.php",{
+                    params: {
+                            idCard: seleccionado
+                    }
+                })
+                .then(function(){
+                    e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+                })
+            })
+        }
+        botonesPublicar = document.getElementsByClassName("btnPublicarExp");
+        for(i=0;i<botonesPublicar.length;i++){
+            botonesPublicar[i].addEventListener('click', function(e){
+                let seleccionado = e.target.getAttribute("nombre");
+                axios.get("./database/experiencias/updateEstado.php",{
+                    params: {
+                            idExp: seleccionado
+                    }
+                })
+                .then(function(){
+                    e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+                    moduleExperiencia.extraerExperiencias(isAdmin, username);
+                })
+                .catch(function(){
+                })
+            })
+        }
+        botonesReporte = document.getElementsByClassName("btnQuitarReporte");
+        for(i=0;i<botonesReporte.length;i++){
+            botonesReporte[i].addEventListener('click', function (e) {
+                let seleccionado = e.target.getAttribute("nombre");
+                console.log(seleccionado);
+                axios.get("./database/experiencias/updateReporte.php",{
+                    params: {
+                        idCard: seleccionado
+                    }
+                })
+                .then(function(){
+                    e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+                })
+            })
+        }
     }
 
     function addButtonUsuarios(){
