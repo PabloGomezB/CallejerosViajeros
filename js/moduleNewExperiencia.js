@@ -65,8 +65,9 @@ var moduleNewExperiencia = (function (){
             });
 
             // Crear Nova Experiencia
-            document.addEventListener('click', function (e) {
-                if (e.target && e.target.id == 'btnCrearExp') {
+            document.getElementById("btnCrearExp").addEventListener('click', function (e) {
+            {
+                    console.info("ENTRO");
                     if (validateForm(categorias)) {
                         let experiencia = validateForm(categorias);
                         experiencia.forEach(element => {
@@ -93,6 +94,10 @@ var moduleNewExperiencia = (function (){
                                     html: "Has creado una experiencia!<br>Puedes editarla siempre que quieras</br>",
                                     icon: "success",
                                 });
+
+                                $("#modal").removeClass('fade').modal('hide');
+                                $('#modal').remove();
+                                // document.getElementById(idCard).click();
                             })
                             .catch(function (error) {
                                 console.log(error);
